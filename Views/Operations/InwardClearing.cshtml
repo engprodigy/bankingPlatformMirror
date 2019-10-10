@@ -1,0 +1,392 @@
+﻿@{
+    ViewData["Title"] = "Retail Operations";
+}
+@section title{
+    <span class="title">@ViewData["Title"]</span>
+}
+@section pagedescription{
+    <span class="title f24px">Retail Operations</span>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card card-plain">
+            <div class="card-header text-center">
+                <h4 class="card-title">Inward Cheque Clearing</h4>
+            </div>
+            <div class="card-body">
+                <div id="inward-cheque-toolbar">
+                    <button class="btn btn-danger"
+                            onclick="openNewModal()">
+                        <i class="now-ui-icons ui-1_simple-add"></i>
+                        New Inward Cheque
+                    </button>
+                </div>
+                <table id="inward-cheque-table"
+                       data-url="@Url.Action("LoadInwardCheques","Operations")"
+                       data-search="true" class="data-table"
+                       data-toolbar="#inward-cheque-toolbar"
+                       data-search-align="right" data-detail-view="true"
+                       data-detail-formatter="utilities.inwardDetailFormatter"
+                       data-show-pagination-switch="true"
+                       data-mobile-responsive="true"
+                       data-show-refresh="true"
+                       data-show-toggle="true" data-unique-id="id"
+                       data-buttons-class="danger">
+                    <thead>
+                        <tr>
+                            <th data-field="casaaccountno" data-sortable="true"
+                                data-width="10%">Account No.</th>
+                            <th data-field="chequeno" data-sortable="true"
+                                data-width="10%">Cheque No.</th>
+                            <th data-field="principalglid" data-sortable="true"
+                                data-formatter="utilities.COAFormatter">Principal Ledger</th>
+                            <th data-field="amount" data-sortable="true" 
+                                data-align="right" data-formatter="FormatMoney">Amount</th>
+                            <th data-field="datecreated" data-sortable="true"
+                                data-formatter="utilities.dateFormatter">Created</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+<div id="inwardChequeModal" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 mb-3 pl-3">
+                    New Inward Cheque
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="inward-cheque-form" class="card card-plain">
+                                <div class="row mb-2 required">
+                                    <label class="col-md-2 col-form-label">Account No.</label>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <select class="form-control" name="casaaccountno"
+                                                    required id="casaaccountno">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-collapse" role="tablist" aria-multiselectable="true">
+                                    <div class="card card-plain mb-0">
+                                        <div class="card-header" role="tab">
+                                            <a data-toggle="collapse" href="#CasaCollapse"
+                                               aria-controls="CasaCollapse" aria-expanded="true"
+                                               class="text-primary">
+                                                Account Details
+                                                <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                            </a>
+                                        </div>
+                                        <div class="collapse show" id="CasaCollapse" role="tabpanel">
+                                            <div class="card-body px-0 pb-0">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-6 mb-3">
+                                                        <label class="pull-left font-weight-bold">Account No:</label>
+                                                        <span class="pull-right base-font" id="accountno">-</span>
+                                                    </div>
+                                                    <div class="col-xs-12 col-md-6 mb-3">
+                                                        <label class="pull-left font-weight-bold">Account Name:</label>
+                                                        <span class="pull-right base-font" id="accountname">-</span>
+                                                    </div>
+                                                    <div class="col-xs-12 col-md-6">
+                                                        <label class="pull-left font-weight-bold">Product Name:</label>
+                                                        <span class="pull-right base-font" id="productname">-</span>
+                                                    </div>
+                                                    <div class="col-xs-12 col-md-6">
+                                                        <label class="pull-left font-weight-bold">Available Balance:</label>
+                                                        <span class="pull-right base-font" id="balance">-</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col px-0">
+                                        <div role="tablist" aria-multiselectable="true"
+                                             class="card-collapse">
+                                            <div class="card card-plain mb-0 px-3">
+                                                <div class="card-header" role="tab">
+                                                    <a data-toggle="collapse" href="#mandateCollapse"
+                                                       aria-controls="mandateCollapse" aria-expanded="true"
+                                                       class="text-primary">
+                                                        Mandate Details
+                                                        <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                    </a>
+                                                </div>
+                                                <div id="mandateCollapse" class="collapse show" role="tabpanel">
+                                                    <div class="card-body p-0">
+                                                        <table id="casa-mandate-table" data-toggle="table"
+                                                               data-search="true" class="data-table"
+                                                               data-search-align="right" data-detail-view="true"
+                                                               data-detail-formatter="utilities.mandateDetailFormatter"
+                                                               data-show-pagination-switch="true"
+                                                               data-mobile-responsive="true"
+                                                               data-show-refresh="true"
+                                                               data-show-toggle="true" data-unique-id="mandateID"
+                                                               data-buttons-class="danger">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th data-field="signatorySurname" data-sortable="true">Surname</th>
+                                                                    <th data-field="signatoryFirstname" data-sortable="true">Firstname</th>
+                                                                    <th data-field="signatoryClass" data-sortable="true"
+                                                                        data-align="center" data-width="5%">Class</th>
+                                                                    <th data-field="bvn" data-align="right">BVN</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col px-0">
+                                        <div role="tablist" aria-multiselectable="true"
+                                             class="card-collapse">
+                                            <div class="card card-plain mb-0 px-3">
+                                                <div class="card-header" role="tab">
+                                                    <a data-toggle="collapse" href="#ChequeCollapse"
+                                                       aria-controls="ChequeCollapse" aria-expanded="true"
+                                                       class="text-primary">
+                                                        Cheque Details
+                                                        <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                    </a>
+                                                </div>
+                                                <div id="ChequeCollapse" class="collapse pt-3 show" role="tabpanel">
+                                                    <div class="card-body p-0">
+                                                        <div class="row justify-content-between">
+                                                            <div class="col-xs-12 col-md-6 px-0 required">
+                                                                <label class="col-12 col-form-label">Amount</label>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <input name="amount" id="amount" required disabled type="text" 
+                                                                            class="format-money form-control text-right always-validate" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-md-6 px-0">
+                                                                <label class="col-12 col-form-label">COT Amount</label>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <input name="cotamount" id="cotamount" readonly value="0"
+                                                                               type="text" class="form-control text-danger text-right" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-md-6 px-0">
+                                                                <label class="col-12 col-form-label"><!--Amount Difference-->Actual Amount to be Lodged</label>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <input name="amountdifference" id="amountdifference" readonly value="0"
+                                                                            type="text" class="form-control text-right font-weight-bold h5 py-1 text-success" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="disabled d-flex flex-row justify-content-between align-items-center col-xs-12 col-md-6 pr-0"
+                                                                 id="cot-box">
+                                                                <label class="col-form-label mt-4">Charge COT (Commission On Turnover)</label>
+                                                                <div class="disabled form-check pl-0 pr-1 mt-4">
+                                                                    <label class="form-check-label">
+                                                                        <input name="chargecot" class="form-check-input"
+                                                                               type="checkbox" id="chargecot" disabled>
+                                                                        <span class="form-check-sign"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-md-6 px-0 required">
+                                                                <label class="col-12 col-form-label">Cheque No.</label>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <input name="chequeno" id="chequeno" required
+                                                                               type="text" class="form-control always-validate" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-md-6 px-0 required">
+                                                                <label class="col-12 col-form-label">Transaction Date</label>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <input name="transactiondate" id="transactiondate"
+                                                                               type="text" class="form-control datepicker always-validate"
+                                                                               required />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-md-12 px-0 required">
+                                                                <label class="col-12 col-form-label">Principal Ledger</label>
+                                                                <div class="col-12">
+                                                                    
+                                                                        <!--<select name="principalglid" id="principalglid"
+            required class="form-control always-validate">
+        <option></option>
+    </select>-->                                                         <div class="form-group">
+                                                         <input name="principalglid" id="principalglid" required
+                                                             type="text" class="form-control always-validate" disabled />
+                                                        </div>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex flex-row justify-content-between align-items-center col-xs-12 col-md-6 mt-1 pr-0">
+                                                                <label class="col-form-label" for="reusecheque">Reuse Cheque</label>
+                                                                <div class="form-check mt-0 pl-0 pr-1">
+                                                                    <label class="form-check-label">
+                                                                        <input name="reusecheque" class="form-check-input"
+                                                                               type="checkbox" id="reusecheque">
+                                                                        <span class="form-check-sign"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex flex-row justify-content-between align-items-center col-xs-12 col-md-6 mt-1 pr-0 disabled">
+                                                                <label class="col-form-label" for="chequereturnable">Other Return Cheque</label>
+                                                                <div class="form-check mt-0 pl-0 pr-1">
+                                                                    <label class="form-check-label">
+                                                                        <input name="otherreturn" class="form-check-input"
+                                                                               type="checkbox" id="otherreturn" disabled>
+                                                                        <span class="form-check-sign"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="charges-control disabled row justify-content-between align-items-center col-xs-12 col-md-6 mt-1 ml-0 pr-0"
+                                                                 style="display:none;">
+                                                                <label class="col-form-label mt-3" for="discount">Charge Discount</label>
+                                                                <div class="disabled form-check form-check-radio pl-1">
+                                                                    <label class="form-check-label">
+                                                                        <input class="form-check-input" type="radio" disabled
+                                                                               id="discount" name="charge-type" required>
+                                                                        <span class="form-check-sign"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="charges-control disabled row justify-content-between align-items-center col-xs-12 col-md-6 mt-1 mr-0 pr-0"
+                                                                 style="display:none;">
+                                                                <label class="col-form-label mt-3" for="return">Charge Return Cheque</label>
+                                                                <div class="disabled form-check form-check-radio pl-1">
+                                                                    <label class="form-check-label">
+                                                                        <input class="form-check-input" type="radio" disabled
+                                                                               id="return" name="charge-type" required>
+                                                                        <span class="form-check-sign"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                                <div class="row" id="charges-box" style="display: none;">
+                                    <div class="col px-0">
+                                        <div role="tablist" aria-multiselectable="true"
+                                             class="card-collapse">
+                                            <div class="card card-plain mb-0 px-3">
+                                                <div class="card-header" role="tab">
+                                                    <a data-toggle="collapse" href="#DiscountCollapse"
+                                                       aria-controls="DiscountCollapse" aria-expanded="true"
+                                                       class="text-primary">
+                                                        <span id="charge-header"></span> Cheque Charges
+                                                        <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                    </a>
+                                                </div>
+                                                <div id="DiscountCollapse" class="collapse pt-3 show" role="tabpanel">
+                                                    <div class="card-body p-0">
+                                                        <div class="row mb-2 required">
+                                                            <label class="col-12 col-form-label">
+                                                                <span class="charge-swap"></span> Charge Ledger
+                                                            </label>
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    <select name="chargeglid" id="chargeglid"
+                                                                            required class="form-control">
+                                                                        <option></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2 justify-content-between">
+                                                            <div class="col-md-6 col-xs-12 pr-0 row required">
+                                                                <label class="col-12 col-form-label">Rate(&#37;)</label>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <input name="chargepercent" id="chargepercent" required
+                                                                               type="text" class="form-control text-right" value="0" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 col-xs-12 pl-0 row required">
+                                                                <label class="col-12 col-form-label">Charge Amount</label>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <input name="chargeamount" id="chargeamount" type="text" readonly
+                                                                                class="form-control text-right text-primary" value="0" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12 px-0">
+                                        <label class="col-12 col-form-label">Narration</label>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <textarea name="narration" id="narration"
+                                                          class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left"
+                                                type="reset" onclick="clearForm()">
+                                            Clear
+                                        </button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right"
+                                                type="button" onclick="save()">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <environment include="Development">
+        <script src="~/js/modules/InwardCheque.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/modules/InwardCheque.min.js"></script>
+    </environment>
+
+}

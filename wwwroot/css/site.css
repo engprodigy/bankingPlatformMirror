@@ -1,0 +1,337 @@
+﻿/* Base styles */
+body {
+    position: relative;
+}
+
+.f24px {
+    font-size: 24px !important;
+}
+
+.base-font {
+    font-size: .8571em;
+}
+
+.no-transform {
+    text-transform: none;
+}
+
+.panel-header {
+    height: auto;
+}
+
+.form-hint {
+    font-size: .725em;
+}
+
+.search {
+    margin-top: 11px;
+}
+
+.header-padding {
+    padding-left: 1rem;
+}
+
+.de-emphasize {
+    color: #9a9a9a;
+    font-size: .8571em;
+}
+
+.search .form-control {
+    padding: 10px 18px;
+}
+
+tr.bg-danger a.detail-icon {
+    color: white;
+}
+
+.text-primary, 
+a.text-primary:hover, 
+a.text-primary:focus {
+    color: rgb(255, 54, 54) !important;
+}
+
+.nav-pills.nav-pills-primary .nav-item .nav-link.active,
+.nav-pills.nav-pills-primary .nav-item .nav-link.active:focus,
+.nav-pills.nav-pills-primary .nav-item .nav-link.active:hover {
+    background-color: rgb(255, 54, 54);
+}
+
+.required label::after {
+    content: "*";
+    color: red;
+    padding-left: 3px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+div.disabled .col-form-label {
+    opacity: .5;
+}
+
+/* Krajee file input base overrides */
+.file-other-icon {
+    line-height: 1.5;
+}
+
+/* Krajee file input preview styles */
+.kr-preview {
+    border-style: dashed;
+    border-color: #bbb;
+}
+
+.kr-preview > .file-drop-zone {
+    border: none;
+}
+
+.kr-preview > .fileinput-remove {
+    position: static;
+    line-height: 1;
+}
+
+/* Wizard Styles */
+[data-background-color=red] {
+    background-color: rgb(255, 54, 54);
+}
+
+.card-wizard .nav-pills {
+    background-color: transparent;
+}
+
+.card-wizard .card-header {
+    padding-bottom: 15px;
+}
+
+.nav-item:not(:last-child) a.nav-link {
+    margin-right: 0 !important;
+}
+
+.wizard-navigation .nav-item .nav-link {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.wizard-navigation .nav-item a.nav-link.active {
+    background-color: #fff !important;
+    color: rgb(255, 54, 54) !important;
+    box-shadow: 0 5px 35px 0 rgba(0, 0, 0, .3) !important;
+}
+
+.form-control:focus {
+    border-color: rgb(255, 54, 54);
+}
+
+.table-responsive {
+    overflow: visible;
+}
+
+#wizardModal .modal-content .modal-body {
+    padding: 0;
+}
+
+.light-icon {
+    color: #fff;
+}
+
+.opaque {
+    opacity: 1;
+}
+
+.select2-dropdown {
+    overflow-y: hidden;
+}
+
+/* Select2 theme overrides start */
+.select2 .select2-container--bootstrap4,
+.select2 .select2-selection,
+.select2-container--bootstrap4 .select2-search--dropdown .select2-search__field,
+.select2-container--bootstrap4 .select2-results__option
+{
+    font-size: .8571em;
+}
+
+.select2-container--bootstrap4 .select2-results__option {
+    padding: 0.375rem;
+}
+
+.select2-container--bootstrap4 .select2-results__option--highlighted[aria-selected] {
+    background-color: rgb(255, 54, 54);
+}
+
+.select2-container--bootstrap4.select2-container--focus .select2-selection,
+.select2-container--bootstrap4.select2-container--open .select2-selection {
+    border-right-color: rgb(255, 54, 54);
+    border-left-color: rgb(255, 54, 54);
+    border-top-color: rgb(255, 54, 54) !important;
+}
+
+.select2-container--bootstrap4.select2-container--focus .select2-selection,
+.select2-container--bootstrap4.select2-container--open .select2-selection {
+    border-bottom-color: rgb(255, 54, 54);
+}
+
+.select2-container--bootstrap4 .select2-dropdown {
+    border-color: rgb(255, 54, 54) !important;
+}
+
+.select2 .select2-selection {
+    padding-left: 18px;
+}
+
+.select2-container--bootstrap4 .select2-selection__clear {
+    margin-left: 35px;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    display: inline;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple
+.select2-search--inline .select2-search__field,
+.select2-container--bootstrap4 .select2-selection--multiple 
+.select2-selection__rendered {
+    padding-left: 0;
+    width: 100% !important;
+}
+
+.select2-container .select2-search--inline {
+    display: contents;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple
+.select2-selection__rendered {
+    padding-top: .6rem;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple 
+.select2-selection__choice {
+    padding: 0.35rem 0.5rem;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple 
+.select2-selection__clear {
+    margin-top: 0;
+}
+
+.select2-container--bootstrap4 
+.select2-selection--multiple 
+.select2-selection__choice {
+    border: 1px solid #ced4da;
+    background-color: #e4e4e4;
+}
+
+/* Select2 theme overrides end */
+
+/* datepicker overrides, fixes transparent datepicker */
+.bootstrap-datetimepicker-widget {
+    height: 267px;
+}
+
+/* data table stylings */
+.data-table td {
+    font-size: .9em;
+}
+
+.bootstrap-table .pagination-detail .dropdown-toggle .caret {
+    display: none;
+}
+
+.bootstrap-table .pagination-detail {
+    margin-top: 0;
+}
+
+.pagination .page-item.active .page-link,
+.pagination .page-item.active .page-link:hover,
+.pagination .page-item.active .page-link:focus {
+    background-color: rgb(255, 54, 54);
+    border-color: rgb(255, 54, 54);
+}
+
+.data-table thead > tr > th {
+    font-size: 1em;
+    font-weight: bold;
+    /*color: rgb(255, 54, 54);*/
+}
+
+#customer-card .fixed-table-container {
+    border: none;
+    border-top: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#customer-card #data-table {
+    margin-bottom: 15em !important;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#customer-card .fixed-table-pagination {
+    margin-top: -15em;
+}
+
+/* Cheque status stylings */
+.dash-card i {
+    font-size: 3em;
+    color: var(--white);
+}
+
+.cheque-status-box {
+    padding: 3px 8px;
+    margin: 6px 3px;
+    color: var(--white);
+    border-radius: .1845rem;
+    font-family: "Helvetica Neue", sans-serif, Arial
+}
+
+#status-display-box:after {
+    content: "";
+    flex: auto;
+}
+
+/* Outward Cheque Operations styling workaround */
+#outward-operation-card-body .fixed-table-container {
+    border: none;
+    border-top: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#outward-operation-card-body table {
+    margin-bottom: 15em !important;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#outward-operation-card-body .fixed-table-pagination {
+    margin-top: -15em;
+}
+
+/* Miscellaneous */
+
+.image-fit {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/*.image-box {
+    height: 0;
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}*/
+
+.form-check .form-check-label {
+    position: initial;
+}
+
+.table .form-check label .form-check-sign:after,
+.table .form-check label .form-check-sign:before {
+    top: 0;
+    border: 1px solid #bbb;
+}
+
+

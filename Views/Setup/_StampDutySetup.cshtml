@@ -1,0 +1,107 @@
+﻿<div class="card card-plain">
+    <div class="card-header text-center">
+        <h4 class="card-title">Stamp Duty Setup</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="stamp-duty-toolbar">
+                        <button class="btn btn-danger"
+                                onclick="openNewStampModal()">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                            Add Stamp Duty Charge
+                        </button>
+                    </div>
+                    <table id="stamp-duty-table" data-toggle="table"
+                           data-url="@Url.Action("LoadStampDuty", "Setup")"
+                           data-search="true" class="data-table"
+                           data-toolbar="#stamp-duty-toolbar"
+                           data-search-align="right"
+                           data-show-pagination-switch="true"
+                           data-mobile-responsive="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true" data-unique-id="id"
+                           data-buttons-class="danger">
+                        <thead>
+                            <tr>
+                                <th data-field="charge" data-align="right"
+                                    data-formatter="FormatMoney">Stamp Duty Charge Amount</th>
+                                <th data-field="tblFinanceChartOfAccount.accountName" data-align="right"
+                                    >Credit Ledger</th>
+                                <th data-formatter="editFormatter" data-events="stampDutyEvents"
+                                    data-align="center" class="edit py-3" data-width="10%"></th>
+                                <th data-formatter="deleteFormatter" data-events="stampDutyEvents"
+                                    data-align="center" class="remove py-3" data-width="10%"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+<div id="stamp-duty-modal" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 ml-2 mb-3">
+                    <span id="stamp-form-header"></span> Stamp Duty Charge
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="stamp-duty-form" method="post">
+                                <input type="hidden" name="id" id="id" />
+                                <input type="hidden" name="datecreated" id="datecreated" />
+                                <div class="row mb-2">
+                                    <label class="col-md-2 col-form-label">Charge</label>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <input name="charge" id="charge" type="text" required
+                                                   class="form-control format-money text-right" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label class="col-md-2 col-form-label">Credit Ledger</label>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <select id="creditledgerstampduty" name="creditledgerstampduty"
+                                                    class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left" type="reset">Clear</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btn-add-stamp-charge" onclick="AddStampCharge()">
+                                            Save
+                                        </button>
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btn-update-stamp-charge" onclick="UpdateStampCharge()">
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

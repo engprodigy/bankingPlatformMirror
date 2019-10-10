@@ -1,0 +1,124 @@
+﻿@model TheCoreBanking.Retail.Data.Models.TblBankdraftsetup
+
+
+<div class="card card-plain">
+    <div class="card-header text-center">
+        <h4 class="card-title">Bank Draft</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="draft-toolbar">
+                        <button class="btn btn-danger" id="btnAddBank"
+                                onclick="openDraftModal()">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                            Add Bank Draft
+                        </button>
+                    </div>
+                    <table id="draftTable" class="data-table" 
+                           data-url="@Url.Action("ListBankDraftSetup", "Setup")"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddNewDraft" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 ml-3 mb-3">
+                    <span id="bankDraftTitle">New</span> Bank Draft
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="frmDraft">
+                                <input type="hidden" name="bankdraftid" id="bankdraftid" />
+                                <input type="hidden" name="companyid" id="companyid" />
+                                <input type="hidden" name="datetimecreated" id="datetimecreated" />
+                                <input type="hidden" name="sourcebranchid" id="sourcebranchid" />
+                                <input type="hidden" name="destinationbranchid" id="destinationbranchid" />
+                                <input type="hidden" name="createdby" id="createdby" />
+                                <div class="row mb-2 required">
+                                    <label class="col-md-4 col-form-label">Bank Draft Name</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <input name="name" required id="name"
+                                                   type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 required">
+                                    <label class="col-md-4 col-form-label">Amount</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <input name="amount" required id="amount"
+                                                   type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 required">
+                                    <label class="col-md-4 col-form-label">Principal GL</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <input type="hidden" name="principalgl" id="textBoxprincipal" />
+                                            <select name="principalgl" required id="principalgl"
+                                                    class="form-control principalgl">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 required">
+                                    <label class="col-md-4 col-form-label">Interest GL</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <input type="hidden" name="interestgl" id="textBoxinterest" />
+                                            <select name="interestgl" required id="interestgl"
+                                                    class="form-control interestgl">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label class="col-md-4 col-form-label">Fixed Rate</label>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="form-check pl-0">
+                                            <label class="form-check-label">
+                                                <input name="israte" class="form-check-input" type="checkbox" id="israte">
+                                                <span class="form-check-sign"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left" type="reset">Clear</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnAddBankDraft" onclick="AddBankDraft()">
+                                            Save Record
+                                        </button>
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnDraftUpdate" onclick="updateBankDraft()">
+                                            Update Record
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

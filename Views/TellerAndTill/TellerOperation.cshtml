@@ -1,0 +1,115 @@
+﻿@model TheCoreBanking.Retail.Data.Models.TblTellerlogin
+<div class="card">
+
+    @*<div class="col-md-2  pull-right "><h4 class=""> <small>Retail Operation</small></h4></div>*@
+    <div class="card-header ">
+        <h4 class="card-title">Teller Operation - <small class="description">Teller Tills not in-use</small></h4>
+    </div>
+
+    <div class="card-header text-center">
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="tellerlogin-toolbar">
+                        <h5>Login to a Till</h5>
+                    </div>
+                    <table id="tellerLoginTable" data-toggle="table"
+                           data-url="@Url.Action("listTellerLogout", "TellerAndTill")"
+                           data-search="true" class="data-table"
+                           data-toolbar="#tellerlogin-toolbar"
+                           data-search-align="right"
+                           data-show-pagination-switch="true"
+                           data-mobile-responsive="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-buttons-class="danger">
+                        <thead>
+                            <tr>
+                                <th data-field="ledgername" data-sortable="true">Teller Account Till</th>
+                                <th data-field="accountid">Teller Ledger Till</th>
+                                <th data-field="accountbalance">Ledger Balance</th>
+
+
+                                <th data-events="tellerLoginEvents" data-formatter="loginFormatter"
+                                    data-align="center" data-width="5%">Login</th>
+                                @*<th data-events="tellerLoginEvents" data-formatter="logoutFormatter"
+                    data-align="center" data-width="5%">Logout</th>*@
+
+
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <div>
+                        <button type="button" class="btn btn-default" id="btnPreviouslyLogin" onclick="previouslyLogin()">Previously Logged in</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Classic Modal -->
+<div class="modal fade" id="AddNewTellerLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+                @*<h2> <i class="now-ui-icons users_single-02"></i></h2>*@
+               
+                @*<h4 class="title title-up">Teller Operation</h4>*@
+            </div>
+            <div class="modal-body">
+                <h4 class="title title-up"><center>Teller Operation</center></h4>
+                <p><center>You are about to perform Teller Operation <br /> Please Proceed</center> </p>
+            </div>
+            <form id="frmtellerlogin">
+
+                <input type="hidden" name="id" id="id" />
+                <input type="hidden" name="companyid" id="companyid" />
+                <input type="hidden" name="branchid" id="branchid" />
+                <input type="hidden" name="ledgername" id="ledgername" />
+                <input type="hidden" name="accountid" id="accountid" />
+
+                <input type="hidden" name="closingbalance" id="closingbalance" />
+                <input type="hidden" name="accountbalance" id="accountbalance" />
+                <input type="hidden" name="tellerno" id="tellerno" />
+                <input type="hidden" name="tellerlogindate" id="tellerlogindate" />
+                <input type="hidden" name="tellerlogintime" id="tellerlogintime" />
+                <input type="hidden" name="accountId" id="accountId" />
+
+                <input type="hidden" name="username" id="username" />
+                <input type="hidden" name="assignuser" id="assignuser" />
+                <input type="hidden" name="isactive" id="isactive" />
+
+            </form>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btntellerLogin" onclick="getTellerLogin()">Log In</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+
+
+@section Scripts {
+
+    <environment include="Development">
+        <script src="~/js/modules/TellerOperation.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/modules/TellerOperation.min.js"></script>
+    </environment>
+}

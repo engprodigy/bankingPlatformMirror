@@ -1,0 +1,100 @@
+﻿@model TheCoreBanking.Retail.Data.Models.TblGrantreversalprivilege
+
+<div class="card card-plain">
+    <div class="card-header text-center">
+        <h4 class="card-title">Grant Reversal Privilege</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="reversal-toolbar">
+                        <button class="btn btn-danger" id="btnAddReversal"
+                                onclick="openReversalModal()">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                            Add Reversal Privilege
+                        </button>
+                    </div>
+                    <table id="reversalTable" class="data-table"
+                           data-url="@Url.Action("ListGrantReversal", "Setup")">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add modal and forms here -->
+<div id="AddNewReversal" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 ml-3 mb-3">
+                    <span id="reversalPrivilegeTitle">New</span> Reversal Privilege
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="frmReversal">
+                                <input type="hidden" name="reversalsetupid" id="reversalsetupid" />
+                                <input type="hidden" name="companyid" id="companyid" />
+                                <input type="hidden" name="branchid" id="branchid" />
+                                <input type="hidden" name="createdby" id="createdby" />                               
+                                @*<input type="hidden" name="username" id="textBoxusername" />*@
+                                @*<input type="hidden" name="username" id="username" />*@
+
+                                <div class="row mb-2 required">
+                                    <label class="col-md-4 col-form-label">Sfaff Name </label>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <select name="staffinformationid" required id="staffinformationid"
+                                                    class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mb-2">
+                                    <label class="col-md-4 col-form-label">Grant Reversal</label>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="form-check pl-0">
+                                            <label class="form-check-label">
+                                                <input name="canreversealltransaction" class="form-check-input" type="checkbox" id="canreversealltransaction">
+                                                <span class="form-check-sign"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left" type="reset">Clear</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnAddReversalG" onclick="AddReversalG()">
+                                            Save Record
+                                        </button>
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnReversalUpdate" onclick="updateReversalPrivilege ()">
+                                            Update Record
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Title"] = "Retail Operations";
+}
+@section title{
+    <span class="title">@ViewData["Title"]</span>
+}
+@section pagedescription{
+    <span class="title f24px">Retail Operations</span>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card card-plain">
+            <div class="card-header text-center">
+                <h4 class="card-title">Stop Cheque</h4>
+            </div>
+            <div class="card-body">
+                <table data-toggle="table" id="cheques-data-table"
+                       data-url="@Url.Action("LoadChequeDetails","Operations")"
+                       data-search="true" class="data-table"
+                       data-search-align="right" data-detail-view="true"
+                       data-detail-formatter="utilities.chequeDetailFormatter"
+                       data-show-pagination-switch="true"
+                       data-mobile-responsive="true"
+                       data-show-refresh="true"
+                       data-show-toggle="true" data-unique-id="id"
+                       data-buttons-class="danger">
+                    <thead>
+                        <tr>
+                            <th data-field="accountno" data-sortable="true"
+                                data-width="10%">Account No.</th>
+                            <th data-field="chequebooktype.chequetype" data-sortable="true">Cheque Type</th>
+                            <th data-field="leavesno">Leaves</th>
+                            <th data-field="startrange" data-sortable="true" data-align="center">Start</th>
+                            <th data-field="endrange" data-sortable="true" data-align="center">End</th>
+                            <th data-field="iscountercheque" data-align="center" data-width="5%"
+                                data-formatter="utilities.blockChequeBtnFormatter"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+<div id="chequeModal" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="card-title text-primary font-weight-bold w-100 text-center mt-2 no-transform"
+                    id="cheque-status-detail"></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid card card-plain mb-0">
+                    <form id="stop-cheque-form">
+                        <div class="row mb-2">
+                            <label class="col-md-3 col-form-label">Start No.</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input id="start" type="text" readonly
+                                           class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-md-3 col-form-label">End No.</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input id="end" type="text" readonly
+                                           class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2 required">
+                            <label class="col-md-3 col-form-label">Stop value(s)</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input name="stop-value" required id="stop-value"
+                                           type="text" class="form-control" />
+                                    <p class="small text-muted mt-2">
+                                        Multiple values are to be separated by comma.
+                                        Both numbers and ranges can be specified
+                                        e.g. 1, 2, 3, 50-300, 31-40, 200
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between">
+                            <div class="col">
+                                <button class="btn btn-danger btn-wd pull-left" type="button"
+                                        onclick="$('[name=stop-value]').val('')">Clear</button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-danger btn-wd pull-right" type="button"
+                                        onclick="validate()" id="StopLeavesButton">
+                                    Stop Leaves
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/modules/StopCheque.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/modules/StopCheque.min.js"></script>
+    </environment>
+}

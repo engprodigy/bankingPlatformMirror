@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Teller and Till ";
+}
+@section title{
+    <span class="title">@ViewData["Title"]</span>
+}
+@section pagedescription{
+    @*<span class="title f24px">Retail Operation</span>*@
+}
+
+<div class="card ">
+    <div class="col-md-2  pull-right "><h4 class=""> <small>Retail Operation</small></h4></div>
+    <div class="card-header">
+        <h4 class="card-title">Teller And Till - <small class="description">Setup Tabs</small></h4>
+    </div>
+    <div class="card-body ">
+        <ul class="nav nav-pills nav-pills-primary" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tilldfinition" role="tablist">
+                    Till Definition
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " data-toggle="tab" href="#tillmapping" role="tablist">
+                    Till Mapping
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tilllimit" role="tablist">
+                    Till Limit
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tellerlimit" role="tablist">
+                    Teller Limit
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tellersetup" role="tablist">
+                    Teller Setup
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content tab-space">
+            <div class="tab-pane active" id="tilldfinition">
+                @Html.Partial("_AddTillDefinition")
+            </div>
+            <div class="tab-pane" id="tillmapping">
+                @Html.Partial("_AddTillMapping")
+            </div>
+
+            <div class="tab-pane" id="tellerlimit">
+                @Html.Partial("_AddTellerLimit")
+            </div>
+            <div class="tab-pane" id="tilllimit">
+                @Html.Partial("_AddTillLimit")
+            </div>
+            <div class="tab-pane" id="tellersetup">
+                @Html.Partial("_AddTellerSetup")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <environment include="Development">
+        <script src="~/js/modules/TellerLimit.js"></script>
+        <script src="~/js/modules/TillLimit.js"></script>
+        <script src="~/js/modules/TellerSetup.js"></script>
+        <script src="~/js/modules/TillDefination.js"></script>
+        <script src="~/js/modules/TillMapping.js"></script>
+
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/modules/TellerLimit.min.js"></script>
+        <script src="~/js/modules/TillLimit.min.js"></script>
+        <script src="~/js/modules/TellerSetup.min.js"></script>
+        <script src="~/js/modules/TillDefination.min.js"></script>
+        <script src="~/js/modules/TillMapping.min.js"></script>
+    </environment>
+
+}

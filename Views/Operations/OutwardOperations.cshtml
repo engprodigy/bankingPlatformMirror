@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Retail Operations";
+}
+@section title{
+    <span class="title">@ViewData["Title"]</span>
+}
+@section pagedescription{
+    <span class="title f24px">Retail Operations</span>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card card-plain">
+            <div class="card-header text-center">
+                <h4 class="card-title">Outward Cheque Operations</h4>
+            </div>
+            <div id="outward-operation-card-body" class="card-body">
+                <div id="outward-cheque-toolbar">
+                    <button type="button" onclick="sendForApproval()" class="btn btn-danger pull-right">
+                        Send Selected For Approval
+                    </button>  
+                </div>
+                <table id="outward-operations-table" data-click-to-select="false"
+                       data-url="@Url.Action("LoadOutwardOperationCheques","Operations")"
+                       data-search="true" class="data-table"
+                       data-toolbar="#outward-cheque-toolbar"
+                       data-search-align="right" data-detail-view="true"
+                       data-detail-formatter="utilities.outwardDetailFormatter"
+                       data-show-pagination-switch="true" data-checkbox-header="false"
+                       data-mobile-responsive="true" data-toggle="table"
+                       data-show-refresh="true" data-pagination="true"
+                       data-show-toggle="true" data-unique-id="id"
+                       data-buttons-class="danger">
+                    <thead>
+                        <tr>
+                            <th data-width="5%" data-field="check"
+                                data-formatter="utilities.tableCheckBoxFormatter">
+                                <div class="form-check ml-3 mb-1">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input"
+                                               type="checkbox" name="table-select-all">
+                                        <span class="form-check-sign"></span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th data-field="accountno" data-align="right"
+                                data-halign="left">
+                                Account No.
+                            </th>
+                            <th data-field="referenceno" data-align="right"
+                                data-halign="left">
+                                Reference No.
+                            </th>
+                            <th data-field="chequeno" data-align="right"
+                                data-halign="left">
+                                Cheque No.
+                            </th>
+                            <th data-field="amount" data-sortable="true" data-halign="left"
+                                data-align="right" data-formatter="FormatMoney">Amount</th>
+                            @*<th data-field="chequedate" data-sortable="true"
+                                data-formatter="utilities.dateFormatter">Cheque Date</th>*@
+                            @*<th data-field="approvalstatus" data-width="10%"
+                                data-cell-style="utilities.markCells"
+                                data-formatter="utilities.approvalStatusFormatter">
+                                Approval Status
+                            </th>*@
+                            <th data-field="clearingoption" data-sortable="true" data-width="5%"
+                                data-formatter="utilities.clearingStatusFormatter">Clearing Status</th>
+                            <th data-formatter="utilities.clearingSelectionFormatter"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+<div id="outward-defer-modal" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 mb-3 pl-3">
+                    Defer Outward Cheque
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <div class="card card-plain">
+                                <form id="defer-outward-form">
+                                    <input type="hidden" name="id" />
+                                    <div class="row mb-2">
+                                        <label class="col-md-3 col-xs-12 col-form-label">Current Cheque Date</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                       name="oldchequedate" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2 required">
+                                        <label class="col-md-3 col-xs-12 col-form-label">New Cheque Date</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control datepicker"
+                                                       name="chequedate" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4 justify-content-between">
+                                        <div class="col">
+                                            <button class="btn btn-danger btn-wd pull-right"
+                                                    type="button" onclick="handleDefer()">
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <environment include="Development">
+        <script src="~/js/modules/OutwardOperations.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/modules/OutwardOperations.min.js"></script>
+    </environment>
+
+}

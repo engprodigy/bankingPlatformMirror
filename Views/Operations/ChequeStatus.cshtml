@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "Retail Operations";
+}
+@section title{
+    <span class="title">@ViewData["Title"]</span>
+}
+@section pagedescription{
+    <span class="title f24px">Retail Operation</span>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card card-plain">
+            <div class="card-header text-center">
+                <h4 class="card-title">Cheque Status</h4>
+            </div>
+            <div class="card-body">
+                <table data-toggle="table" id="status-data-table"
+                       data-url="@Url.Action("LoadChequeDetails","Operations")"
+                       data-search="true" class="data-table"
+                       data-search-align="right" data-detail-view="true"
+                       data-detail-formatter="utilities.chequeDetailFormatter"
+                       data-show-pagination-switch="true"
+                       data-mobile-responsive="true"
+                       data-show-refresh="true"
+                       data-show-toggle="true" data-unique-id="id"
+                       data-buttons-class="danger">
+                    <thead>
+                        <tr>
+                            <th data-field="accountno" data-sortable="true"
+                                data-width="10%">Account No.</th>
+                            <th data-field="chequebooktype.chequetype" data-sortable="true">Cheque Type</th>
+                            <th data-field="leavesno">Leaves</th>
+                            <th data-field="startrange" data-sortable="true" data-align="center">Start</th>
+                            <th data-field="endrange" data-sortable="true" data-align="center">End</th>
+                            <th data-field="iscountercheque" data-align="center" data-width="5%"
+                                data-formatter="utilities.viewStatusFormatter"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+<div id="leavesStatusModal" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="card-title text-primary font-weight-bold w-100 text-center mt-2 no-transform"
+                    id="cheque-status-detail"></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid px-0">
+                    <div class="row justify-content-between mb-4">
+                        <div class="col">
+                            <div class="card bg-danger text-white mb-0 p-3 shadow dash-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="col-4 text-black-50 text-center">
+                                        <i class="now-ui-icons design_bullet-list-67 "></i>
+                                    </div>
+                                    <div class="col-8 px-0 text-right">
+                                        <div class="font-weight-bold h4 my-0">
+                                            <span id="used-leaves-count"></span>/<span class="total-leaves-count"></span>
+                                        </div>
+                                        <span class="text-uppercase d-block">used</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card bg-success text-white mb-0 p-3 shadow dash-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="col-4 text-black-50 text-center">
+                                        <i class="now-ui-icons design_bullet-list-67 "></i>
+                                    </div>
+                                    <div class="col-8 px-0 text-right">
+                                        <div class="font-weight-bold h4 my-0">
+                                            <span id="unused-leaves-count"></span>/<span class="total-leaves-count"></span>
+                                        </div>
+                                        <span class="text-uppercase d-block">unused</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card bg-warning text-white mb-0 p-3 shadow dash-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="col-4 text-black-50 text-center">
+                                        <i class="now-ui-icons design_bullet-list-67 "></i>
+                                    </div>
+                                    <div class="col-8 px-0 text-right">
+                                        <div class="font-weight-bold h4 my-0">
+                                            <span id="stopped-leaves-count"></span>/<span class="total-leaves-count"></span>
+                                        </div>
+                                        <span class="text-uppercase d-block">stopped</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="status-display-box"
+                         class="d-flex flex-row justify-content-between flex-wrap">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/modules/ChequeStatus.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/modules/ChequeStatus.min.js"></script>
+    </environment>
+}

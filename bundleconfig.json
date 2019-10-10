@@ -1,0 +1,256 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/Montserrat.min.css",
+    "inputFiles": [
+      "wwwroot/css/Montserrat.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/select2/select2.min.css",
+    "inputFiles": [
+      "wwwroot/css/select2/select2.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/select2/select2-bootstrap4.min.css",
+    "inputFiles": [
+      "wwwroot/css/select2/select2-bootstrap4.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/select2/select2.min.js",
+    "inputFiles": [
+      "wwwroot/js/select2/select2.mod.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/bankdraft.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/bankdraft.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/transfercharges.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/transfercharges.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/GrantReversalPrivilege.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/GrantReversalPrivilege.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/ChequeType.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/ChequeType.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/RegisterCheque.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/RegisterCheque.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/ChequeStatus.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/ChequeStatus.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/StopCheque.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/StopCheque.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/InwardCheque.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/InwardCheque.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/OutwardCheque.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/OutwardCheque.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/OutwardOperations.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/OutwardOperations.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/StampDuty.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/StampDuty.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/SystemNarration.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/SystemNarration.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/ChequeCOTCharges.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/ChequeCOTCharges.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/TillMapping.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/TillMapping.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/TillDefination.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/TillDefination.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/TellerLimit.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/TellerLimit.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/TillLimit.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/TillLimit.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/TellerSetup.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/TellerSetup.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/TellerOperation.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/TellerOperation.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/TellerPostingSp.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/TellerPostingSp.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/Lodgement.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/Lodgement.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/VaultTillOperation.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/VaultTillOperation.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  }
+]

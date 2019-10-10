@@ -1,0 +1,216 @@
+﻿@{
+    ViewData["Title"] = "Retail Operations";
+}
+@section title{
+    <span class="title">@ViewData["Title"]</span>
+}
+@section pagedescription{
+    <span class="title f24px">Retail Operation</span>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card card-plain">
+            <div class="card-header text-center">
+                <h4 class="card-title">Registered Cheques</h4>
+            </div>
+            <div class="card-body">
+                <div id="register-cheque-toolbar">
+                    <button class="btn btn-danger" id="btnDraftSetup"
+                            onclick="openNewModal()">
+                        <i class="now-ui-icons ui-1_simple-add"></i>
+                        Register New Cheque(s)
+                    </button>
+                </div>
+                <table id="register-cheque-table" data-toggle="table"
+                       data-url="@Url.Action("LoadChequeDetails","Operations")" 
+                       data-search="true" class="data-table"
+                       data-toolbar="#register-cheque-toolbar"
+                       data-search-align="right" data-detail-view="true"
+                       data-detail-formatter="utilities.chequeDetailFormatter"
+                       data-show-pagination-switch="true"
+                       data-mobile-responsive="true"
+                       data-show-refresh="true"
+                       data-show-toggle="true" data-unique-id="id"
+                       data-buttons-class="danger">
+                    <thead>
+                        <tr>
+                            <th data-field="accountno" data-sortable="true" 
+                                data-width="10%">Account No.</th>
+                            <th data-field="chequebooktype.chequetype" data-sortable="true">Cheque Type</th>
+                            <th data-field="leavesno">Leaves</th>
+                            <th data-field="charge" data-sortable="true" data-align="right">Charge</th>
+                            <th data-field="iscountercheque" data-sortable="true" data-align="center"
+                                data-formatter="utilities.counterChequeFormatter" data-width="5%">Counter Cheque</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+<div id="registerChequeModal" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 text-center mb-3">
+                    Register Cheque(s)
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <div id="cheque-toolbar">
+                                <button class="btn btn-danger" type="button"
+                                        onclick="utilities.showChequeForm()">
+                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                    New Cheque Request
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="cheque-table" class="data-table"
+                                       data-toggle="table" data-show-refresh="true"
+                                       data-search="true" data-show-toggle="true" data-check-on-init="true"
+                                       data-buttons-class="danger" data-unique-id="tracker"
+                                       data-toolbar="#cheque-toolbar" data-mobile-responsive="true">
+                                    <thead>
+                                        <tr>
+                                            <th data-sortable="true" data-field="accountno" data-width="10%">Account No.</th>
+                                            <th data-sortable="true" data-field="chequebooktypeid"
+                                                data-formatter="utilities.chequeTypeDetailFormatter">Cheque Type</th>
+                                            <th data-sortable="true" data-field="charge" data-align="right">Amount</th>
+                                            <th data-formatter="utilities.deleteChequeFormatter"
+                                                data-align="center" data-width="5%"></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div class="row my-3">
+                                    <label class="col-md-3 col-form-label">Remark</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <textarea name="remark" id="remark" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right"
+                                                type="button" onclick="Save()">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="cheque-form">
+                                <div class="row mb-2 required">
+                                    <label class="col-md-3 col-form-label">Account No.</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <select class="form-control" name="accountno" 
+                                                    required id="accountno">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 required">
+                                    <label class="col-md-3 col-form-label">Chequebook Type</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <select name="chequebooktypeid" id="chequebooktypeid"
+                                                    required class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label class="col-md-3 col-form-label">No. of Leaves</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input name="leavesno" readonly id="leavesno"
+                                                   type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label class="col-md-3 col-form-label">Amount</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input name="charge" id="charge" readonly
+                                                   type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 required">
+                                    <label class="col-md-3 col-form-label">Start Range</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input name="startrange" id="startrange" required
+                                                   type="text" class="form-control" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label class="col-md-3 col-form-label">End Range</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input name="endrange" id="endrange" readonly
+                                                   type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label class="col-md-3 col-form-label">Counter Cheque</label>
+                                    <div class="col-md-9 mb-3">
+                                        <div class="form-check pl-0">
+                                            <label class="form-check-label">
+                                                <input name="iscountercheque" class="form-check-input"
+                                                       type="checkbox" id="iscountercheque">
+                                                <span class="form-check-sign"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left" type="button"
+                                                onclick="utilities.showChequeTable()">Cancel</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" 
+                                                type="button" onclick="AddCheque()">
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <environment include="Development">
+        <script src="~/js/modules/RegisterCheque.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/modules/RegisterCheque.min.js"></script>
+    </environment>
+
+}

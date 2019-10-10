@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheCoreBanking.Retail", "TheCoreBanking.Retail.csproj", "{98A14476-6D4C-46CE-90E4-3288D0EB0A3C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9B48B511-6636-444A-B76B-6334C122FC21} = {9B48B511-6636-444A-B76B-6334C122FC21}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheCoreBanking.Retail.Data", "..\TheCoreBanking.Retail.Data\TheCoreBanking.Retail.Data.csproj", "{9B48B511-6636-444A-B76B-6334C122FC21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98A14476-6D4C-46CE-90E4-3288D0EB0A3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A14476-6D4C-46CE-90E4-3288D0EB0A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A14476-6D4C-46CE-90E4-3288D0EB0A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A14476-6D4C-46CE-90E4-3288D0EB0A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B48B511-6636-444A-B76B-6334C122FC21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B48B511-6636-444A-B76B-6334C122FC21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B48B511-6636-444A-B76B-6334C122FC21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B48B511-6636-444A-B76B-6334C122FC21}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA82D8DC-BEDA-414F-8194-DFFA3830E9ED}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://bankingplatform:2805/teamwork/thecorebankingcollection
+		SccProjectUniqueName0 = TheCoreBanking.Retail.csproj
+		SccLocalPath0 = .
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = ..\\TheCoreBanking.Retail.Data\\TheCoreBanking.Retail.Data.csproj
+		SccProjectName2 = ../TheCoreBanking.Retail.Data
+		SccLocalPath2 = ..\\TheCoreBanking.Retail.Data
+	EndGlobalSection
+EndGlobal

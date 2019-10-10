@@ -1,0 +1,149 @@
+﻿@model TheCoreBanking.Retail.Data.Models.TblTellersetup
+
+
+<div class="card">
+    <div class="card-header text-center">
+        @*<h4 class="card-title">Teller Setup</h4>*@
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="tellerset-toolbar">
+                        <button class="btn btn-danger" id="btnAddtellerSet"
+                                onclick="opentellersetModal()">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                            Add Teller Setup
+                        </button>
+                    </div>
+                    <table id="tellersetTable" data-toggle="table"
+                           data-url="@Url.Action("listTellerSetup", "TellerAndTill")"
+                           data-search="true" class="data-table"
+                           data-toolbar="#tellerset-toolbar"
+                           data-search-align="right" data-detail-view="true"
+                           data-show-pagination-switch="true"
+                           data-mobile-responsive="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-buttons-class="danger"
+                           data-show-export="true"
+                           data-striped="true table-hover"
+                           data-detail-formatter="tsutility.tsTableFormatter">
+                        <thead>
+                            <tr>
+                                <th data-field="tillname" data-sortable="true">Teller Account</th>
+                                @*<th data-field="tillaccountnumber">Till Ledger Account</th>*@
+                                <th data-field="tilllimitamount" data-formatter="tillamtFormatter">Till Limit</th>
+                                <th data-field="tilluser">Till User</th>
+                                @*<th data-field="tillname">Till Type</th>*@
+                                <th data-events="tellersetupEvents" data-formatter="editFormatter"
+                                    data-align="center" data-width="5%"></th>
+                                <th data-events="tellersetupEvents" data-formatter="deleteFormatter"
+                                    data-align="center" data-width="5%"></th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddNewTellerset" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="title text-primary">
+                    <span id="tellerSetupTitle">New</span> Teller Setup
+                </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="frmtellersetup">
+                                <input type="hidden" name="id" id="id" />
+                                <input type="hidden" name="companyid" id="companyid" />
+                                <input type="hidden" name="branchid" id="branchid" />
+                                <input type="hidden" name="datecreated" id="datecreated" />
+                                <input type="hidden" name="createdby" id="createdby" />
+                                <input type="hidden" name="tellertillaccount" id="tellertillaccount" />
+
+
+                                <!---->
+                                <div class="row">
+                                    <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                            <label>Teller Till :</label>
+                                            <select name="tilllimitid" required id="tilllimitid"
+                                                    class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                            <label>Till user :</label>
+                                            <select name="staffinformationid" required="required" id="staffinformationid"
+                                                    class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Till Limit Amount : </label>
+                                            <input type="number" class="form-control" placeholder="Enter Till Limit Amount" name="tilllimitamount" required id="tilllimitamount">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @*<div class="row">
+                                        <div class="col-md-12 pl-1">
+                                            <div class="form-group">
+                                                <label>Teller Mapped Account :</label>
+                                                <select name="tillmappingid" required id="tillmappingid"
+                                                        class="form-control">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>*@
+
+
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        @*<button class="btn btn-danger btn-wd pull-left" type="reset">Clear</button>*@
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnAddTellerSetup" onclick="AddTellerSetup()">
+                                            Save Record
+                                        </button>
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnTellerSetupUpdate" onclick="updateTellerSetup()">
+                                            Update Record
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

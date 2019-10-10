@@ -1,0 +1,131 @@
+﻿@model TheCoreBanking.Retail.Data.Models.TblTillmapping
+
+<div class="card">
+    <div class="card-header text-center">
+        @*<h4 class="card-title">Teller Limit</h4>*@
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="tillmap-toolbar">
+                        <button class="btn btn-danger" id="btnAddTillmapping"
+                                onclick="openTillmapModal()">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                            Add Till Mapping
+                        </button>
+                    </div>
+                    <table id="tillMapTable" data-toggle="table"
+                           data-url="@Url.Action("listTillmapping", "TellerAndTill")"
+                           data-search="true" class="data-table"
+                           data-toolbar="#tillmap-toolbar"
+                           data-search-align="right" data-detail-view="true"                  
+                           data-show-pagination-switch="true"
+                           data-mobile-responsive="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true" data-unique-id="id"
+                           data-buttons-class="danger"
+                           data-striped="true table-hover"                         
+                           data-detail-formatter="utilities.tillMapTypeTableFormatter">
+                        <thead>
+                            <tr>
+                                <th data-field="tilldefinationname" data-sortable="true">Teller Mapped Name</th>
+                                <th data-field="accountid">Ledger Account</th>
+                                <th data-field="chartofaccount.accountName">Ledger Location</th>
+                                @*<th data-field="tilltype.type">Type</th>*@
+                                <th data-events="mappingEvents" data-formatter="editFormatter"
+                                    data-align="center" data-width="5%"></th>
+                                <th data-events="mappingEvents" data-formatter="deleteFormatter"
+                                    data-align="center" data-width="5%"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddNewMap" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="title text-primary">               
+                    <span id="tillmapTitle">New</span> Till Mapping
+                </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="frmTillMap">
+                                <input type="hidden" name="id" id="id" />
+                                <input type="hidden" name="createdby" id="createdby" />
+                                <input type="hidden" name="datecreated" id="datecreated" />
+                                <input type="hidden" name="tilldefinationname" id="tilldefinationname" />
+                                <input type="hidden" name="accountid" id="accountid" />
+
+                                <div class="row">
+                                    <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                            <label>Type :</label>
+                                            <select name="tilltypeid" required id="tilltypeid"
+                                                    class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                            <label>Defination Name :</label>
+                                            <select name="tilldefinationid" required id="tilldefinationid"
+                                                    class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 pl-1">
+                                        <div class="form-group">
+                                            <label>Ledger Account :</label>
+                                            <select name="chartofaccountid" required id="chartofaccountid"
+                                                    class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                   
+
+                                    <div class="row mt-4 justify-content-between">
+                                        <div class="col">
+                                            @*<button class="btn btn-danger btn-wd pull-left" type="reset">Clear</button>*@
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                    id="btnAddTillMap" onclick="AddTillMap()">
+                                                Save Record
+                                            </button>
+                                            <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                    id="btnTillMapUpdate" onclick="updateTillMap()">
+                                                Update Record
+                                            </button>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

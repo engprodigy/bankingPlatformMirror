@@ -1,0 +1,113 @@
+﻿@model TheCoreBanking.Retail.Data.Models.TblTilldefinition
+
+<div class="card">
+    <div class="card-header text-center">
+        @*<h4 class="card-title">Teller Limit</h4>*@
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="definition-toolbar">
+                        <button class="btn btn-danger" id="btnAddTillDefin"
+                                onclick="openDefinitionModal()">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                            Add Till Definition
+                        </button>
+                    </div>
+                    <table id="definitionTable" data-toggle="table"
+                           data-url="@Url.Action("listTillDefinition", "TellerAndTill")"
+                           data-search="true" class="data-table"
+                           data-toolbar="#definition-toolbar"
+                           data-search-align="right" data-detail-view="true"
+                           data-show-pagination-switch="true"
+                           data-mobile-responsive="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-buttons-class="danger"                   
+                           data-striped="true table-hover"
+                           data-detail-formatter="define.tillDefineTableFormatter" >
+                        <thead>
+                            <tr>
+                                <th data-field="tellername" data-sortable="true">Teller Name</th>
+                                @*<th data-field="datecreated" data-sortable="true"
+                                    data-formatter="dateFormatter">Created On</th>*@
+                                <th data-field="comment" data-sortable="true">Comment</th>
+                                
+
+                                <th data-events="definitionEvents" data-formatter="editDefinedFormatter"
+                                    data-align="center" data-width="5%"></th>
+                                <th data-events="definitionEvents" data-formatter="deleteDefinedFormatter"
+                                    data-align="center" data-width="5%"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddNewDefinition" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="title text-primary">
+                    <span id="definitionTitle">New</span> Defined Name
+                </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="frmTiilldef">
+                                <input type="hidden" name="id" id="id" />
+                                <input type="hidden" name="updatedby" id="updatedby" />
+                                <input type="hidden" name="createdby" id="createdby" />
+                                <input type="hidden" name="datecreated" id="datecreated" />
+                                <input type="hidden" name="dateupdated" id="dateupdated" />
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Teller Ledger Name : </label>
+                                            <input type="text" class="form-control" placeholder="Enter Teller Name" name="tellername" required id="tellername" onblur="changeText()">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Defined Name Describtion : </label>
+                                            <textarea rows="4" cols="80" class="form-control" name="comment" id="comment " placeholder="Describe the use or function of this defined name"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left" type="reset">Clear</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnAddDefinition" onclick="AddTillDefinition()">
+                                            Save Record
+                                        </button>
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnDefineUpdate" onclick="updateTillDefinition()">
+                                            Update Record
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

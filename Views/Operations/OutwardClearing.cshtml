@@ -1,0 +1,625 @@
+﻿@{
+    ViewData["Title"] = "Retail Operations";
+}
+@section title{
+    <span class="title">@ViewData["Title"]</span>
+}
+@section pagedescription{
+    <span class="title f24px">Retail Operations</span>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card card-plain">
+            <div class="card-header text-center">
+                <h4 class="card-title">Outward Cheque Clearing</h4>
+            </div>
+            <div class="card-body">
+                <div id="outward-cheque-toolbar">
+                    <button class="btn btn-danger" onclick="openModal()">
+                        <i class="now-ui-icons ui-1_simple-add"></i>
+                        New Outward Cheque
+                    </button>
+                </div>
+                <table id="outward-cheque-table" data-click-to-select="false"
+                       data-url="@Url.Action("LoadOutwardCheques","Operations")"
+                       data-search="true" class="data-table"
+                       data-toolbar="#outward-cheque-toolbar"
+                       data-search-align="right" data-detail-view="true"
+                       data-detail-formatter="utilities.outwardDetailFormatter"
+                       data-show-pagination-switch="true" data-checkbox-header="false"
+                       data-mobile-responsive="true" data-toggle="table"
+                       data-show-refresh="true" data-pagination="true"
+                       data-show-toggle="true" data-unique-id="id"
+                       data-buttons-class="danger">
+                    <thead>
+                        <tr>
+                            <th data-width="5%" data-field="check"
+                                data-formatter="utilities.tableCheckBoxFormatter">
+                                <div class="form-check ml-3 mb-1">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input"
+                                            type="checkbox" name="table-select-all">
+                                        <span class="form-check-sign"></span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th data-field="accountno" data-align="right"
+                                data-halign="left">
+                                Account No.
+                            </th>
+                            <th data-field="referenceno" data-align="right"
+                                data-halign="left">
+                                Reference No.
+                            </th>
+                            <th data-field="chequeno" data-align="right"
+                                data-halign="left">
+                                Cheque No.
+                            </th>
+                            <th data-field="amount" data-sortable="true" data-halign="left"
+                                data-align="right" data-formatter="FormatMoney">Amount</th>
+                            <th data-field="chequedate" data-sortable="true"
+                                data-formatter="utilities.dateFormatter">Cheque Date</th>
+                            <th data-field="approvalstatus" data-width="10%"
+                                data-cell-style="utilities.markCells"
+                                data-formatter="utilities.approvalStatusFormatter">
+                                Status
+                            </th>
+                            <th data-width="5%" data-aligin="center" data-field="approvalstatus"
+                                data-formatter="utilities.editFormatter">
+                            </th>
+                            <th data-width="5%" data-aligin="center" data-field="approvalstatus"
+                                data-formatter="utilities.deleteFormatter">
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <button type="button" onclick="sendForApproval()" class="btn btn-danger pull-right">Send Selected For Approval</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+<div id="outwardChequeModal" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 mb-3 pl-3">
+                    New Outward Cheque
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <div class="card card-plain">
+                                <ul class="row justify-content-space-around nav nav-pills nav-pills-primary" role="tablist">
+                                    <li class="col-xs-12 col-md-6 nav-item mb-3 mb-md-0">
+                                        <a class="nav-link active" data-toggle="tab" href="#single" role="tablist">
+                                            Single
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-12 col-md-6 nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#multiple" role="tablist">
+                                            Batch
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="single">
+                                        <form id="outward-cheque-form">
+                                            <div class="container pt-5 pb-3">
+                                                <div class="row mb-2 required">
+                                                    <label class="col-md-2 col-form-label">Account No.</label>
+                                                    <div class="col-md-10">
+                                                        <div class="form-group">
+                                                            <select class="form-control" name="accountno"
+                                                                    required id="accountno">
+                                                                <option></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-collapse" role="tablist" aria-multiselectable="true">
+                                                    <div class="card card-plain mb-0">
+                                                        <div class="card-header" role="tab">
+                                                            <a data-toggle="collapse" href="#CasaCollapse"
+                                                               aria-controls="CasaCollapse" aria-expanded="true"
+                                                               class="text-primary">
+                                                                Account Details
+                                                                <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="collapse show" id="CasaCollapse" role="tabpanel">
+                                                            <div class="card-body px-0 pb-0">
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 col-md-6 mb-3">
+                                                                        <label class="pull-left font-weight-bold">Account No:</label>
+                                                                        <span class="pull-right base-font" id="accountnolabel">-</span>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-md-6 mb-3">
+                                                                        <label class="pull-left font-weight-bold">Account Name:</label>
+                                                                        <span class="pull-right base-font" id="accountname">-</span>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-md-6 mb-sm-3">
+                                                                        <label class="pull-left font-weight-bold">Product Name:</label>
+                                                                        <span class="pull-right base-font" id="productname">-</span>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-md-6">
+                                                                        <label class="pull-left font-weight-bold">Available Balance:</label>
+                                                                        <span class="pull-right base-font" id="balance">-</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--  <div class="row">
+        <div class="col px-0">
+            <div role="tablist" aria-multiselectable="true"
+                 class="card-collapse">
+                <div class="card card-plain mb-0 px-3">
+                    <div class="card-header" role="tab">
+                        <a data-toggle="collapse" href="#mandateCollapse"
+                           aria-controls="mandateCollapse" aria-expanded="true"
+                           class="text-primary">
+                            Mandate Details
+                            <i class="now-ui-icons arrows-1_minimal-down"></i>
+                        </a>
+                    </div>
+                    <div id="mandateCollapse" class="collapse show" role="tabpanel">
+                        <div class="card-body p-0">
+                            <table id="casa-mandate-table" data-toggle="table"
+                                   data-search="true" class="data-table"
+                                   data-search-align="right" data-detail-view="true"
+                                   data-detail-formatter="utilities.mandateDetailFormatter"
+                                   data-show-pagination-switch="true"
+                                   data-mobile-responsive="true"
+                                   data-show-refresh="true"
+                                   data-show-toggle="true" data-unique-id="mandateID"
+                                   data-buttons-class="danger">
+                                <thead>
+                                    <tr>
+                                        <th data-field="signatorySurname" data-sortable="true">Surname</th>
+                                        <th data-field="signatoryFirstname" data-sortable="true">Firstname</th>
+                                        <th data-field="signatoryClass" data-sortable="true"
+                                            data-align="center" data-width="5%">Class</th>
+                                        <th data-field="bvn" data-align="right">BVN</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+                                                <div class="row">
+                                                    <div class="col px-0">
+                                                        <div role="tablist" aria-multiselectable="true"
+                                                             class="card-collapse">
+                                                            <div class="card card-plain mb-0 px-3">
+                                                                <div class="card-header" role="tab">
+                                                                    <a data-toggle="collapse" href="#ChequeCollapse"
+                                                                       aria-controls="ChequeCollapse" aria-expanded="true"
+                                                                       class="text-primary">
+                                                                        Cheque Details
+                                                                        <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                                    </a>
+                                                                </div>
+                                                                <div id="ChequeCollapse" class="collapse pt-3 show" role="tabpanel">
+                                                                    <div class="card-body p-0">
+                                                                        <div class="row justify-content-between">
+                                                                            <div class="col-xs-12 col-md-6 px-0 required">
+                                                                                <label class="col-12 col-form-label">Amount</label>
+                                                                                <div class="col-12">
+                                                                                    <div class="form-group">
+                                                                                        <input name="amount" id="amount" required type="text"
+                                                                                               class="format-money form-control text-right" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="d-flex flex-row justify-content-between align-items-center col-xs-12 col-md-6 pr-0">
+                                                                                <label class="col-form-label mt-4">
+                                                                                    Charge Stamp Duty
+                                                                                    <span class="text-info small d-none">
+                                                                                        (Amount: <span id="stamp-duty-amount"></span>)
+                                                                                    </span>
+                                                                                </label>
+                                                                                <div class="form-check pl-0 pr-1 mt-4">
+                                                                                    <label class="form-check-label">
+                                                                                        <input name="chargestampduty" class="form-check-input"
+                                                                                               type="checkbox" id="chargestampduty">
+                                                                                        <span class="form-check-sign"></span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-md-6 px-0 required">
+                                                                                <label class="col-12 col-form-label">Cheque No.</label>
+                                                                                <div class="col-12">
+                                                                                    <div class="form-group">
+                                                                                        <input name="chequeno" id="chequeno" required
+                                                                                               type="text" class="form-control" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-md-6 px-0 required">
+                                                                                <label class="col-12 col-form-label">Cheque Date</label>
+                                                                                <div class="col-12">
+                                                                                    <div class="form-group">
+                                                                                        <input name="chequedate" id="chequedate" type="text"
+                                                                                               class="form-control datepicker" required />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-md-12 px-0 required">
+                                                                                <label class="col-12 col-form-label">Bank Ledger</label>
+                                                                                <div class="col-12">
+                                                                                    <div class="form-group">
+                                                                                        <select name="bankledgerid" id="bankledgerid"
+                                                                                                required class="form-control">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-12 px-0">
+                                                        <label class="col-12 col-form-label">Narration</label>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <textarea name="narration" id="narration"
+                                                                          class="form-control"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4 justify-content-between">
+                                                    <div class="col">
+                                                        <button class="btn btn-danger btn-wd pull-left"
+                                                                type="reset" onclick="clearForm()">
+                                                            Clear
+                                                        </button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button class="btn btn-danger btn-wd pull-right"
+                                                                type="button" onclick="save()">
+                                                            Save
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane" id="multiple">
+                                        <form id="batch-cheque-form">
+                                            <div class="container py-4 px-0">
+                                                <div class="row mb-2">
+                                                    <div class="col px-0">
+                                                        <div class="alert alert-info mx-3 pb-1" role="alert">
+                                                            <p class="text-justify">
+                                                                The excel document below serves as a template of the format and data that
+                                                                needs to be supplied for batch outward clearing processing.<br />
+                                                                Please download and fill the document as appropriate. The order and names
+                                                                of the columns are not to be altered, and all column cells are required, except "Narration".<br />
+                                                                "Bank Ledger ID" and "Account No." information can be searched and obtained from the dropdown in the
+                                                                'Information' section above.
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-3">
+                                                            <a class="btn btn-info btn-block text-capitalize"
+                                                               href="~/templates/OutwardClearingTemplate.xlsx">
+                                                                Download Template
+                                                            </a>
+                                                        </div>
+                                                        <div role="tablist" aria-multiselectable="true" class="card-collapse mt-4">
+                                                            <div class="card card-plain mb-0 px-3">
+                                                                <div class="card-header py-0" role="tab">
+                                                                    <a data-toggle="collapse" href="#info"
+                                                                       aria-controls="info" aria-expanded="false"
+                                                                       class="text-primary">
+                                                                        Information
+                                                                        <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                                    </a>
+                                                                </div>
+                                                                <div id="info" class="collapse pt-3" role="tabpanel">
+                                                                    <div class="card-body p-0">
+                                                                        <div class="row justify-content-between">
+                                                                            <div class="col-xs-12 col-md-12 px-0">
+                                                                                <label class="col-12 col-form-label">Current Accounts</label>
+                                                                                <div class="col-12">
+                                                                                    <div class="form-group">
+                                                                                        <select id="currentcasa" class="form-control">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row justify-content-between">
+                                                                            <div class="col-xs-12 col-md-12 px-0">
+                                                                                <label class="col-12 col-form-label">Bank Ledgers</label>
+                                                                                <div class="col-12">
+                                                                                    <div class="form-group">
+                                                                                        <select id="bankledgers" class="form-control">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-2 mt-5">
+                                                    <div class="col-12">
+                                                        <input type="file" id="document-upload" class="file" data-browse-label="Choose File"
+                                                               data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
+                                                               data-theme="fas" data-show-upload="false" data-show-remove="false" required
+                                                               data-show-caption="false" data-preview-class="kr-preview" accept=".xlsx"
+                                                               data-allowed-preview-types="false" data-allowed-file-extensions='["xlsx"]'
+                                                               data-preview-file-icon="<i class='fa fa-file-alt'></i>" data-drop-zone-enabled="true" />
+                                                        <button class="btn btn-danger btn-block text-capitalize"
+                                                                onclick="batchUpload()" type="button">
+                                                            Upload Document
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="outward-update-modal" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 mb-3 pl-3">
+                    Edit Outward Cheque
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <div class="card card-plain">
+                                <form id="edit-outward-form">
+                                    <div class="alert alert-warning pb-1" id="ammend-container">
+                                        <p class="mb-0">Ammend Message:</p>
+                                        <ul></ul>
+                                    </div>
+                                    <input type="hidden" name="id" />
+                                    <input type="hidden" name="datecreated" />
+                                    <input type="hidden" name="referenceno" />
+                                    <input type="hidden" name="createdby" />
+                                    <input type="hidden" name="approvalremark" />
+                                    <input type="hidden" name="operationid" />
+                                    <input type="hidden" name="approvalstatus" />
+                                    <input type="hidden" name="clearingoption" />
+                                    <div class="row mb-2 required">
+                                        <label class="col-md-2 col-form-label">Account No.</label>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <select class="form-control" name="accountno"
+                                                        required id="update-accountno">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-collapse" role="tablist" aria-multiselectable="true">
+                                        <div class="card card-plain mb-0">
+                                            <div class="card-header" role="tab">
+                                                <a data-toggle="collapse" href="#UpdateCasaCollapse"
+                                                   aria-controls="UpdateCasaCollapse" aria-expanded="true"
+                                                   class="text-primary">
+                                                    Account Details
+                                                    <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                </a>
+                                            </div>
+                                            <div class="collapse show" id="UpdateCasaCollapse" role="tabpanel">
+                                                <div class="card-body px-0 pb-0">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-md-6 mb-3">
+                                                            <label class="pull-left font-weight-bold">Account No:</label>
+                                                            <span class="pull-right base-font" id="update-accountnolabel">-</span>
+                                                        </div>
+                                                        <div class="col-xs-12 col-md-6 mb-3">
+                                                            <label class="pull-left font-weight-bold">Account Name:</label>
+                                                            <span class="pull-right base-font" id="update-accountname">-</span>
+                                                        </div>
+                                                        <div class="col-xs-12 col-md-6 mb-sm-3">
+                                                            <label class="pull-left font-weight-bold">Product Name:</label>
+                                                            <span class="pull-right base-font" id="update-productname">-</span>
+                                                        </div>
+                                                        <div class="col-xs-12 col-md-6">
+                                                            <label class="pull-left font-weight-bold">Available Balance:</label>
+                                                            <span class="pull-right base-font" id="update-balance">-</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col px-0">
+                                            <div role="tablist" aria-multiselectable="true"
+                                                 class="card-collapse">
+                                                <div class="card card-plain mb-0 px-3">
+                                                    <div class="card-header" role="tab">
+                                                        <a data-toggle="collapse" href="#UpdateMandateCollapse"
+                                                           aria-controls="UpdateMandateCollapse" aria-expanded="true"
+                                                           class="text-primary">
+                                                            Mandate Details
+                                                            <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div id="UpdateMandateCollapse" class="collapse show" role="tabpanel">
+                                                        <div class="card-body p-0">
+                                                            <table id="update-casa-mandate-table" data-toggle="table"
+                                                                   data-search="true" class="data-table"
+                                                                   data-search-align="right" data-detail-view="true"
+                                                                   data-detail-formatter="utilities.mandateDetailFormatter"
+                                                                   data-show-pagination-switch="true"
+                                                                   data-mobile-responsive="true"
+                                                                   data-show-refresh="true"
+                                                                   data-show-toggle="true" data-unique-id="mandateID"
+                                                                   data-buttons-class="danger">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th data-field="signatorySurname" data-sortable="true">Surname</th>
+                                                                        <th data-field="signatoryFirstname" data-sortable="true">Firstname</th>
+                                                                        <th data-field="signatoryClass" data-sortable="true"
+                                                                            data-align="center" data-width="5%">Class</th>
+                                                                        <th data-field="bvn" data-align="right">BVN</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col px-0">
+                                            <div role="tablist" aria-multiselectable="true"
+                                                 class="card-collapse">
+                                                <div class="card card-plain mb-0 px-3">
+                                                    <div class="card-header" role="tab">
+                                                        <a data-toggle="collapse" href="#UpdateChequeCollapse"
+                                                           aria-controls="UpdateChequeCollapse" aria-expanded="true"
+                                                           class="text-primary">
+                                                            Cheque Details
+                                                            <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div id="UpdateChequeCollapse" class="collapse pt-3 show" role="tabpanel">
+                                                        <div class="card-body p-0">
+                                                            <div class="row justify-content-between">
+                                                                <div class="col-xs-12 col-md-6 px-0 required">
+                                                                    <label class="col-12 col-form-label">Amount</label>
+                                                                    <div class="col-12">
+                                                                        <div class="form-group">
+                                                                            <input name="amount" id="update-amount" required type="text"
+                                                                                   class="format-money form-control text-right" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex flex-row justify-content-between align-items-center col-xs-12 col-md-6 pr-0">
+                                                                    <label class="col-form-label mt-4">
+                                                                        Charge Stamp Duty
+                                                                        <span class="text-info small d-none">
+                                                                            (Amount: <span id="update-stamp-duty-amount"></span>)
+                                                                        </span>
+                                                                    </label>
+                                                                    <div class="form-check pl-0 pr-1 mt-4">
+                                                                        <label class="form-check-label">
+                                                                            <input name="chargestampduty" class="form-check-input"
+                                                                                   type="checkbox" id="update-chargestampduty">
+                                                                            <span class="form-check-sign"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-md-6 px-0 required">
+                                                                    <label class="col-12 col-form-label">Cheque No.</label>
+                                                                    <div class="col-12">
+                                                                        <div class="form-group">
+                                                                            <input name="chequeno" id="chequeno" required
+                                                                                   type="text" class="form-control" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-md-6 px-0 required">
+                                                                    <label class="col-12 col-form-label">Cheque Date</label>
+                                                                    <div class="col-12">
+                                                                        <div class="form-group">
+                                                                            <input name="chequedate" id="chequedate" type="text"
+                                                                                   class="form-control datepicker" required />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-md-12 px-0 required">
+                                                                    <label class="col-12 col-form-label">Bank Ledger</label>
+                                                                    <div class="col-12">
+                                                                        <div class="form-group">
+                                                                            <select name="bankledgerid" id="update-bankledgerid"
+                                                                                    required class="form-control">
+                                                                                <option></option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-12 px-0">
+                                            <label class="col-12 col-form-label">Narration</label>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <textarea name="narration" id="narration"
+                                                              class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4 justify-content-between">
+                                        <div class="col">
+                                            <button class="btn btn-danger btn-wd pull-right"
+                                                    type="button" onclick="Update()">
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <environment include="Development">
+        <script src="~/js/modules/OutwardCheque.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/modules/OutwardCheque.min.js"></script>
+    </environment>
+
+}

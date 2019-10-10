@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Retail Operation Setup";
+}
+@section title{
+    <span class="title">@ViewData["Title"]</span>
+}
+@section pagedescription{
+    <span class="title f24px">Retail Operation</span>
+}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <ul class="nav nav-pills nav-pills-danger nav-pills-icons flex-column" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#chequetype" role="tablist">
+                            <i class="now-ui-icons business_money-coins"></i>
+                            Cheque Type
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#transfercharges" role="tablist">
+                            <i class="now-ui-icons business_money-coins"></i>
+                            Transfer Charges
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#reversalPrivilege" role="tablist">
+                            <i class="now-ui-icons business_bulb-63"></i>
+                            Grant Reversal Privilege
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#bankdraft" role="tablist">
+                            <i class="now-ui-icons business_bulb-63"></i>
+                            Bank Draft
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#chequecharges" role="tablist">
+                            <i class="now-ui-icons business_money-coins"></i>
+                            Cheque Charges / COT Setup
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#stampduty" role="tablist">
+                            <i class="now-ui-icons business_bulb-63"></i>
+                            Stamp Duty Setup
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#systemnarration" role="tablist">
+                            <i class="now-ui-icons business_bulb-63"></i>
+                            System Narration Setup
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-12 col-md-9 px-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="chequetype">
+                        @Html.Partial("_ChequeType")
+                    </div>
+                    <div class="tab-pane" id="transfercharges">
+                        @Html.Partial("_TransferCharges")
+                    </div>
+                    <div class="tab-pane" id="reversalPrivilege">
+                        @Html.Partial("_GrantReversalPrivilege")
+                    </div>
+                    <div class="tab-pane" id="bankdraft">
+                        @Html.Partial("_AddBankDraftSetup")
+                    </div>
+                    <div class="tab-pane" id="chequecharges">
+                        @Html.Partial("_AddChequeCOTCharges")
+                    </div>
+                    <div class="tab-pane" id="stampduty">
+                        @Html.Partial("_StampDutySetup")
+                    </div>
+                    <div class="tab-pane" id="systemnarration">
+                        @Html.Partial("_SystemNarrationSetup")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+<environment include="Development">
+    <script src="~/js/modules/ChequeType.js"></script>
+    <script src="~/js/modules/GrantReversalPrivilege.js"></script>
+    <script src="~/js/modules/transfercharges.js"></script>
+    <script src="~/js/modules/bankdraft.js"></script>
+    <script src="~/js/modules/ChequeCOTCharges.js"></script>
+    <script src="~/js/modules/StampDuty.js"></script>
+    <script src="~/js/modules/SystemNarration.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/modules/ChequeType.min.js"></script>
+    <script src="~/js/modules/GrantReversalPrivilege.min.js"></script>
+    <script src="~/js/modules/transfercharges.min.js"></script>
+    <script src="~/js/modules/bankdraft.min.js"></script>
+    <script src="~/js/modules/ChequeCOTCharges.min.js"></script>
+    <script src="~/js/modules/StampDuty.min.js"></script>
+    <script src="~/js/modules/SystemNarration.min.js"></script>
+</environment>
+
+}

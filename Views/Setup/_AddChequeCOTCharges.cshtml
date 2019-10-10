@@ -1,0 +1,360 @@
+﻿@model TheCoreBanking.Retail.Data.Models.TblChequecharges
+
+<div class="card card-plain card-subcategories">
+    <div class="card-body">
+        <ul class="nav nav-pills nav-pills-primary nav-pills-icons justify-content-center" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#cheque-charges-tab" role="tablist">
+                    <i class="now-ui-icons business_money-coins"></i>
+                    Cheque Charges
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#cot-tab" role="tablist">
+                    <i class="now-ui-icons shopping_shop"></i>
+                    COT Setup
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content tab-space tab-subcategories shadow-none">
+            <div class="tab-pane active" id="cheque-charges-tab">
+                <div class="row">
+                    <div class="card card-plain">
+                        <div class="card-body">
+                            <div id="cheque-charges-toolbar">
+                                <button class="btn btn-danger" type="button" data-toggle="modal"
+                                        data-target="#cheque-charge-modal">
+                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                    Create Cheque Charge
+                                </button>
+                            </div>
+                            <table id="cheque-charge-table" class="data-table"
+                                   data-url='@Url.Action("LoadChequeCharges", "Setup")'
+                                   data-toolbar="#cheque-charges-toolbar"
+                                   data-search-align="right" data-search="true"
+                                   data-show-pagination-switch="true"
+                                   data-mobile-responsive="true"
+                                   data-show-refresh="true"
+                                   data-show-toggle="true" data-unique-id="id"
+                                   data-buttons-class="danger">
+                                <thead>
+                                    <tr>
+                                        <th data-field="isdiscountcharge" data-sortable="true"
+                                            data-formatter="chargeTypeFormatter">Charge Type</th>
+                                        <th data-field="accountledgerid" data-formatter="chartMapper">Ledger</th>
+                                        <th data-field="percentage" data-sortable="true" data-align="right">Rate (%)</th>
+                                        <th data-field="maxamount" data-sortable="true" data-align="right">Max. Amount</th>
+                                        <th data-formatter="editChequeChargeFormatter"
+                                            data-align="center" data-width="5%" data-events="chequeChargeEvents"></th>
+                                        <th data-formatter="deleteChequeChargeFormatter"
+                                            data-align="center" data-width="5%" data-events="chequeChargeEvents"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="cot-tab">
+                <div class="row">
+                    <div class="card card-plain">
+                        <div class="card-body">
+                            <div id="cot-setup-toolbar">
+                                <button class="btn btn-danger" type="button" onclick="openCOTModal()">
+                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                    Create COT Entry
+                                </button>
+                            </div>
+                            <table id="cot-setup-table" class="data-table"
+                                   data-url='@Url.Action("LoadCOT", "Setup")'
+                                   data-toolbar="#cot-setup-toolbar"
+                                   data-search-align="right" data-search="true"
+                                   data-show-pagination-switch="true"
+                                   data-mobile-responsive="true"
+                                   data-show-refresh="true" data-toggle="table"
+                                   data-show-toggle="true" data-unique-id="id"
+                                   data-buttons-class="danger" data-detail-view="true"
+                                   data-detail-formatter="COTDetail">
+                                <thead>
+                                    <tr>
+                                        <th data-field="feeAmount" data-width="5%"
+                                            data-align="right" data-formatter="">Fee Amount</th>
+                                        <th data-field="minTransactionAmount" data-width="5%"
+                                            data-align="right">Min. Trans. Amt.</th>
+                                        <th data-field="feeName">Fee Name</th>
+                                        <th data-field="dateCreated" 
+                                            data-formatter="dateFormatter">Date Created</th>
+
+                                        <th data-formatter="editChequeChargeFormatter"
+                                            data-align="center" data-width="5%" data-events="cotEvents"></th>
+                                        <th data-formatter="deleteChequeChargeFormatter"
+                                            data-align="center" data-width="5%" data-events="cotEvents"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+<div id="cheque-charge-modal" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title header-padding text-primary font-weight-bold w-100 mb-3">
+                    Create Cheque Charge
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="cheque-charge-form">
+                                <div class="row mb-4">
+                                    <div class="col-xs-12 col-md-3 mt-1 required">
+                                        <label>Charge Type</label>
+                                    </div>
+                                    <div class="col-xs-12 col-md-9 d-flex flex-row justify-content-between">
+                                        <div class="form-check form-check-radio">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="chargeType" 
+                                                       id="discount" value="discount" required>
+                                                <span class="form-check-sign"></span> Discount Cheque Charge
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-radio">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="chargeType" 
+                                                       id="return" value="return" required>
+                                                <span class="form-check-sign"></span> Return Cheque Charge
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 required">
+                                    <label class="col-md-3 col-form-label">Credit Ledger</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <select name="accountledgerid" required 
+                                                    id="accountledgerid" class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 required">
+                                    <label class="col-md-3 col-form-label">Rate (%)</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input name="percentage" required id="percentage"
+                                                type="text" class="form-control" />
+                                            <span class="small text-muted">valid entries inlclude 0 to 100 (inclusive)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 required">
+                                    <label class="col-md-3 col-form-label">Max. Amount</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input name="maxamount" required id="maxamount"
+                                                   type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left" type="reset"
+                                                onclick='resetForm("#cheque-charge-form")'>Clear</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                            onclick="Save()">
+                                            Save Record
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="cot-setup-modal" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title header-padding text-primary font-weight-bold w-100 mb-3">
+                    <span id="COT-header-title">Create</span> COT Entry
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form id="cot-form">
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="datecreated" />
+                        <input type="hidden" name="createdby" />
+                        <input type="hidden" name="approvedby" />
+                        <input type="hidden" name="dateapproved" />
+                        <input type="hidden" name="branchcode" />
+                        <input type="hidden" name="companycode" />
+
+                        <div class="row mb-4 required">
+                            <label class="col-md-3 col-form-label">Fee Amount</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input name="feeamount" required id="feeamount"
+                                           type="text" class="form-control text-right" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4 required">
+                            <label class="col-md-3 col-form-label">Min. Transaction Amount</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input name="mintransactionamount" required
+                                           id="mintransactionamount" type="text"
+                                           class="form-control text-right" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-md-3 col-form-label">Fee Name</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input name="feename" class="form-control" type="text"
+                                           id="feename" placeholder="Maintenance" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4 required">
+                            <label class="col-md-3 col-form-label">Credit Ledger</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <select name="creditledgerid" required
+                                            id="creditledgerid" class="form-control">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-md-3 col-form-label">Remark</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <textarea name="remark" class="form-control" id="remark"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5 justify-content-between">
+                            <div class="col mt-3">
+                                <button class="btn btn-danger btn-wd pull-left" type="reset"
+                                        onclick='resetForm("#cot-form")'>
+                                    Clear
+                                </button>
+                            </div>
+                            <div class="col mt-3">
+                                <button class="btn btn-danger btn-wd pull-right" type="button"
+                                        onclick="UpdateCOT()" id="COT-update-button">
+                                    Update Entry
+                                </button>
+                                <button class="btn btn-danger btn-wd pull-right" type="button"
+                                        onclick="SaveCOT()" id="COT-save-button">
+                                    Save Entry
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit-cheque-charge" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title header-padding text-primary font-weight-bold w-100 mb-3">
+                    Edit <span id="edit-title"></span> Cheque Charge
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="edit-cheque-charge-form">
+                                <input type="hidden" name="id" />
+                                <input type="hidden" name="isdiscountcharge" />
+                                <input type="hidden" name="isreturncharge" />
+                                <input type="hidden" name="datecreated" />
+                                <div class="row mb-4 required">
+                                    <label class="col-md-3 col-form-label">Credit Ledger</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <select name="accountledgerid" required id="Uaccountledgerid"
+                                                class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 required">
+                                    <label class="col-md-3 col-form-label">Rate (%)</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input name="percentage" required
+                                                type="text" class="form-control" />
+                                            <span class="small text-muted">valid entries inlclude 0 to 100 (inclusive)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 required">
+                                    <label class="col-md-3 col-form-label">Max. Amount</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input name="maxamount" required
+                                                type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left" type="reset"
+                                                onclick='resetForm("#edit-cheque-charge-form")'>
+                                            Clear
+                                        </button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                onclick="Update()">
+                                            Update Record
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

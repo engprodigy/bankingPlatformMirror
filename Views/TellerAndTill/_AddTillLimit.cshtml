@@ -1,0 +1,121 @@
+﻿@model TheCoreBanking.Retail.Data.Models.TblTillimit
+
+<div class="card">
+    <div class="card-header text-center">
+        @*<h4 class="card-title">Till Limit</h4>*@
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="till-toolbar">
+                        <button class="btn btn-danger" id="btnAddTillLimit"
+                                onclick="openTillModal()">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                            Add Till Limit
+                        </button>
+                    </div>
+                    <table id="tillTable" data-toggle="table"
+                           data-url="@Url.Action("listTillLimit", "TellerAndTill")"
+                           data-search="true" class="data-table"
+                           data-toolbar="#till-toolbar"
+                           data-search-align="right"  data-detail-view="true" 
+                           data-show-pagination-switch="true"
+                           data-mobile-responsive="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-buttons-class="danger"
+                           data-striped="true table-hover"                         
+                           data-detail-formatter="tilllimUtilities.tilllimitTableFormatter">
+                        <thead>
+                            <tr>
+                                <th data-field="tillname" data-sortable="true">Till Name</th>
+                                <th data-field="ledgeraccount" data-sortable="true">Account Number</th>
+                                <th data-field="tillfunction" data-sortable="true">Till Function</th>
+
+                                <th data-events="tillEvents" data-formatter="editFormatter"
+                                    data-align="center" data-width="5%"></th>
+                                <th data-events="tillEvents" data-formatter="deleteFormatter"
+                                    data-align="center" data-width="5%"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddNewTill" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="title text-primary">
+                    <span id="tillTitle">New</span> Till Limit
+                </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="frmTill">
+
+                                <input type="hidden" name="id" id="id" />
+                                <input type="hidden" name="datecreated" id="datecreated" />
+                                <input type="hidden" name="companyid" id="companyid" />
+                                <input type="hidden" name="branchid" id="branchid" />
+                                <input type="hidden" name="createdby" id="createdby" />
+
+                                <!---->
+                                <div class="row">
+                                    <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                            <label>Till Name :</label>
+                                            <select name="tillmappingid" required id="Tillmappingid"
+                                                    class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                            <label>Operation Type :</label>
+                                            <select name="tillfunctionid" required id="tillfunctionid"
+                                                    class="form-control">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        @*<button class="btn btn-danger btn-wd pull-left" type="reset">Clear</button>*@
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnAddTill" onclick="AddTillLimit()">
+                                            Save Record
+                                        </button>
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnTillUpdate" onclick="updateTillLimit()">
+                                            Update Record
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
