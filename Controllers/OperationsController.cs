@@ -255,6 +255,42 @@ namespace TheCoreBanking.Retail.Controllers
             return Response;
         }
 
+        [HttpPost]
+        public JsonResult AddDocumentUpload(int id, AccompanyDocumentVM upload, bool sendall)
+        {
+            List<TblKycdocuments> files = null;
+            using (var db = new TheCoreBanking_FilesContext())
+            using (var stream = new MemoryStream())
+            {
+                upload.Document.CopyTo(stream);
+                TblKycdocuments kycdocument = new TblKycdocuments
+                {
+                    Filedata = stream.ToArray(),
+                    Customerid = id,
+                    Title = upload.Title,
+                    Mime = upload.Document.ContentType,
+                    Isdeleted = false
+                };
+                db.TblKycdocuments.Add(kycdocument);
+                db.SaveChanges();
+                if (sendall)
+                {
+                    files = db.TblKycdocuments
+                        .Where(k => k.Customerid == id)
+                        .Where(k => k.Isdeleted == false)
+                        .Select(k => new TblKycdocuments
+                        {
+                            Id = k.Id,
+                            Customerid = k.Customerid,
+                            Title = k.Title,
+                            Mime = k.Mime
+                        }).ToList();
+                }
+            }
+            if (sendall) { return Json(files); }
+            return Json(true);
+        }
+
         #endregion
 
         #region Update
@@ -301,6 +337,18 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(id);
         }
 
+        [HttpPost]
+        public JsonResult deleteDocumentUpload(int id)
+        {
+            using (var db = new TheCoreBanking_FilesContext())
+            {
+                db.TblKycdocuments
+                    .SingleOrDefault(k => k.Id == id)
+                    .Isdeleted = true;
+                db.SaveChanges();
+            }
+            return LoadChequeAccompanyDoc(id);
+        }
         #endregion
 
         #region Fetch
@@ -336,6 +384,33 @@ namespace TheCoreBanking.Retail.Controllers
             var result = RetailUnitOfWork.ChequeDetails.GetDetailedByAccountNo(id);
             return Json(result);
         }
+
+        [HttpGet]
+        public JsonResult LoadChequeAccompanyDoc(int id)
+        {
+            //var result = RetailUnitOfWork.ChequeDetails.GetDetailedByAccountNo(id);
+            //return Json(result);
+            var testChequeNumber = id;
+            List<TblKycdocuments> files = null;
+            using (var db = new TheCoreBanking_FilesContext())
+            {
+
+                files = db.TblKycdocuments
+                        .Where(k => k.Customerid == id)       //5004000)
+                        .Where(k => k.Isdeleted == false)
+                        .Select(k => new TblKycdocuments
+                        {
+                            Id = k.Id,
+                            Customerid = k.Customerid,
+                            Title = k.Title,
+                            Mime = k.Mime
+                        }).ToList();
+
+            }
+
+            return Json(files);
+        }
+
 
         [HttpGet]
         public JsonResult LoadChequeLeaves(int id)
@@ -407,13 +482,14 @@ namespace TheCoreBanking.Retail.Controllers
             
               #if DEBUG
               //link to controller in customer module...for use in development mode
-               string Uri = "http://localhost:1659/Account/GetCasaProductGlByAccNo" + "/" + id.Trim();
+              // string Uri = "http://localhost:1659/Account/GetCasaProductGlByAccNo" + "/" + id.Trim();
+               string Uri = ApiConstants.BaseApiUrl + ApiConstants.PrincipalGLIdEndpoint + "/" + id.Trim();
 
-               #else
+              #else
                
                string Uri = ApiConstants.BaseApiUrl + ApiConstants.PrincipalGLIdEndpoint + "/" + id.Trim();
 
-               #endif
+              #endif
             var CasaMandates = RetailUnitOfWork.API.GetAsync(Uri).Result;
             var settings = new JsonSerializerSettings
             {
@@ -496,6 +572,26 @@ namespace TheCoreBanking.Retail.Controllers
                 });
             }
             return Json(list);
+        }
+
+        [HttpGet]
+        public IActionResult LoadDocument(int id)
+        {
+            TblKycdocuments document;
+            using (var db = new TheCoreBanking_FilesContext())
+            {
+                document = db.TblKycdocuments
+                    .Where(k => k.Id == id)
+                    .Where(k => k.Isdeleted == false)
+                    .Select(k => new TblKycdocuments
+                    {
+                        Filedata = k.Filedata,
+                        Mime = k.Mime
+                    })
+                    .SingleOrDefault();
+            };
+            if (document == null) return BadRequest();
+            return File(document.Filedata, document.Mime);
         }
 
         #endregion

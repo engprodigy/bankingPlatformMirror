@@ -19,7 +19,7 @@ namespace TheCoreBanking.Retail.Controllers
             RetailUnitOfWork = retailUnitOfWork;
         }
 
-        //[Authorize]
+        [Authorize]
         public IActionResult Index()
         {
             return View();

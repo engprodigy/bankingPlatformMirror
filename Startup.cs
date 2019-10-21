@@ -43,55 +43,56 @@ namespace TheCoreBanking.Customer
                     options.DefaultAuthenticateScheme = "oidc";
                 })
                 .AddCookie("Retail.Cookies")
-                //.AddOpenIdConnect("oidc", options =>
-                //{
-                //    options.Authority = "http://bankingplatform:8042";
-                //    options.RequireHttpsMetadata = false;
-                //    options.ClientId = "TheCoreBanking.Retail";
-                //    options.SignInScheme = "Retail.Cookies";
-                //    options.ResponseType = "code id_token";
-                //    options.Scope.Clear();
-                //    options.Scope.Add("openid");
-                //    options.Scope.Add("profile");
-                //    options.Scope.Add("email");
-                //    options.Scope.Add("roles");
-                //    options.GetClaimsFromUserInfoEndpoint = true;
-                //    options.SaveTokens = true;
-                //    options.ClientSecret = "secret";
-                //    options.Events = new OpenIdConnectEvents()
-                //    {
-                //        OnTokenValidated = tokenValidatedContext =>
-                //        {
-                //            return Task.FromResult(0);
-                //        },
-                //        OnUserInformationReceived = (context) =>
-                //        {
-                //            ClaimsIdentity claimsId = context.Principal.Identity as ClaimsIdentity;
-                //            try
-                //            {
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    //options.Authority = "http://bankingplatform:8042";
+                    options.Authority = "http://localhost:2289";
+                    options.RequireHttpsMetadata = false;
+                    options.ClientId = "TheCoreBanking.Retail";
+                    options.SignInScheme = "Retail.Cookies";
+                    options.ResponseType = "code id_token";
+                    options.Scope.Clear();
+                    options.Scope.Add("openid");
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+                    options.Scope.Add("roles");
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.SaveTokens = true;
+                    options.ClientSecret = "secret";
+                    options.Events = new OpenIdConnectEvents()
+                    {
+                        OnTokenValidated = tokenValidatedContext =>
+                        {
+                            return Task.FromResult(0);
+                        },
+                        OnUserInformationReceived = (context) =>
+                        {
+                            ClaimsIdentity claimsId = context.Principal.Identity as ClaimsIdentity;
+                            try
+                            {
 
-                //                dynamic userClaim = JObject.Parse(context.User.ToString());
-                //                var roles = userClaim.role;
-                //                foreach (string role in roles)
-                //                {
-                //                    claimsId.AddClaim(new Claim("role", role));
-                //                }
-                //            }
-                //            catch (Exception)
-                //            {
-                //                //Users does not have roles
-                //            }
-                //            return Task.FromResult(0);
-                //        }
+                                dynamic userClaim = JObject.Parse(context.User.ToString());
+                                var roles = userClaim.role;
+                                foreach (string role in roles)
+                                {
+                                    claimsId.AddClaim(new Claim("role", role));
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                //Users does not have roles
+                            }
+                            return Task.FromResult(0);
+                        }
 
-                //    };
+                    };
 
-                //    options.TokenValidationParameters = new TokenValidationParameters
-                //    {
-                //        NameClaimType = JwtClaimTypes.Name,
-                //        RoleClaimType = JwtClaimTypes.Role
-                //    };
-                //})
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = JwtClaimTypes.Name,
+                        RoleClaimType = JwtClaimTypes.Role
+                    };
+                })
                 ;
             //services
             //    .AddDbContext<RetailContext>(

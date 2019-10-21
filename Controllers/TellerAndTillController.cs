@@ -38,7 +38,7 @@ namespace TheCoreBanking.Retail.Controllers
             return View();
         }
 
-        [Authorize]
+       // [Authorize]
        [HttpGet]
         public IActionResult TellerPosting()
         {

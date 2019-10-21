@@ -3,7 +3,7 @@ if (url_path.charAt(url_path.length - 1) == '/') {
     url_path = url_path.slice(0, url_path.length - 1);
 }
 
-var AccountObj, chartofaccounts = {}, stampDutyAmount;
+var AccountObj, chequeNumber, chartofaccounts = {}, stampDutyAmount, chequeIdTracker;
 var ApprovalStatus = {
     INENTRYSTATE: 1,
     APPROVED: 2,
@@ -14,10 +14,10 @@ var ApprovalStatus = {
 }
 
 $(document).ready(function () {
-     initSelectTwoConfig();
-     initEventListeners();
-     initFormValidations();
-     initDatePicker();
+    initSelectTwoConfig();
+    initEventListeners();
+    initFormValidations();
+    initDatePicker();
     $(".modal").perfectScrollbar();
 });
 
@@ -62,7 +62,7 @@ function initFormValidations() {
                         number: "Amount is not a valid number"
                     },
                     chequeno: {
-                        required: "Cheque number is required", 
+                        required: "Cheque number is required",
                     },
                     bankledgerid: {
                         required: "Please select the bank ledger",
@@ -96,6 +96,7 @@ function initDatePicker() {
 function openModal() {
     clearForm();
     $("#outwardChequeModal").modal("show");
+    //$("#documentupload-data-table").bootstrapTable("load", response);
 }
 
 function initEventListeners() {
@@ -159,7 +160,7 @@ function initEventListeners() {
                         $("#update-balance")
                     );
                     $("#update-productname").text(
-                        utilities.getProductName(response.productID)
+                        /*utilities.getProductName(response.productID)*/
                     );
 
                     // load data into data-table
@@ -387,23 +388,24 @@ function Update() {
                     contentType: "application/json",
                     data: JSON.stringify(form_data)
                 }).then(
-                function (response) {
-                    $("#outward-cheque-table").bootstrapTable("refresh");
-                    $("#outward-update-modal").modal("hide");
-                    swal({
-                        title: "Update Outward Cheque",
-                        type: "success",
-                        text: "Outward cheque updated successfully!"
-                    });     
-                },
-                function (error) {
-                    swal({
-                        title: "Update Outward Cheque",
-                        type: "error",
-                        text: "There was an error updating the cheque. Please try again."
-                    });
-                }
-            );
+                    function (response) {
+                        $("#outward-cheque-table").bootstrapTable("refresh");
+                        $("#outward-update-modal").modal("hide");
+                        // $("#documentupload-data-table").bootstrapTable("load", response);
+                        swal({
+                            title: "Update Outward Cheque",
+                            type: "success",
+                            text: "Outward cheque updated successfully!"
+                        });
+                    },
+                    function (error) {
+                        swal({
+                            title: "Update Outward Cheque",
+                            type: "error",
+                            text: "There was an error updating the cheque. Please try again."
+                        });
+                    }
+                );
         },
         function (isRejected) { return; }
     );
@@ -413,6 +415,7 @@ function initUpdate(id) {
     var row = $("#outward-cheque-table")
         .bootstrapTable("getRowByUniqueId", id);
 
+    chequeNumber = row.chequeno;
     // Reset and populate update form
     var form = $("#edit-outward-form");
     form.trigger("reset");
@@ -428,6 +431,7 @@ function initUpdate(id) {
     form.find("[name=approvalstatus]").val(row.approvalstatus);
     form.find("[name=clearingoption]").val(row.clearingoption);
     form.find("[name=id]").val(row.id);
+
     form.find("[name=chequeno]").val(row.chequeno);
     form.find("[name=chequedate]").val(row.chequedate.substr(0, 10));
     form.find("[name=amount]").val(row.amount).trigger("change");
@@ -452,8 +456,104 @@ function initUpdate(id) {
             break;
     }
 
+
+
     $("#outward-update-modal").modal("show");
+
+
+    $.ajax({ url: url_path + "/../LoadChequeAccompanyDoc/" + chequeNumber, }).then(
+        function (response) {
+
+            $("#documentUploadTitle").val(null);
+            $("#accompany-document-upload").fileinput("clear");
+
+            $("#documentupload-data-table")
+                .bootstrapTable("load", response);
+        },
+        function (error) {
+
+        }
+    );
+    // $("#documentupload-data-table").bootstrapTable("load", response);
+    /* $("#documentupload-data-table").bootstrapTable("load", {
+         url: url_path + "/../LoadChequeAccompanyDoc/" + row.chequeno  
+     });*/
+
 }
+function deleteDocumentUpload(id) {
+
+    swal({
+        title: "Are you sure?",
+        text: "KYC document will be deleted",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#34D027",
+        confirmButtonText: "Yes, continue",
+        cancelButtonText: "No, stop!",
+        cancelButtonColor: "#ff9800",
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve();
+                }, 1000);
+            });
+        }
+    }).then(
+        function (isConfirm) {
+
+            $.ajax(url_path + "/../deleteDocumentUpload/" + id, {
+                method: "POST",
+                contentType: "application/json"
+            }).then(
+                function (response) {
+                    swal({
+                        title: "Delete KYC Document",
+                        text: "Document deleted successfully!",
+                        type: 'success',
+                    });
+
+                    $("#documentupload-data-table").bootstrapTable("load", response);
+
+
+                },
+                function (error) {
+                    swal({
+                        title: "Delete Cheque Accompany Document",
+                        text: "Cheque accompany document deletion encountered an error!",
+                        type: "error"
+                    });
+                }
+            );
+        },
+        function (isRejected) { return; }
+    );
+    
+    //if (confirm('Cheque Accompany Document will be Deleted!')) {
+        /*$.ajax(url_path + "/../deleteDocumentUpload/" + id, {
+            method: "POST",
+            contentType: "application/json"
+        }).then(
+            function (response) {
+             
+           $("#documentupload-data-table").bootstrapTable("load", response);
+
+
+            },
+            function (error) {
+                
+            }
+        );*/
+    //} else {
+       // alert('Why did you press cancel? You should have confirmed');
+   // }
+    
+
+    //alert("Document Delete succesfull");
+
+    // initUpdate(chequeIdTracker);
+}
+    
 
 function cancel(id) {
     swal({
@@ -706,8 +806,121 @@ function initSelectTwoConfig() {
         $('.select2-results__options').perfectScrollbar();
     });
 }
+ function documentUpload () {
+    var valid = true;
+    var title = $.trim($("#documentUploadTitle").val());
+    var input = $("#accompany-document-upload").get(0);
+    var chequeNumberTracker = chequeNumber;
+
+    if (!title) {
+        valid = false;
+        $.notify({
+            icon: "now-ui-icons travel_info",
+            message: "Please insert document title"
+        }, {
+                type: "danger",
+                placement: {
+                    from: "top",
+                    align: "right"
+                }
+            });
+    }
+    if (!input.files.length) {
+        valid = false;
+        $.notify({
+            icon: "now-ui-icons travel_info",
+            message: "Please choose a document"
+        }, {
+                type: "danger",
+                placement: {
+                    from: "top",
+                    align: "right"
+                }
+            }
+        );
+    }
+
+    if (!valid) return;
+
+    swal({
+        title: "Are you sure?",
+        text: "Cheque accompany document will be saved",
+        type: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#34D027",
+        confirmButtonText: "Yes, continue",
+        cancelButtonText: "No, stop!",
+        cancelButtonColor: "#ff9800",
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve();
+                }, 1000);
+            });
+        }
+    }).then(
+        function (isConfirm) {
+            var formdata = new FormData();
+
+            formdata.append("document", input.files[0]);
+            formdata.append("title", title);
+
+            $.ajax(url_path + "/../AddDocumentUpload/"
+                + chequeNumber + "/?sendall=true", {
+                    method: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formdata
+                }).then(
+                    function (response) {
+
+                        $("#documentUploadTitle").val(null);
+                        $("#accompany-document-upload").fileinput("clear");
+                        swal({
+                            title: "Add Cheque Accompany Document",
+                            text: "Cheque Accompany document added successfully!",
+                            type: 'success',
+                        });
+                        $("#documentupload-data-table")
+                            .bootstrapTable("load", response);
+                    },
+                    function (error) {
+                        swal({
+                            title: "Add Cheque Accompany Document",
+                            text: "An error occured when adding Cheque Accompany Document!",
+                            type: "error"
+                        });
+                    }
+                );
+        },
+        function (isRejected) { return; }
+    );
+
+}
+
+function showDocUpload(uploadid) {
+    debugger
+    // set placeholder image
+    $("#doc-preview-modal").find("img")
+        .attr("src", url_path + "/css/img/loading-sm.gif");
+    // set real image
+    $("#doc-preview-modal").find("img")
+        .attr("src", url_path + "/../LoadDocument/" + uploadid);
+    // set title
+    $("#doc-preview-modal")
+        .find(".modal-title").text(
+            $("#documentupload-data-table")
+                .bootstrapTable("getRowByUniqueId", uploadid)
+                .title
+        );
+    // show modal
+    $("#doc-preview-modal").modal("show");
+}
+
 
 var utilities = {
+    animDuration: 400,
     clearDetails: function () {
         var form = $("#outward-cheque-form");
 
@@ -828,9 +1041,9 @@ var utilities = {
     COAFormatter: function (value) {
         return chartofaccounts[value];
     },
-    getProductName: function (id) {
+   /* getProductName: function (id) {
         return products[id].productName;
-    },
+    },*/
     WriteAmount: function (balance, domText) {
         if (balance >= 0) {
             domText.removeClass("text-danger")
@@ -950,6 +1163,7 @@ var utilities = {
         el.append(container);
     },
     editFormatter: function (value, row) {
+        chequeIdTracker = row.id;
         if (value == ApprovalStatus.INENTRYSTATE ||
             value == ApprovalStatus.PENDING ||
             value == ApprovalStatus.AMMEND) {
@@ -1002,17 +1216,35 @@ var utilities = {
         }
         return statusString;
     },
+   
+    deleteDocumentFormatter: function (val, row, index) {
+
+        return [
+            "<button class='btn btn-danger btn-icon' ",
+            "onclick='deleteDocumentUpload(" + row.id + ")'>",
+            "<i class='now-ui-icons ui-1_simple-remove'>",
+            "</i></button>"
+        ].join("");
+    },
+    viewUploadFormatter: function (val, row, index) {
+        return [
+            "<button class='btn btn-info btn-icon' ",
+            "onclick='showDocUpload(" + row.id + ")'>",
+            "<i class='now-ui-icons gestures_tap-01'>",
+            "</i></button>"
+        ].join("");
+    },
     tableCheckBoxFormatter: function (value, row) {
         var enable = (row.approvalstatus == ApprovalStatus.INENTRYSTATE ||
             row.approvalstatus == ApprovalStatus.AMMEND);
         return [
             "<div class='form-check ml-3 mb-1" + (enable ? "" : " disabled") + "'>",
-                "<label class='form-check-label'>",
-                    "<input name='table-select-item' class='form-check-input'" + 
-                    (enable ? " " : " disabled ") + "onchange='onCheckHandler(this)' "
-                    + "type='checkbox'" + (row.check ? " checked ":" ") + "id='"+ row.id +"'>",
-                    "<span class='form-check-sign'></span>",
-                "</label>",
+            "<label class='form-check-label'>",
+            "<input name='table-select-item' class='form-check-input'" +
+            (enable ? " " : " disabled ") + "onchange='onCheckHandler(this)' "
+            + "type='checkbox'" + (row.check ? " checked " : " ") + "id='" + row.id + "'>",
+            "<span class='form-check-sign'></span>",
+            "</label>",
             "</div>"
         ].join("");
     }

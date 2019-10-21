@@ -12,6 +12,9 @@ namespace TheCoreBanking.Customer
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                 #if DEBUG
+                .UseUrls("http://localhost:2289")
+                 #endif
                 .UseStartup<Startup>()
                 .Build();
     }

@@ -166,20 +166,20 @@
                             <p>Teller Operation</p>
                         </a>
                     </li>
-                    @if (User.Identity.IsAuthenticated) {
+                    @*@if (User.Identity.IsAuthenticated) {
                             <li>
                                 <a asp-controller="TellerAndTill" asp-action="TellerPosting">
                                     <i class="design_app now-ui-icons"></i>
                                     <p>Teller Posting</p>
                                 </a>
                             </li>
-                        }
-                    @*<li>
+                        }*@
+                    <li>
                         <a asp-controller="TellerAndTill" asp-action="TellerPosting">
                             <i class="design_app now-ui-icons"></i>
                             <p>Teller Posting</p>
                         </a>
-                    </li>*@
+                    </li>
                 </ul>
             </div>
         </div>
