@@ -14,6 +14,7 @@ using TheCoreBanking.Retail.Data.Models;
 using TheCoreBanking.Retail.Helpers;
 using TheCoreBanking.Retail.ImageUpload;
 using TheCoreBanking.Retail.ViewModels;
+using IdentityServer4.Extensions;
 
 namespace TheCoreBanking.Retail.Controllers
 {
@@ -21,25 +22,39 @@ namespace TheCoreBanking.Retail.Controllers
     {
         private IRetailUnitOfWork RetailUnitOfWork { get; }
 
+
+
         public TellerAndTillController(IRetailUnitOfWork retailUnitOfWork)
         {
             RetailUnitOfWork = retailUnitOfWork;
         }
 
-       // [Authorize]
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+#endif
         public IActionResult Index()
         {
             return View();
         }
 
-       // [Authorize]
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+#endif
         public IActionResult TellerOperation()
         {
             return View();
         }
 
-       // [Authorize]
-       [HttpGet]
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+#endif
+        [HttpGet]
         public IActionResult TellerPosting()
         {
             return View();
@@ -148,7 +163,7 @@ namespace TheCoreBanking.Retail.Controllers
         {
             System.Threading.Thread.Sleep(200);
             var alreadyLogin = RetailUnitOfWork.tellerlogin
-                .GetAll().Where(t => t.Assignuser == id && t.Isactive == true)
+                .GetAll().Where(t => t.Username == id && t.Isactive == true)
                 .FirstOrDefault();
 
             if (alreadyLogin != null) {
@@ -158,9 +173,62 @@ namespace TheCoreBanking.Retail.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult GetAlreadyLoggedinList()
+        {
+            
+
+            var loggedUser = User.Identity.Name;
+
+            if (User.Identity.Name == null)
+            {
+                loggedUser = "tayo.olawumi";
+
+            }
+            else
+            {
+                loggedUser = User.Identity.Name;
+            }
+                var alreadyLogin = RetailUnitOfWork.tellerlogin
+                .GetAll().Where(t => t.Username == loggedUser && t.Isactive == true)
+                .FirstOrDefault();
+
+            if (alreadyLogin != null)
+            {
+                //System.Threading.Thread.Sleep(200);
+                alreadyLogin.Isactive = false;
+                RetailUnitOfWork.tellerlogin.Update(alreadyLogin);
+                RetailUnitOfWork.Commit();
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetAlreadyLoggedOut(int id)
+        {
+            System.Threading.Thread.Sleep(200);
+            var alreadyLogin = RetailUnitOfWork.tellerlogin
+                .GetAll().Where(t => t.Id == id && t.Isactive == true)
+                .FirstOrDefault();
+
+            if (alreadyLogin != null)
+            {
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+        }
+
         [Authorize(Roles ="Teller")]
         public JsonResult GetTellerUserName(string id)
-        {           
+        {
+
             var userName = RetailUnitOfWork.tellerSetup.GetUserName(id).FirstOrDefault().Tilluser;
 
             if (userName != null)
@@ -315,7 +383,111 @@ namespace TheCoreBanking.Retail.Controllers
             var result = RetailUnitOfWork.StaffInformation.GetAll();
             return Json(result);
         }
-        
+
+        [HttpGet]
+        public JsonResult confirmTellerUser(int id)
+        {
+            var logUser = User.Identity.Name;
+            var result = RetailUnitOfWork.tellerlogin.GetAssignedUserById(id);
+            // RetailUnitOfWork.Commit();
+            //return Json(logUser);
+
+            var tellerLoginDetails = result.FirstOrDefault();
+
+            //if (User.Identity.Name == null)
+                if (logUser == null)
+                {
+                logUser = "tayo.olawumi";
+                if (tellerLoginDetails.Username == logUser)
+                {
+                    tellerLoginDetails.Isactive = true;
+                    RetailUnitOfWork.tellerlogin.Update(tellerLoginDetails);
+                    RetailUnitOfWork.Commit();
+                    ViewData["ShowPostingMenu"] = "Valid";
+                    return Json(true);
+
+                }
+                else
+                {
+                    return Json(false);
+                }
+            }
+            else
+            {
+                //if (User.Identity.Name == tellerLoginDetails.Username)
+                    if (tellerLoginDetails.Username == logUser)
+                    {
+                    tellerLoginDetails.Isactive = true;
+                    RetailUnitOfWork.tellerlogin.Update(tellerLoginDetails);
+                    RetailUnitOfWork.Commit();
+                    ViewData["ShowPostingMenu"] = "Valid";
+                    return Json(true);
+
+                }
+                else
+                {
+                    return Json(false);
+                }
+            }
+
+            /*tellerLoginDetails.Isactive = true;
+            RetailUnitOfWork.tellerlogin.Update(tellerLoginDetails);
+            RetailUnitOfWork.Commit();
+            return Json(true);*/
+        }
+
+        [HttpGet]
+        public JsonResult updateTellerUserLogout(int id)
+        {
+           // System.Threading.Thread.Sleep(200);
+            var logUser = User.Identity.Name;
+            var result = RetailUnitOfWork.tellerlogin.GetActiveUserById(id);
+            // RetailUnitOfWork.Commit();
+
+            var tellerLoginDetails = result.FirstOrDefault();
+
+            //if (User.Identity.Name == null)
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+                if (tellerLoginDetails.Username == logUser)
+                {
+                    tellerLoginDetails.Isactive = false;
+                    RetailUnitOfWork.tellerlogin.Update(tellerLoginDetails);
+                    RetailUnitOfWork.Commit();
+                    ViewData["ShowPostingMenu"] = "invalid";
+                    return Json(true);
+
+                }
+                else
+                {
+                    return Json(false);
+                }
+            }
+            else
+            {
+                //if (User.Identity.Name == tellerLoginDetails.Username)
+                if (logUser == tellerLoginDetails.Username)
+                {
+                    tellerLoginDetails.Isactive = false;
+                    RetailUnitOfWork.tellerlogin.Update(tellerLoginDetails);
+                    RetailUnitOfWork.Commit();
+                    ViewData["ShowPostingMenu"] = "invalid";
+                    return Json(true);
+
+                }
+                else
+                {
+                    return Json(false);
+                }
+            }
+
+            /*tellerLoginDetails.Isactive = true;
+            RetailUnitOfWork.tellerlogin.Update(tellerLoginDetails);
+            RetailUnitOfWork.Commit();
+            return Json(true);*/
+        }
+
         #endregion
 
         #region Create
@@ -328,8 +500,8 @@ namespace TheCoreBanking.Retail.Controllers
             string chargeDate = time.ToString(format);
             mapping.Datecreated = Convert.ToDateTime(chargeDate);
 
-            //mapping.Createdby = User.Identity.Name;
-            mapping.Createdby = "Peter.Sunday";
+            mapping.Createdby = User.Identity.Name;
+            //mapping.Createdby = "Peter.Sunday";
             
             var definitionName = RetailUnitOfWork.tillDefinition.GetAll()
                 .Where(p => p.Id == mapping.Tilldefinationid)
@@ -409,8 +581,8 @@ namespace TheCoreBanking.Retail.Controllers
             Setteller.Companyid = 1;
             Setteller.Branchid = 1;
             Setteller.Datecreated = DateTime.Now;
-            Setteller.Createdby = "peter";
-            //Setteller.Createdby = User.Identity.Name;
+            //Setteller.Createdby = "peter";
+            Setteller.Createdby = User.Identity.Name;
 
             var tillName = RetailUnitOfWork.tillLimit.GetAll().Where(p => p.Id == Setteller.Tilllimitid).FirstOrDefault().Tillname;
             Setteller.Tillname = tillName;
@@ -433,7 +605,7 @@ namespace TheCoreBanking.Retail.Controllers
             {
                 TblTellerlogin loginteller = new TblTellerlogin();
                 loginteller.Accountid = tillLedger.ToString();
-                loginteller.Ledgername = tillLedger;
+                loginteller.Ledgername = tillLedgerName;
                 loginteller.Username = tillUser;
              
                 RetailUnitOfWork.tellerlogin.Add(loginteller);

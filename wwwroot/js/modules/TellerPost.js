@@ -221,10 +221,10 @@ function initSelectTwoConfig() {
         $('#ddlDebitGLNumber').val(null).trigger('change.select2');
         availbalance = datas.availablebalance;
 
-    }):
+    });
     }
 
-/
+
 
   
 

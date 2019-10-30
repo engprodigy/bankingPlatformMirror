@@ -24,37 +24,61 @@ namespace TheCoreBanking.Retail.Controllers
             RetailUnitOfWork = retailUnitOfWork;
         }
 
-        //[Authorize]
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+#endif
         public IActionResult RegisterCheque()
         {
             return View();
         }
 
-       // [Authorize]
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+#endif
         public IActionResult ChequeStatus()
         {
             return View();
         }
 
-       // [Authorize]
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+#endif
         public IActionResult StopCheque()
         {
             return View();
         }
 
-       // [Authorize]
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+#endif
         public IActionResult InwardClearing()
         {
             return View();
         }
 
-       // [Authorize]
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+#endif
         public IActionResult OutwardClearing()
         {
             return View();
         }
 
-       // [Authorize]
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+#endif
         public IActionResult OutwardOperations()
         {
             return View();

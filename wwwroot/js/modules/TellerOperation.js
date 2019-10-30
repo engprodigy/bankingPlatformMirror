@@ -13,8 +13,14 @@ function loginFormatter(value, row, index) {
 }
 
 $(document).ready(function () {
+   // $(window).hashchange(hashchanged);
     initLoginFormValidations();  
 });
+
+
+function hashchanged() {
+    //Show something
+}
 
 function initLoginFormValidations() {
     jQuery.validator.setDefaults({
@@ -55,7 +61,7 @@ window.tellerLoginEvents = {
 
         var Id = row.id;
         if (row.state = true) {
-            debugger
+          
             var data = JSON.stringify(row);
             $.getJSON("../TellerAndTill/GetAlreadyLoggedin", { id: Id }, function (value) {
 
@@ -64,7 +70,7 @@ window.tellerLoginEvents = {
                 form.find("[name=accountid]").val(row.accountid);
                 form.find("[name=accountbalance]").val(row.accountbalance);
                 form.find("[name=tellerno]").val(row.tellerno);
-
+              
                 form.find("[name=tellerlogindate]").val(row.tellerlogindate);
                 form.find("[name=tellerlogintime]").val(row.tellerlogintime);
                 form.find("[name=closingbalance]").val(row.closingbalance);
@@ -77,9 +83,12 @@ window.tellerLoginEvents = {
                 //$("#btntellerLogin").show();
                 $('#AddNewTellerLogin').modal('show');
                 $("#btnPreviouslyLogin").show();
-                getTellerLogin();
+                
+                //confirmTellerUser(row.id);
 
-                console.log("JSON Data: " + json);
+
+                console.log("JSON Data: " + value);
+                console.log(form.find("[name=assignuser]").val());
 
             });
 
@@ -88,6 +97,8 @@ window.tellerLoginEvents = {
         }
     },
 };
+
+
 
 function sleep(milliseconds) {
     var start = new Date().getTime();
@@ -170,119 +181,167 @@ function previouslyLogin() {
 
 function getTellerLogin() {
 
-    //var id = $("#username").text().trim();
+    // = $("#username").text().trim();
     debugger
-    var id;
-    id = $.trim($(".info").first().find("span:first").text());
+    var form = $("#frmtellerlogin");
+    var id = form.find("[name=id]").val();
+
+    $.ajax({
+        url: "../TellerAndTill/confirmTellerUser/" + id,
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+            if (data) {
+                swal({
+                    title: 'Teller Login',
+                    text: 'Teller Logged in successfully!',
+                    type: 'success'
+                }).then(function () {
+                    //sleep(100);
+                    $('#tellerLoginTable').bootstrapTable('refresh');
+                    $("#btnTellerSetupUpdate").removeAttr("disabled");
+                    $('#AddNewTellerLogin').modal('hide');
+
+                    // var tellerOperationURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname + window.location.search
+
+                    window.location.assign(url_path + "/../TellerPosting")
+                });
+                //$("#tellerLoginTable").bootstrapTable("refresh");
+            } else {
+                swal({
+                    title: 'Teller Login',
+                    text: 'Invalid Login to Teller Account',
+                    type: 'error'
+
+                }).then(function () {
+                    $('#AddNewTellerLogin').modal('hide');
+                })
+
+            }
+        },
+        error: function (e) {
+            swal({
+                title: 'Teller Login',
+                text: 'You do not have the privilege to perform Teller Operation',
+                type: 'error'
+            }).then(function () {
+                $("#btnAccess").removeAttr("disabled");
+            });
+        }
+    })
+
+    // $("#tellerLoginTable").bootstrapTable("refresh");
+    // id = $.trim($(".info").first().find("span:first").text());
     //id = $('#tellerLoginTable').attr();           //I commented this line and used the above id = $.trim($(".info").first().find("span:first").text());
-    swal({
-        title: "Are you sure?",
-        text: "You want to perform Teller Operation!",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#ff9800",
-        confirmButtonText: "Yes, continue",
-        cancelButtonText: "No, stop!",
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve) {
-                setTimeout(function () {
-                    resolve();
-                }, 1000);
-            });
-        }
-    }).then(function (isConfirm) {
-        if (isConfirm) {          
-            var data = {
-                Id: id
+    //swal({
+    //    title: "Are you sure?",
+    //    text: "You want to perform Teller Operation!",
+    //    type: "warning",
+    //    showCancelButton: true,
+    //    confirmButtonColor: "#ff9800",
+    //    confirmButtonText: "Yes, continue",
+    //    cancelButtonText: "No, stop!",
+    //    showLoaderOnConfirm: true,
+    //    preConfirm: function () {
+    //        return new Promise(function (resolve) {
+    //            setTimeout(function () {
+    //                resolve();
+    //            }, 1000);
+    //        });
+    //    }
+    //}).then(function (isConfirm) {
+    //    if (isConfirm) {          
+    //        var data = {
+    //            Id: id
 
-            };
-            debugger
-            $.ajax({
-                url: url_path + '/../GetAlreadyLoggedin/' + id,
-                type: 'POST',
-                data: data,
-                dataType: "json",
-                success: function (data) {
-                    if (data == 0) {
-                        $.ajax({
-                            url: url_path + '/../GetTellerUserName/' + id,
-                            type: 'GET',
-                            dataType: "json",
-                            error: function (e) {
-                                swal({
-                                    title: 'Teller Login',
-                                    text: 'You do not have the privilege to perform Teller Operation',
-                                    type: 'error'
-                                }).then(function () {
-                                    $("#btnAccess").removeAttr("disabled");
-                                });
-                            }
-                        }).then(function (isConfirm) {
-                            if (isConfirm) {
-                                var form = $("#frmtellerlogin");
-                                var data = {
-                                    id: form.find("#id").val(),
-                                    ledgername: form.find("#ledgername").val(),
-                                    accountid: form.find("#accountid").val(),
-                                    isactive: form.find('#isactive').prop("checked"),
-                                    assignuser: id
-                                };
-                                form.find("#btntellerLogin").attr("disabled", "true");
-                                $.ajax({
-                                    url: url_path + '/../getTellerLogin',
-                                    type: 'POST',
-                                    data: data,
-                                    dataType: "json",
-                                    success: function (result) {
-                                        swal({
-                                            title: 'Teller Login',
-                                            text: 'Teller Logged in successfully!',
-                                            type: 'success'
-                                        }).then(function () {
-                                            //sleep(100);
-                                            //$('#tellerLoginTable').
-                                            //    bootstrapTable('refresh');
-                                            $("#btnTellerSetupUpdate").removeAttr("disabled");
-                                            $('#AddNewTellerLogin').modal('hide');
+    //        };
+    //        debugger
+    //        $.ajax({
+    //            url: url_path + '/../GetAlreadyLoggedin/' + id,
+    //            type: 'POST',
+    //            data: data,
+    //            dataType: "json",
+    //            success: function (data) {
+    //                if (data == 0) {
+    //                    $.ajax({
+    //                        url: url_path + '/../GetTellerUserName/' + id,
+    //                        type: 'GET',
+    //                        dataType: "json",
+    //                        error: function (e) {
+    //                            swal({
+    //                                title: 'Teller Login',
+    //                                text: 'You do not have the privilege to perform Teller Operation',
+    //                                type: 'error'
+    //                            }).then(function () {
+    //                                $("#btnAccess").removeAttr("disabled");
+    //                            });
+    //                        }
+    //                    }).then(function (isConfirm) {
+    //                        if (isConfirm) {
+    //                            var form = $("#frmtellerlogin");
+    //                            var data = {
+    //                                id: form.find("#id").val(),
+    //                                ledgername: form.find("#ledgername").val(),
+    //                                accountid: form.find("#accountid").val(),
+    //                                isactive: form.find('#isactive').prop("checked"),
+    //                                assignuser: id
+    //                            };
+    //                            form.find("#btntellerLogin").attr("disabled", "true");
+    //                            $.ajax({
+    //                                url: url_path + '/../getTellerLogin',
+    //                                type: 'POST',
+    //                                data: data,
+    //                                dataType: "json",
+    //                                success: function (result) {
+    //                                    swal({
+    //                                        title: 'Teller Login',
+    //                                        text: 'Teller Logged in successfully!',
+    //                                        type: 'success'
+    //                                    }).then(function () {
+    //                                        //sleep(100);
+    //                                        //$('#tellerLoginTable').
+    //                                        //    bootstrapTable('refresh');
+    //                                        $("#btnTellerSetupUpdate").removeAttr("disabled");
+    //                                        $('#AddNewTellerLogin').modal('hide');
 
-                                            // var tellerOperationURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname + window.location.search
+    //                                        // var tellerOperationURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname + window.location.search
 
-                                            window.location.assign(url_path + "/../TellerPosting")
-                                        });
-                                    },
-                                    error: function (e) {
-                                        swal({
-                                            title: 'Teller Login',
-                                            text: 'You do not have privilege to login to Teller Operation',
-                                            type: 'error'
-                                        }).then(function () {
-                                            $("#btntellerLogin").removeAttr("disabled");
-                                        });
-                                    }
-                                });
-                            }
-                        }, function (isRejected) {
-                            return;
-                        });   
-                    }
-                    else {
-                        window.location.assign(url_path + "/../TellerPosting")
-                    }                    
-                },
-                error: function (e) {
-                    swal({
-                        title: 'Teller Operation',
-                        text: 'Teller Operation encountered an error!',
-                        type: 'error'
-                    }).then(function () {
-                        $("#btntellerLogin").removeAttr("disabled");
-                    });
-                }
-            });
-        }
-    }, function (isRejected) {
-        return;
-    });
-        
+    //                                        window.location.assign(url_path + "/../TellerPosting")
+    //                                    });
+    //                                },
+    //                                error: function (e) {
+    //                                    swal({
+    //                                        title: 'Teller Login',
+    //                                        text: 'You do not have privilege to login to Teller Operation',
+    //                                        type: 'error'
+    //                                    }).then(function () {
+    //                                        $("#btntellerLogin").removeAttr("disabled");
+    //                                    });
+    //                                }
+    //                            });
+    //                        }
+    //                    }, function (isRejected) {
+    //                        return;
+    //                    });   
+    //                }
+    //                else {
+    //                    window.location.assign(url_path + "/../TellerPosting")
+    //                }                    
+    //            },
+    //            error: function (e) {
+    //                swal({
+    //                    title: 'Teller Operation',
+    //                    text: 'Teller Operation encountered an error!',
+    //                    type: 'error'
+    //                }).then(function () {
+    //                    $("#btntellerLogin").removeAttr("disabled");
+    //                });
+    //            }
+    //        });
+    //    }
+    //}, function (isRejected) {
+    //    return;
+    //});
 }
+
+   

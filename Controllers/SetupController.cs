@@ -2,26 +2,59 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TheCoreBanking.Retail.Data.Contracts;
 using TheCoreBanking.Retail.Data.Helpers;
 using TheCoreBanking.Retail.Data.Models;
 using TheCoreBanking.Retail.ViewModels;
+using Microsoft.AspNetCore.Builder;
+using IdentityServer4.Extensions;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace TheCoreBanking.Retail.Controllers
 {
+
+    
+
     public class SetupController : Controller
     {
         private IRetailUnitOfWork RetailUnitOfWork { get; }
+
+        
+
+
         public SetupController(IRetailUnitOfWork retailUnitOfWork)
         {
             RetailUnitOfWork = retailUnitOfWork;
         }
 
-        [Authorize]
+           #if DEBUG
+           //[Authorize()]
+           #else
+            [Authorize()]
+           #endif
+
+        
         public IActionResult Index()
         {
+
+            
+            var logUser = User.Identity.Name;
+            
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+               
+            }
+            else
+            {
+                logUser = User.Identity.Name;
+            }
+
+
+            
             return View();
         }
 
@@ -651,3 +684,4 @@ namespace TheCoreBanking.Retail.Controllers
 
     }
 }
+

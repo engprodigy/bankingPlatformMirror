@@ -31,14 +31,23 @@
                 <h7>This Till has been assigned for operation</h7>
             </div>
 
-            <table id="tellerLoginTable" data-toggle="table"
-                   data-url="@Url.Action("listTellerLogin", "TellerAndTill")">
+            <table id="tellerLogutTable" data-toggle="table"
+                   data-url="@Url.Action("listTellerLogin", "TellerAndTill")"
+                   data-search="true" class="data-table"
+                           data-toolbar="#tellerlogut-toolbar"
+                           data-search-align="right"
+                           data-show-pagination-switch="true"
+                           data-mobile-responsive="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-buttons-class="danger"
+                           data-unique-id="id">
                 <thead>
                     <tr>
                         <th data-field="ledgername" data-sortable="true">Till Account Name</th>
                         <th data-field="accountid">Till Account Number</th>
 
-                        <th data-events="tellerLogoutEvents" data-formatter="logoutFormatter"
+                        <th  data-formatter="utilities.logoutFormatter"
                             data-align="center" data-width="5%">Logout</th>
 
                     </tr>
@@ -259,7 +268,7 @@
                                                                 <div class="col-md-6 pl-1">
                                                                     <div class="form-group">
                                                                         <label>Amount</label>
-                                                                        <input id="debitAmount" name="debitAmount" class="form-control format-money" placeholder="0" onblur=" amountChange()"/>
+                                                                        <input id="debitAmount" name="debitAmount" class="form-control format-money" placeholder="0" onblur=" amountChange()" />
                                                                     </div>
                                                                 </div>
 
@@ -315,7 +324,7 @@
                                                                             <option value="1">Debit Entry</option>
                                                                         </select>
                                                                     </div>
-                                                                </div>                                                            
+                                                                </div>
 
                                                             </div>
 
@@ -1381,7 +1390,7 @@
                                                                                         <label class="col-md-3 col-form-label">Amount (Figures)</label>
                                                                                         <div class="col-md-9">
                                                                                             <div class="form-group">
-                                                                                                <input id="amountfigures" name="amountfigures" class="form-control format-money" 
+                                                                                                <input id="amountfigures" name="amountfigures" class="form-control format-money"
                                                                                                        onmouseout="amountwords.innerHTML=numberToEnglish(this.value)" />
                                                                                             </div>
                                                                                         </div>
@@ -1391,7 +1400,7 @@
                                                                                         <label class="col-md-3 col-form-label">Amount (Words)</label>
                                                                                         <div class="col-md-9">
                                                                                             <div class="form-group">
-                                                                                                <label id="amountwords" name="amountwords"  
+                                                                                                <label id="amountwords" name="amountwords"
                                                                                                        style="color:red; font-weight:bold"></label>
                                                                                             </div>
                                                                                         </div>
@@ -1402,7 +1411,7 @@
                                                                                         <div class="col-md-9">
                                                                                             <div class="form-group">
                                                                                                 <select class="form-control" name="cashtillacct" onclick="cashtillEventChange()"
-                                                                                                         id="cashtillacct">
+                                                                                                        id="cashtillacct">
                                                                                                     <option></option>
                                                                                                 </select>
                                                                                             </div>
@@ -1427,7 +1436,7 @@
                                                                                         <div class="col-md-9">
                                                                                             <div class="form-group">
                                                                                                 @*<label id="cashtillrefNo" name="cashtillrefNo">RCF/@DateTime.Now.Year/@DateTime.MaxValue.Month </label>*@
-                                                                                                <input id="cashtillrefNo" name="cashtillrefNo" class="form-control" readonly style="color:red; font-weight:bold" 
+                                                                                                <input id="cashtillrefNo" name="cashtillrefNo" class="form-control" readonly style="color:red; font-weight:bold"
                                                                                                        value="RCF/@DateTime.Now.Year/@DateTime.Now.Month@DateTime.Now.Day@DateTime.Now.Hour@DateTime.Now.Minute@DateTime.Now.Second@DateTime.Now.Millisecond " />
                                                                                             </div>
                                                                                         </div>
@@ -1444,10 +1453,10 @@
 
                                                                                     <div class="row">
                                                                                         <div class="col-md-3">
-                                                                                            <input id="vaultAcctGL" name="vaultAcctGL" class="form-control"  hidden/>
+                                                                                            <input id="vaultAcctGL" name="vaultAcctGL" class="form-control" hidden />
                                                                                         </div>
                                                                                         <div class="col-md-3">
-                                                                                            <input id="cashTillAcctGL" name="cashTillAcctGL" class="form-control"  hidden/>
+                                                                                            <input id="cashTillAcctGL" name="cashTillAcctGL" class="form-control" hidden />
                                                                                         </div>
                                                                                     </div>
 
@@ -1557,7 +1566,7 @@
 
                                                                                     <div class="row">
                                                                                         <div class="col-md-3">
-                                                                                            <input id="tilltoVaultGL" name="tilltoVaultGL" class="form-control" hidden/>
+                                                                                            <input id="tilltoVaultGL" name="tilltoVaultGL" class="form-control" hidden />
                                                                                         </div>
                                                                                         <div class="col-md-3">
                                                                                             <input id="tilltoCashAcctGL" name="tilltoCashAcctGL" class="form-control" hidden />
@@ -1584,11 +1593,11 @@
                                                                                             <div class="form-group">
                                                                                                 <select class="form-control" name="transferreverse"
                                                                                                         required id="transferreverse">
-                                                                                                        <option>  </option>
-                                                                                                        <option value="Inter-branch Vault"> Inter-branch Vault </option>
-                                                                                                        <option value="Vault-To Till"> Vault To Till </option>
-                                                                                                        <option value="Till-To-Vault"> Till To Vault</option>
-                                                                                                        <option value="Bank To Vault"> Bank To Vault</option>                                                                                                  
+                                                                                                    <option>  </option>
+                                                                                                    <option value="Inter-branch Vault"> Inter-branch Vault </option>
+                                                                                                    <option value="Vault-To Till"> Vault To Till </option>
+                                                                                                    <option value="Till-To-Vault"> Till To Vault</option>
+                                                                                                    <option value="Bank To Vault"> Bank To Vault</option>
                                                                                                 </select>
                                                                                             </div>
                                                                                         </div>
@@ -1620,6 +1629,53 @@
                     </div>
                 </div>
             </div>
+
+
+            <!-- Classic Modal -->
+            <div class="modal fade" id="TellerUserLogout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header justify-content-center">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <i class="now-ui-icons ui-1_simple-remove"></i>
+                            </button>
+                            @*<h2> <i class="now-ui-icons users_single-02"></i></h2>*@
+
+                            @*<h4 class="title title-up">Teller Operation</h4>*@
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="title title-up">Teller Operation</h4>
+                            <p><center>You are about to Logout from Teller Operation <br /> Please Proceed</center> </p>
+                        </div>
+                        <form id="frmtellerlogout">
+
+                            <input type="hidden" name="id" id="id" />
+                            <input type="hidden" name="companyid" id="companyid" />
+                            <input type="hidden" name="branchid" id="branchid" />
+                            <input type="hidden" name="ledgername" id="ledgername" />
+                            <input type="hidden" name="accountid" id="accountid" />
+
+                            <input type="hidden" name="closingbalance" id="closingbalance" />
+                            <input type="hidden" name="accountbalance" id="accountbalance" />
+                            <input type="hidden" name="tellerno" id="tellerno" />
+                            <input type="hidden" name="tellerlogindate" id="tellerlogindate" />
+                            <input type="hidden" name="tellerlogintime" id="tellerlogintime" />
+                            <input type="hidden" name="accountId" id="accountId" />
+
+                            <input type="hidden" name="username" id="username" />
+                            <input type="hidden" name="assignuser" id="assignuser" />
+                            <input type="hidden" name="isactive" id="isactive" />
+
+                        </form>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="btntellerLogut" onclick="getTellerLogout()">Log Out</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  End Modal -->
 
 
 

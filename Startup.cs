@@ -43,10 +43,12 @@ namespace TheCoreBanking.Customer
                     options.DefaultAuthenticateScheme = "oidc";
                 })
                 .AddCookie("Retail.Cookies")
+#if DEBUG
+
+#else
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    //options.Authority = "http://bankingplatform:8042";
-                    options.Authority = "http://localhost:2289";
+                    options.Authority = "http://bankingplatform:8042";
                     options.RequireHttpsMetadata = false;
                     options.ClientId = "TheCoreBanking.Retail";
                     options.SignInScheme = "Retail.Cookies";
@@ -93,6 +95,7 @@ namespace TheCoreBanking.Customer
                         RoleClaimType = JwtClaimTypes.Role
                     };
                 })
+#endif
                 ;
             //services
             //    .AddDbContext<RetailContext>(

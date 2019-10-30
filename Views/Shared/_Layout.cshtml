@@ -166,20 +166,29 @@
                             <p>Teller Operation</p>
                         </a>
                     </li>
+                    @if(ViewData["ShowPostingMenu"] == "Valid"){
+                <li>
+                    <a asp-controller="TellerAndTill" asp-action="TellerPosting">
+                        <i class="design_app now-ui-icons"></i>
+                        <p>Teller Posting</p>
+                    </a>
+                </li>
+                    }
+
                     @*@if (User.Identity.IsAuthenticated) {
-                            <li>
-                                <a asp-controller="TellerAndTill" asp-action="TellerPosting">
-                                    <i class="design_app now-ui-icons"></i>
-                                    <p>Teller Posting</p>
-                                </a>
-                            </li>
-                        }*@
-                    <li>
+            <li>
+                <a asp-controller="TellerAndTill" asp-action="TellerPosting">
+                    <i class="design_app now-ui-icons"></i>
+                    <p>Teller Posting</p>
+                </a>
+            </li>
+        }*@
+                    @*<li>
                         <a asp-controller="TellerAndTill" asp-action="TellerPosting">
                             <i class="design_app now-ui-icons"></i>
                             <p>Teller Posting</p>
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
         </div>
@@ -342,6 +351,35 @@
         <script src="~/js/pace.js"></script>
     </environment>
     <script type="text/javascript">
+        $(document).ready(function () {
+
+           
+          // if (window.location.pathname != "/TellerAndTill/TellerPosting") {   //use this for local deployment
+                //Show something
+             if (!(window.location.pathname).includes("TellerPosting"))  {      
+            
+                console.log(window.location.pathname);
+                hashHandler();
+            } else {
+               //console.log('The hash has changed!');
+              
+            }
+            
+
+           
+            
+        });
+
+        function hashHandler() {
+           // console.log('The hash has changed!');
+            $.getJSON("../TellerAndTill/GetAlreadyLoggedinList", function (value) {
+                if (value == true) {
+                console.log('User Logged Out Successfully!');
+                    }
+               });
+            }
+
+        
         // money formatting functions
         function FormatMoney(money) {
             money = money.toString()
@@ -384,6 +422,9 @@
 
             this.value = FormatMoney(realAmount);
         });
+        
+
+       
     </script>
 
 
