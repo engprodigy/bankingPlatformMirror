@@ -337,7 +337,16 @@ namespace TheCoreBanking.Retail.Controllers
                 MissingMemberHandling = MissingMemberHandling.Ignore
             };
             IEnumerable<ChartOfAccountVM> result =
-                JsonConvert.DeserializeObject<IEnumerable<ChartOfAccountVM>>(ChartOfAccounts, settings);
+            JsonConvert.DeserializeObject<IEnumerable<ChartOfAccountVM>>(ChartOfAccounts, settings);
+            /*ChartOfAccountVM chartOfAccountVM = new ChartOfAccountVM();
+            chartOfAccountVM.Id = 2;
+            chartOfAccountVM.AccountName = "CASH AND BANK BALANCES";
+            chartOfAccountVM.AccountID = "100010000";
+
+            var ChartOfAccountlist = new List<ChartOfAccountVM>();
+            ChartOfAccountlist.Add(chartOfAccountVM);
+            IEnumerable<ChartOfAccountVM> result = ChartOfAccountlist;*/
+
             foreach (var item in result)
             {
                 list.Add(new SelectTwoContent

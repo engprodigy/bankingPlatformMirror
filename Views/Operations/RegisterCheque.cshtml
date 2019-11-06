@@ -117,7 +117,7 @@
                                     <label class="col-md-3 col-form-label">Account No.</label>
                                     <div class="col-md-9">
                                         <div class="form-group">
-                                            <select class="form-control" name="accountno" 
+                                            <select class="form-control" name="accountno"
                                                     required id="accountno">
                                                 <option></option>
                                             </select>
@@ -135,6 +135,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <label class="col-md-3 col-form-label">Confirmation Limit</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input name="confirmationlimit" id="confirmationlimit" 
+                                                   type="text" class="form-control" value="0"  />
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row mb-2">
                                     <label class="col-md-3 col-form-label">No. of Leaves</label>
                                     <div class="col-md-9">
@@ -186,10 +196,12 @@
                                 <div class="row mt-4 justify-content-between">
                                     <div class="col">
                                         <button class="btn btn-danger btn-wd pull-left" type="button"
-                                                onclick="utilities.showChequeTable()">Cancel</button>
+                                                onclick="utilities.showChequeTable()">
+                                            Cancel
+                                        </button>
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-danger btn-wd pull-right" 
+                                        <button class="btn btn-danger btn-wd pull-right"
                                                 type="button" onclick="AddCheque()">
                                             Add
                                         </button>

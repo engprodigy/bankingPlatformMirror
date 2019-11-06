@@ -94,6 +94,7 @@ function initSelectTwoConfig() {
             form.find("#casaaccountno").select2({
                 placeholder: "Select account number",
                 data: response
+                //data: ["01100123453", "00897878721", "23835292834"]
             });
         });
     $.ajax(url_path + "/../LoadInwardCheques")
@@ -116,6 +117,8 @@ function initSelectTwoConfig() {
     $(document).on("select2:open", function () {
         $('.select2-results__options').perfectScrollbar();
     });
+
+   
 }
 
 function initEventListeners() {
@@ -363,6 +366,121 @@ function initEventListeners() {
 
     form.find("#chargepercent")
         .on("change", utilities.calculateChargeAmount);
+
+
+   // $("[name=chequeleaveno]").on("input", function (e) {
+        $("[name=chequeleaveno]").on("mouseleave", function (e) {
+        if ($(e.target).valid()) {
+           // e.target.value;
+            //$("[name=endrange]")
+            //.val(parseInt(e.target.value) + parseInt(selectedChequebook.leavesno) - 1);
+            //$.ajax(url_path + "/../ConfirmChequeLeaveNoStatus/" + e.target.value)
+            var form = $("#inward-cheque-form");
+            var accountNo = form.find("[name=casaaccountno]").val();
+            bankchequedetail = {};
+            bankchequedetail["accountnumber"] = accountNo; 
+            bankchequedetail["chequeleaveno"] = e.target.value;
+            $.ajax(url_path + "/../ConfirmChequeLeaveNoStatus/",
+                {
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(bankchequedetail)
+                })
+                .then(
+                    function (response) {
+                      //  var form = $("#inward-cheque-form");
+                        //form.find("[name=chequeleaveno]").val("");
+                        if (response) {
+                            form.find("[name=chequeleaveno]").val("");
+                            return $.notify(
+                                {
+                                    icon: "now-ui-icons travel_info",
+                                    message: "Cheque Leave as been used or has been stopped or has been logged for approval"
+                                },
+                                {
+                                    type: "danger",
+                                    placement: {
+                                        from: "top",
+                                        align: "right"
+                                    }
+                                }
+                            );
+
+                        }
+
+                        
+                    },
+                    function (error) {
+                        AccountCheques = null;
+                        AccountChequeLeaves = null;
+                        swal({
+                            title: "Validate Cheque No.",
+                            type: "error",
+                            text: "There was an error loading account cheques!"
+                        });
+                    }
+
+            );
+
+        }
+        });
+
+    $("[name=chequeleaveno]").on("change", function (e) {
+        if ($(e.target).valid()) {
+            // e.target.value;
+            //$("[name=endrange]")
+            //.val(parseInt(e.target.value) + parseInt(selectedChequebook.leavesno) - 1);
+            //$.ajax(url_path + "/../ConfirmChequeLeaveNoStatus/" + e.target.value)
+            debugger
+            var form = $("#inward-cheque-form");
+            var accountNo = form.find("[name=casaaccountno]").val();
+            bankchequedetail = {};
+            bankchequedetail["accountnumber"] = accountNo;
+            bankchequedetail["chequeleaveno"] = e.target.value;
+            $.ajax(url_path + "/../ConfirmChequeLeaveNoStatus/",
+                {
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(bankchequedetail)
+                })
+                .then(
+                    function (response) {
+                        //  var form = $("#inward-cheque-form");
+                        //form.find("[name=chequeleaveno]").val("");
+                        if (response) {
+                            form.find("[name=chequeleaveno]").val("");
+                            return $.notify(
+                                {
+                                    icon: "now-ui-icons travel_info",
+                                    message: "Cheque Leave as been used or has been stopped"
+                                },
+                                {
+                                    type: "danger",
+                                    placement: {
+                                        from: "top",
+                                        align: "right"
+                                    }
+                                }
+                            );
+
+                        }
+
+
+                    },
+                    function (error) {
+                        AccountCheques = null;
+                        AccountChequeLeaves = null;
+                        swal({
+                            title: "Validate Cheque No.",
+                            type: "error",
+                            text: "There was an error loading account cheques!"
+                        });
+                    }
+
+                );
+
+        }
+    });
 }
 
 function initFormValidations() {
@@ -406,7 +524,7 @@ function initFormValidations() {
                 required: "Please insert an amount",
                 number: "Amount is not a valid number"
             },
-            chequeno: {
+            chequeleaveno: {
                 required: "Cheque number is required",
             },
             principalglid: {
@@ -439,6 +557,7 @@ function openNewModal() {
 
 function runValidations() {
     // check if cheque validation resources are loaded
+    debugger
     if (AccountCheques == null
         || AccountChequeLeaves == null) {
         swal({
@@ -451,7 +570,7 @@ function runValidations() {
     }
 
     var form = $("#inward-cheque-form");
-    var chequeno = Number(form.find("#chequeno").val());
+    var chequeno = Number(form.find("#chequeleaveno").val());
     var isOtherReturnCheque = form.find("#otherreturn").prop("checked");
 
     // if cheque exists
@@ -527,7 +646,7 @@ function save() {
     if (!form.valid()) return;
 
     if (!runValidations()) return;
-
+    debugger
     swal({
         title: "Are you sure?",
         text: "Inward cheque would be lodged",

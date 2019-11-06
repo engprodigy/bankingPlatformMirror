@@ -3,9 +3,10 @@ if (url_path.charAt(url_path.length - 1) == '/') {
     url_path = url_path.slice(0, url_path.length - 1);
 }
 
-var chequebooktypes = {}, selectedChequebook,
+var chequebooktypes = {}, selectedChequebook, 
     tracker = 0, accountcheques = undefined,
     REQUEST_IN_PROGRESS = "request_in_progress";
+var lenghtTracker = null;
 
 $(document).ready(function () {
     initFormValidations();
@@ -39,7 +40,8 @@ function initSelectTwoConfig() {
         .then(function (response) {
             $("#accountno").select2({
                 placeholder: "Select account",
-                data: response
+                //data: response
+                data: ["01100123453", "00897878721", "23835292834", "53623546657"]
             });
         });
 
@@ -54,11 +56,37 @@ function initSelectTwoConfig() {
         $("[name=charge]").val(selectedChequebook.charge);
 
         $("[name=startrange]").removeAttr("disabled");
-        if ($("[name=startrange]").val().length > 0) {
+        /*if ($("[name=startrange]").val().length > 0) {
             $("[name=endrange]")
                 .val(parseInt($("[name=startrange]").val())
                     + parseInt(selectedChequebook.leavesno) - 1);
-        }
+        }*/
+
+        $.ajax(url_path + "/../LoadAccountChequesByChequeBookTypeId/" + e.params.data.id)
+            .then(
+                function (response) {
+                    console.log(response);
+                    if (response.length > 0 && (response["0"].startrange != null)) {
+
+                        //console.log(response);
+                        $("[name=startrange]").val(response["0"].endrange + 1).attr("disabled", true);
+                        $("[name=endrange]").val(response["0"].endrange + response["0"].leavesno);
+                        //$("[name=confirmationlimit]").val(response["0"].endrange);
+                    } else if (response.length > 0 && (response["0"].isdeleted != null)) {
+                        //we're just starting to allocate cheque to first customer
+                        $("[name=startrange]").val("1").attr("disabled", true);
+                        $("[name=endrange]").val(response["0"].leavesno);
+                    }
+                  },
+                function (error) {
+                    accountcheques = null;
+                    swal({
+                        title: "Validate Cheque",
+                        type: "error",
+                        text: "There was an error validating the cheque number ranges. Please try again."
+                    });
+                }
+            );
     });
 
     $("#chequebooktypeid").on("select2:unselect", function (e) {
@@ -72,10 +100,34 @@ function initSelectTwoConfig() {
     $("#accountno").on("select2:select", function (e) {
         // Initialize accountcheques as constant
         accountcheques = REQUEST_IN_PROGRESS;
+       // debugger
         $.ajax(url_path + "/../LoadAccountCheques/" + e.params.data.id)
             .then(
                 function (response) {
                     accountcheques = response;
+                    lenghtTracker = response;
+                    
+                   // if (response.length > 0) {
+                    if (response == true) {
+                     // console.log(response);
+                      // $("[name=confirmationlimit]").val(response["0"].accountno);
+                         return $.notify(
+                            {
+                                icon: "now-ui-icons travel_info",
+                                message: "There is an existing cheque for account"
+                            }, {
+                                type: "danger",
+                                placement: {
+                                    from: "top",
+                                    align: "right"
+                                }
+                            }
+                        );
+                    }
+                   // $("[name=accountno]").val(null);.html("");
+                    //$("[name=accountno]").empty();
+                   // $("[name=accountno]").html("");
+                    
                 },
                 function (error) {
                     accountcheques = null;
@@ -85,7 +137,9 @@ function initSelectTwoConfig() {
                         text: "There was an error validating the cheque number ranges. Please try again."
                     });
                 }
-            );
+        );
+
+        setTimeout(console.log(accountcheques), 1000);
     });
 
     $("#accountno").on("select2:unselect", function (e) {
@@ -128,6 +182,9 @@ function initFormValidations() {
         rules: {
             startrange: {
                 digits: true
+            },
+            confirmationlimit: {
+                digits: true
             }
         },
         messages: {
@@ -140,13 +197,20 @@ function initFormValidations() {
             startrange: {
                 required: "Chequebook start range is required",
                 digits: "Chequebook start range can only contain digits"
+            },
+            confirmationlimit: {
+                digits: "Confirmation Limit can only contain digits"
             }
         }
+        
     });
+
+    
 }
 
 function openNewModal() {
     // hide/show form/table
+    
     $("#cheque-form").closest("div.row").hide();
     $("#cheque-table").closest("div.row").show();
 
@@ -155,30 +219,92 @@ function openNewModal() {
 
 function AddCheque() {
     var form = $("#cheque-form");
+    //var length = 0;
     if (!form.valid()) return;
-
+    
     // Cheque start range validation
     var startRange = form.find("[name=startrange]").val();
     var valid = utilities.validateChequeNo(Number(startRange));
+    if (!valid) return $.notify(
+                    {
+                        icon: "now-ui-icons travel_info",
+                        message: "There is an existing cheque for account"
+                    }, {
+                        type: "danger",
+                        placement: {
+                            from: "top",
+                            align: "right"
+                        }
+                    }
+                );
+            
     if (!valid) return; 
-
+    debugger
     var data = {
         accountno: form.find("[name=accountno]").val(),
         chequebooktypeid: form.find("[name=chequebooktypeid]").val(),
         leavesno: form.find("[name=leavesno]").val(),
         charge: form.find("[name=charge]").val(),
+        chequeconfirmationlimit: form.find("[name=confirmationlimit]").val(),
         startrange: startRange,
         endrange: form.find("[name=endrange]").val(),
         iscountercheque: form.find("[name=iscountercheque]").prop("checked"),
         tracker: ++tracker
     };
+  
     $("#cheque-table").bootstrapTable("append", data);
     utilities.showChequeTable();
 }
 
 function Save() {
     // check if table isn't empty
+    debugger
+    var form = $("#cheque-form");
     var tableData = $("#cheque-table").bootstrapTable("getData");
+
+    //confim if cheque has already been registered
+
+    $.ajax(url_path + "/../ConfirmChequeLeaveNoStatus/",
+        {
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(bankchequedetail)
+        })
+        .then(
+            function (response) {
+                //  var form = $("#inward-cheque-form");
+                //form.find("[name=chequeleaveno]").val("");
+                if (response) {
+                    form.find("[name=chequeleaveno]").val("");
+                    return $.notify(
+                        {
+                            icon: "now-ui-icons travel_info",
+                            message: "Cheque Leave as been used or has been stopped or has been logged for approval"
+                        },
+                        {
+                            type: "danger",
+                            placement: {
+                                from: "top",
+                                align: "right"
+                            }
+                        }
+                    );
+
+                }
+
+
+            },
+            function (error) {
+                AccountCheques = null;
+                AccountChequeLeaves = null;
+                swal({
+                    title: "Validate Cheque No.",
+                    type: "error",
+                    text: "There was an error loading account cheques!"
+                });
+            }
+
+        );
     if (tableData.length == 0) {
         return $.notify(
             {
@@ -193,6 +319,8 @@ function Save() {
             }
         );
     }
+
+   
 
     swal({
         title: "Are you sure?",
@@ -216,6 +344,7 @@ function Save() {
             if (isConfirm) {
                 var remark = $.trim($("[name=remark]").val());
                 if (remark.length > 0) {
+                    debugger
                     tableData = $.map(tableData, function (item) {
                         item["remark"] = remark;
                         return item;
@@ -261,8 +390,9 @@ var utilities = {
     validateChequeNo: function (startRange) {
         if (accountcheques == undefined ||
             accountcheques == REQUEST_IN_PROGRESS) {
+           // debugger
             // wait for request to begin or finish
-            return setTimeout(utilities.validateChequeNo, 1000, startRange);
+           return setTimeout(utilities.validateChequeNo, 1000, startRange);
         }
 
         var dataTable = $("#cheque-table")
@@ -279,9 +409,23 @@ var utilities = {
             };
         });
 
+        
         // if no prior chequebooks in db & data-table
-        if (accountcheques.length == 0
-            && dataTable.length == 0) return true;
+        //console.log(accountcheques.length);
+        //console.log(accountcheques);
+        console.log(lenghtTracker.length);
+        console.log(lenghtTracker);
+        lenghtTracker
+        debugger
+        // if (accountcheques.length == 0) 
+        if (accountcheques == false)   
+               return true;
+
+           // && dataTable.length == 0) return true;
+
+       // if (accountcheques.length > 0)
+        if (accountcheques == true)
+             return false;
 
         // get highest end value of chequebooks
         var highestEndRange = accountcheques.reduce(
@@ -338,6 +482,14 @@ var utilities = {
     },
     showChequeForm: function () {
         // clear form
+        $.ajax(url_path + "/../LoadCurrentAccounts")
+            .then(function (response) {
+                $("#accountno").select2({
+                    placeholder: "Select account",
+                    data: response
+                   // data: ["01100123453", "00897878721", "23835292834"]
+                });
+            });
         $("#cheque-form").trigger("reset");
         $("#cheque-form select").val(null)
             .trigger("select2:unselect")
@@ -356,6 +508,7 @@ var utilities = {
             });
     },
     showChequeTable: function () {
+       
         // table-enter/form-leave animation
         $("#cheque-table").closest("div.row")
             .slideToggle({

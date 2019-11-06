@@ -388,8 +388,10 @@ namespace TheCoreBanking.Retail.Controllers
         public JsonResult LoadAccountCheques(string id)
         {
             List<AccountCheques> result = new List<AccountCheques>();
-            var Cheques = RetailUnitOfWork.ChequeDetails.GetByAccountNo(id);
-            foreach (var Item in Cheques)
+
+            var Cheques = RetailUnitOfWork.ChequeDetails.GetByAccountNo(id).ToList().Where(k => k.Isexhausted == false);
+
+            /*foreach (var Item in Cheques)
             {
                 result.Add(new AccountCheques
                 {
@@ -398,15 +400,87 @@ namespace TheCoreBanking.Retail.Controllers
                     Start = Item.Startrange,
                     End = Item.Endrange
                 });
+            }*/
+
+            if(Cheques.Count() > 0) { 
+            AccountCheques accountCheques = new AccountCheques();
+
+            foreach (var Item in Cheques)
+            {
+
+                accountCheques.ID = Item.Id;
+                accountCheques.Start = Item.Startrange;
+                accountCheques.End = Item.Endrange;
+                accountCheques.LeavesNo = Item.Leavesno;
+
             }
-            return Json(result);
+
+            var inwardChequeCount = RetailUnitOfWork.InwardCheques.GetByAccountNo(id).ToList().Where(k => k.Chequebookdetailid == accountCheques.ID
+            && k.Approved == false);
+
+            var chequeCount = inwardChequeCount.Count();
+
+            var chequeLeaveDetailsCount = RetailUnitOfWork.ChequeLeaves.GetByChequeBookID(accountCheques.ID).ToList().Count();
+
+            var TotalChequeCount = chequeCount + chequeLeaveDetailsCount;
+
+            var allChequeLeaveTotal = accountCheques.LeavesNo;
+
+            if (TotalChequeCount == allChequeLeaveTotal)
+            {
+                return Json(false);
+            } else{
+
+                    // return Json(Cheques);
+                 return Json(true);
+
+                }
+            }
+
+            else
+            {
+                return Json(false);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult LoadAccountChequesByChequeBookTypeId(int id)
+        {
+            List<AccountCheques> result = new List<AccountCheques>();
+            var Cheques = RetailUnitOfWork.ChequeDetails.GetByChequeId(id);
+            if(Cheques.Count() > 0 )
+            {
+                return Json(Cheques);
+            }
+            else
+            {
+
+                var ChequeType = RetailUnitOfWork.ChequeTypes.GetActiveById(id);
+                return Json(ChequeType);
+            }
+            /*foreach (var Item in Cheques)
+            {
+                result.Add(new AccountCheques
+                {
+                    ID = Item.Id,
+                    AccountNo = Item.Accountno,
+                    Start = Item.Startrange,
+                    End = Item.Endrange
+                });
+            }*/
+            //return Json(result);
+            //return Json(Cheques);
         }
 
         [HttpGet]
         public JsonResult LoadDetailedAccountCheques(string id)
         {
             var result = RetailUnitOfWork.ChequeDetails.GetDetailedByAccountNo(id);
+            //var result = RetailUnitOfWork.ChequeDetails.GetDetailedByAccountNo(id).ToList();
+            //var newresult = result.
+                
             return Json(result);
+            //return Json(newresult);
         }
 
         [HttpGet]
@@ -450,6 +524,45 @@ namespace TheCoreBanking.Retail.Controllers
             };
             return Json(response);
         }
+
+        //[HttpGet("{id}/{chequeleaveno}")]
+        [HttpPost]
+        public JsonResult ConfirmChequeLeaveNoStatus([FromBody]ChequeInfoVm Cheque)
+        {
+            var result = RetailUnitOfWork.ChequeDetails.GetDetailedByAccountNo(Cheque.accountnumber);
+
+            int? chequeId = null;
+
+            foreach (var Item in result)
+            {
+              chequeId = Item.Id;
+            }
+           
+            var chequeLeavesResult = RetailUnitOfWork.ChequeLeaves
+                .GetByChequeBookID(chequeId)
+                .ToList().Where(l => l.Leafno == Cheque.chequeleaveno && (l.Leafstatus == 1 || l.Leafstatus == 2));
+
+            if(chequeLeavesResult.Count() > 0)
+            {
+                return Json(true);
+            }
+            else
+            {
+                //check if cheque number has been logged but has not been approved in inward cheque table
+                var inwardChequeResult = RetailUnitOfWork.InwardCheques.GetByAccountNo(Cheque.accountnumber)
+                    .ToList().Where(l => l.Chequeleaveno == Cheque.chequeleaveno.ToString());
+                if (inwardChequeResult.Count() > 0)
+                {
+                    return Json(true);
+                }else { 
+                //.GetByChequeBookID(chequeId)
+                return Json(false);
+                }
+            }
+
+
+        }
+
 
         [HttpGet]
         public JsonResult LoadCurrentAccounts()
@@ -640,6 +753,7 @@ namespace TheCoreBanking.Retail.Controllers
             public string AccountNo;
             public int Start;
             public int End;
+            public int LeavesNo;
         }
 
         public static string GetRandNo(int length)
