@@ -40,8 +40,8 @@ function initSelectTwoConfig() {
         .then(function (response) {
             $("#accountno").select2({
                 placeholder: "Select account",
-                //data: response
-                data: ["01100123453", "00897878721", "23835292834", "53623546657"]
+                data: response
+               // data: ["01100123453", "00897878721", "23835292834", "53623546657"]
             });
         });
 
@@ -264,47 +264,7 @@ function Save() {
 
     //confim if cheque has already been registered
 
-    $.ajax(url_path + "/../ConfirmChequeLeaveNoStatus/",
-        {
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(bankchequedetail)
-        })
-        .then(
-            function (response) {
-                //  var form = $("#inward-cheque-form");
-                //form.find("[name=chequeleaveno]").val("");
-                if (response) {
-                    form.find("[name=chequeleaveno]").val("");
-                    return $.notify(
-                        {
-                            icon: "now-ui-icons travel_info",
-                            message: "Cheque Leave as been used or has been stopped or has been logged for approval"
-                        },
-                        {
-                            type: "danger",
-                            placement: {
-                                from: "top",
-                                align: "right"
-                            }
-                        }
-                    );
-
-                }
-
-
-            },
-            function (error) {
-                AccountCheques = null;
-                AccountChequeLeaves = null;
-                swal({
-                    title: "Validate Cheque No.",
-                    type: "error",
-                    text: "There was an error loading account cheques!"
-                });
-            }
-
-        );
+   
     if (tableData.length == 0) {
         return $.notify(
             {

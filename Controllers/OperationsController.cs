@@ -89,8 +89,27 @@ namespace TheCoreBanking.Retail.Controllers
         [HttpPost]
         public JsonResult AddChequeRequests([FromBody]List<TblChequebookdetail> requests)
         {
+
+            
+
             foreach (var item in requests)
             {
+                int chequeId = item.Id;
+                int chequeBookTypeId = item.Chequebooktypeid;
+                // RetailUnitOfWork.
+                var chequeType = RetailUnitOfWork.ChequeTypes.GetActiveById(chequeBookTypeId).ToList().FirstOrDefault();
+
+                var endRange = chequeType.LastIssuedRange;
+
+                var noOfLeaves = chequeType.Leavesno;
+
+                chequeType.LastIssuedRange = endRange + noOfLeaves;
+
+                RetailUnitOfWork.ChequeTypes.Update(chequeType);
+
+               // RetailUnitOfWork.Commit();
+
+
                 item.Datecreated = DateTime.Now;
                 RetailUnitOfWork.ChequeDetails.Add(item);
             }
@@ -128,6 +147,11 @@ namespace TheCoreBanking.Retail.Controllers
         {
             Cheque.Datecreated = DateTime.Now;
             // Cheque.Operationid = ;
+            var chequeDetails = RetailUnitOfWork.ChequeDetails.GetByAccountNo(Cheque.Casaaccountno).
+                ToList().Where(k => k.Isexhausted == false).FirstOrDefault();
+
+            Cheque.Chequebookdetailid = chequeDetails.Id;
+
             RetailUnitOfWork.InwardCheques.Add(Cheque);
             RetailUnitOfWork.Commit();
             return Json(Cheque.Id);
@@ -450,6 +474,26 @@ namespace TheCoreBanking.Retail.Controllers
             var Cheques = RetailUnitOfWork.ChequeDetails.GetByChequeId(id);
             if(Cheques.Count() > 0 )
             {
+                //change selected cheque end range to cheque type last issued range
+                var chequeTypeId = Cheques.FirstOrDefault().Chequebooktypeid;
+
+                var chequeType = RetailUnitOfWork.ChequeTypes.GetActiveById(chequeTypeId).ToList().FirstOrDefault();
+
+                var endRange  = chequeType.LastIssuedRange;
+
+                Cheques.FirstOrDefault().Endrange = endRange;
+
+                var noOfLeaves = chequeType.Leavesno;
+
+                chequeType.LastIssuedRange = endRange + noOfLeaves;
+
+               
+
+
+
+
+
+                // Cheques.FirstOrDefault().Endrange = 200;
                 return Json(Cheques);
             }
             else
