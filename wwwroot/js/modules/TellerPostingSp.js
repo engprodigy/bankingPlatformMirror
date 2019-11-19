@@ -18,6 +18,10 @@ function logoutFormatter(value, row, index) {
 
 
 $(document).ready(function ($) {
+
+    initFormValidations();
+    initEventListeners();
+
     $('#btnTransactOperations').on("click", function () {
         addBasicInfoTransaction();
     });
@@ -26,10 +30,126 @@ $(document).ready(function ($) {
         addSingleCheque();
     });
 
-    $('#btnCashTransfer').on("click", function () {
-        AddTransferCash();
+    $('#frmCashtransfer').submit(function (evt) {
+        evt.preventDefault();
+       
     });
+
+    
+
+    
 });
+
+
+function initEventListeners() {
+
+    var form = $("#frmCashtransfer");
+
+    form.find("#debitAmount").on("change",
+        function () {
+
+           // $('#debitAmount').change(function () {
+            //    $('#creditAmount').val($(this).val());
+           // });
+
+           // var form = $("#frmCashtransfer");
+            debugger
+            $('#creditAmount').val(this.value);
+            var value = $.trim(this.value).replace(/,/g, "");
+            //var value = $.trim(this.value).replace(/,/g, "");
+            
+            // if amount is a valid input
+            if ($.isNumeric(value)) {
+                if (Number(value) <= 0) {
+                    this.value = '';
+                    return $.notify(
+                        {
+                            icon: "now-ui-icons travel_info",
+                            message: "Transaction amount must exceed 0!"
+                        },
+                        {
+                            type: "danger",
+                            placement: {
+                                from: "top",
+                                align: "right"
+                            }
+                        }
+                    );
+                } else {
+                    
+                }
+            }
+
+            
+        }
+    );
+
+}
+
+
+function initFormValidations() {
+    jQuery.validator.setDefaults({
+        onfocusout: false,
+        onkeyup: false,
+        onclick: false,
+        normalizer: function (value) {
+            // Trim the value of every element
+            // before validation
+            return $.trim(value);
+        },
+        errorPlacement: function (error, element) {
+            $.notify({
+                icon: "now-ui-icons travel_info",
+                message: error.text()
+            }, {
+                    type: "danger",
+                    placement: {
+                        from: "top",
+                        align: "right"
+                    }
+                });
+        }
+    });
+
+
+    $("#frmCashtransfer").validate({
+        rules: {
+            debitAmount: {
+                
+                number: true,
+                min: 1,
+                required: true
+                
+            },
+            chargepercent: {
+                number: true
+            }
+        },
+        
+        messages: {
+            ddlDebitGLNumber: {
+                required: "Please select a Debit GL"
+            },
+            creditGLNumber: {
+                required: "Please select a Credit GL"
+              
+            },
+            debitTransactDate: {
+                required: "Date is required",
+                
+            },
+            debitAmount: {
+                required: "Amount should exceed zero",
+                
+                number: "Amount is not a valid number"
+            },
+            
+            
+        },
+        ignore: ":hidden:not(.always-validate)"
+    });
+
+}
 
 
 
@@ -37,9 +157,14 @@ $(document).ready(function ($) {
 
 $(document).ready(function ($) {
     $(".modal").perfectScrollbar();
+    $.fn.select2.defaults.set("theme", "bootstrap4");
+    $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
+    $.fn.select2.defaults.set("width", "100%");
+    $.fn.select2.defaults.set("allowClear", true);
    // initSelectTwoConfig();
    // initEventListeners();
     TransferChange();
+    
 });
 
 function sleep(milliseconds) {
@@ -65,9 +190,9 @@ var availbalance;
 var transaction;
 
 function TransferChange() {
-    $(document).ready(function () {
+   // $(document).ready(function () {
         debugger
-        $("#ddlDebitGLNumber").select2({
+    $("#creditGLNumber").select2({
             theme: "bootstrap4",
             placeholder: "Loading..."
 
@@ -76,38 +201,59 @@ function TransferChange() {
             url: "../TellerAndTill/GetChartOfAccount",
         }).then(function (response) {
             debugger
-            $("#ddlDebitGLNumber").select2({
+            $("#creditGLNumber").select2({
                 theme: "bootstrap4",
                 placeholder: "Search/Select GL number", 
                 width: '100%',
                 data: response
             });
             });     //for dropdown list control ends here
-        
+  //  });   
 
-        $("#ddlDebitGLNumber").on("select2:select", function (e) {
+    $("#ddlDebitGLNumber").select2({
+        theme: "bootstrap4",
+        placeholder: "Loading..."
+
+    });
+
+    debugger
+    $.ajax({
+        url: "../TellerAndTill/GetChartOfAccountforTellerUser",
+    }).then(function (response) {
+        debugger
+        $("#ddlDebitGLNumber").select2({
+            theme: "bootstrap4",
+            placeholder: "Search/Select GL number",
+            width: '100%',
+            data: response
+        });
+    }); 
+
+}
+
+$("#creditGLNumber").on("select2:select", function (e) {
             //var user = User.Identtity.Name;
             var user = "Peter Nwankwo";
-                debugger
-                var datas = e.params.data;
-                $('#ddlDebitGLNumber').val(datas.accountId);
+            debugger
+            var datas = e.params.data;
+               // $('#ddlDebitGLNumber').val(datas.accountId);
             // $('#creditGLNumber').val(datas.accountname);
-            $('#creditGLNumber').val(user);
-                $('#debitGLName').val(datas.accountname);
-            //$('#creditGLName').val(datas.accountname);          //Latter change all credit control here to User.Identity.Name
-            $('#creditGLName').val(user);
-                $('#debitGLNum').val(datas.accountId);
+           // $('#creditGLNumber').val(user);
+              //  $('#debitGLName').val(datas.accountname);
+            $('#creditGLName').val(datas.accountname);          //Latter change all credit control here to User.Identity.Name
+           // $('#creditGLName').val(user);
+            //    $('#debitGLNum').val(datas.accountId);
             $('#creditGLNum').val(datas.accountId);
-            $('#debitProduct').val(datas.accountname);
-                $('#creditProduct').val(datas.accountId);
-                $("#debitGLBalance").val("XXXXXX");
+           // $('#debitProduct').val(datas.accountname);
+            $('#creditProduct').val(datas.accountId);
+           
 
-                $('#ddlDebitGLNumber').val(null).trigger('change.select2');
-                availbalance = datas.availablebalance;
-                $("#ddlDebitGLNumber").select2({
-                    theme: "bootstrap4",
-                    placeholder: "Loading..."
-                });
+                //$('#ddlDebitGLNumber').val(null).trigger('change.select2');
+                //availbalance = datas.availablebalance;
+                //$("#ddlDebitGLNumber").select2({
+                //    theme: "bootstrap4",
+                //    placeholder: "Loading..."
+                //});
                 $.ajax({
                     url: "../TellerAndTill/loadGLBalance",
                     //data: { AccountID: $('#ddlDebitGLNumber').val() },
@@ -121,15 +267,22 @@ function TransferChange() {
 
             });
 
+$("#ddlDebitGLNumber").on("select2:select", function (e) {
 
-    });
+    var datas = e.params.data;
+    $('#debitGLNum').val(datas.accountId);
+    $('#debitGLName').val(datas.accountname);
+    $("#debitGLBalance").val("XXXXXX");
+
+});
+   
     // Event Listeners
     $(document).on("select2:open", function () {
         $('.select2-results__options').perfectScrollbar();                
 
     });
     
-}
+
 
 
 $('#debitCreditNaration').change(function () {
@@ -137,9 +290,9 @@ $('#debitCreditNaration').change(function () {
             $('#creditNaration').val($(this).val());
         });
 
-    $('#debitAmount').change(function () {
+    /*$('#debitAmount').change(function () {
         $('#creditAmount').val($(this).val());
-    });
+    });*/
 
 
 
@@ -191,149 +344,168 @@ function amountChange() {
 
 
 
-function AddTransferCash() {
-    $('#frmCashtransfer').validate({
-        messages: {
-            tillgeneralToGeneralLedger: { required: "Select Acct No is required" },
-            ddlDebitGLNumber: { required: "Depositor Name is required" },
-            creditGLNumber: { required: "Transaction date is required" },
-            debitGLName: { required: "Depositor's address date is required" },
-            creditGLName: { required: "Select Acct No is required" },
-            debitGLNum: { required: "Depositor Name is required" },
-            creditGLNum: { required: "Transaction date is required" },
-            debitGLBalance: { required: "Select Acct No is required" },
-            creditGLBalance: { required: "Depositor Name is required" },
-            debitProduct: { required: "Transaction date is required" },
-            creditProduct: { required: "Depositor's address date is required" },
-            debitAmount: { required: "Select Acct No is required" },
-            creditAmount: { required: "Select Acct No is required" },
-            debitTransactDate: { required: "Depositor Name is required" },
-            creditNaration: { required: "Transaction date is required" },
-            debitCreditNaration: { required: "Depositor's address date is required" },
-            creditInstrumentNo: { required: "Select Acct No is required" },
-            debitTransactType: { required: "Depositor Name is required" },           
+function save() {
 
-            transDepositorPhone: {
-                     number: true
-                 },
-            transDepositSlipNo: {
-                     number: true
-                 },
-                amountFigure: {
-                    decimal: true
-                },
-            
-            messages: {
-                transDepositorPhone: {
-                    required: "Please select one charge type"
-                },
-                transDepositSlipNo: {
-                    required: "Deposit slip should be int"
-                },
-                amountFigure: {
-                    required: "amount is required"
-                }
-            }
+    debugger
 
-        },
-        errorPlacement: function (error, element) {
-            $.notify({
-                icon: "now-ui-icons travel_info",
-                message: error.text(),
-            }, {
-                    type: 'danger',
-                    placement: {
-                        from: 'top',
-                        align: 'right'
-                    }
-                });
-        },
-        submitHandler: function (form) {
-            $("input[type=submit]").attr("disabled", "disabled");
-            swal({
-                title: "Are you sure?",
-                text: "Transaction will be added!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#ff9800",
-                confirmButtonText: "Yes, continue",
-                cancelButtonText: "No, stop!",
-                showLoaderOnConfirm: true,
-                preConfirm: function () {
-                    return new Promise(function (resolve) {
-                        setTimeout(function () {
-                            resolve();
-                        }, 4000);
-                    });
-                }
-            }).then(
-                function (isConfirm) {
-                    if (isConfirm) {
-                        $("#btnCashTransfer").attr("disabled", "disabled");
+    var form = $("#frmCashtransfer");
+    if (!form.valid()) return;
 
-                        var creditGLNumber = $('#debitGLNum').val();
-                        debugger
-                        //var tillgeneralToGeneralLedger = $('#tillgeneralToGeneralLedger').select2("data").text;
-                        var AccountDr = creditGLNumber;
-                        var AccountCr = $('#creditGLNumber').val(); 
-                        // var GLName = $('#debitGLName').select2("data").text;
-                        // var GLName1 = $('#creditGLName').select2("data").text;
-                        //var GLnum = $('#debitGLNum').select2("data").text;
-                        //var AcctNum = $('#creditGLNum').val();
-                        //var Balance = $('#debitGLBalance').val();
-                        //var Bal = $('#creditGLBalance').val();
-                        //var Prod = $('#debitProduct').val();
-                        //var Product = $('#creditProduct').val();
-                        //var debitAmount = $('#debitAmount').val();
-                        var Amount = $('#creditAmount').val();
-                        var PostDate = $('#debitTransactDate').val();
-                        var NarrationDr = $('#creditNaration').val();
-                        var NarrationCr = $('#debitCreditNaration').val();
-                        var ChequeNo = $('#creditInstrumentNo').val();
-                        //var TransactionType = $('#debitTransactType').val();
+   // return;
 
-                        $.ajax({
-                            url: '../TellerAndTill/AddTransactionOperation/',
-                            type: 'POST',
-                            data: {
-                                AccountDr, AccountCr, Amount, PostDate, NarrationDr, NarrationCr, ChequeNo
-                            },
-                            dataType: "json",
-                            
-                            success: function (result) {
+    swal({
+        title: "Are you sure?",
+        text: "Transaction will be added!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#34D027",
+        confirmButtonText: "Yes, continue",
+        cancelButtonColor: "#ff9800",
+        cancelButtonText: "No, stop!",
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve();
+                }, 1000);
+            });
+        }
+    })
+        .then(
+        function (isConfirm) {
+                if (isConfirm) {
 
-                                if (result.toString !== '' && result !== null) {
-                                    swal({ title: 'Add transfer operation', text: 'Transfer operation add successful!', type: 'success' }).then(function () { clearForm(); });
+                    debugger
 
-                                    $('#AddNewCashTransfer').modal('hide');
+                    $("#btnCashTransfer").attr("disabled", "disabled");
 
-                                    $('#tellerLoginTable').
-                                        bootstrapTable(
+                    //var DebitAmt = $('#debitGLNum').val();
+
+                    //var tillgeneralToGeneralLedger = $('#tillgeneralToGeneralLedger').select2("data").text;
+                   // var AccountDr = creditGLNumber;
+                    var AccountIdCredit = $('#creditGLNum').val();
+                    // var GLName = $('#debitGLName').select2("data").text;
+                    // var GLName1 = $('#creditGLName').select2("data").text;
+                    var AccountIdDebit = $('#debitGLNum').val();
+                    //var AcctNum = $('#creditGLNum').val();
+                    //var Balance = $('#debitGLBalance').val();
+                    //var Bal = $('#creditGLBalance').val();
+                    //var Prod = $('#debitProduct').val();
+                    //var Product = $('#creditProduct').val();
+                    var debitAmount = $('#debitAmount').val();
+                    var creditAmount = $('#creditAmount').val();
+                    var TransactionDate = $('#debitTransactDate').val();
+                    //var NarrationDr = $('#creditNaration').val();
+                    var NarrationCr = $('#debitCreditNaration').val();
+                    //var ChequeNo = $('#creditInstrumentNo').val();
+                    //var TransactionType = $('#debitTransactType').val();
+
+                    //debit side posting
+
+                    $.ajax({
+                        url: '../TellerAndTill/AddTransactionOperation/',
+                        type: 'POST',
+                        data: {
+                            AccountId: AccountIdDebit, DebitAmt: debitAmount, CreditAmt: 0, TransactionDate, NarrationCr
+                        },
+                        dataType: "json",
+
+                        success: function (result) {
+
+                            /*if (result.toString !== '' && result !== null) {
+                                swal({
+                                    title: 'Add transfer operation',
+                                    text: 'Transfer operation add successful!',
+                                    type: 'success'
+                                }).then(function () { clearForm(); });
+
+                                $('#AddNewCashTransfer').modal('hide');
+
+                                $('#tellerLoginTable').
+                                    bootstrapTable(
                                         'refresh', { url: 'TellerAndTill/listTellerLogin' });
 
-                                    $("#btnCashTransfer").removeAttr("disabled");
-                                }
-                                else {
-                                    swal({ title: 'Add transfer operation', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { clearForm(); });
-                                    $("#btnCashTransfer").removeAttr("disabled");
-                                }
-                             
-                            },
-                            error: function (e) {
-                                swal({ title: 'Add transfer operation', text: 'Transfer operation add encountered an error', type: 'error' }).then(function () { clearForm(); });
                                 $("#btnCashTransfer").removeAttr("disabled");
                             }
-                        });
-                    }
-                },
+                            else {
+                                swal({
+                                    title: 'Add transfer operation',
+                                    text: 'Something went wrong: </br>' + result.toString(), type: 'error'
+                                }).then(function () { clearForm(); });
+                                $("#btnCashTransfer").removeAttr("disabled");
+                            }*/
 
-                function (dismiss) {
-                    swal('Add transfer operation', 'You cancelled transfer operation add.', 'error');
-                    $("#btnCashTransfer").removeAttr("disabled");
-                }
-            );
+                        },
+                        error: function (e) {
+                            swal({
+                                title: 'Add transfer operation',
+                                text: 'Transfer operation add encountered an error', type: 'error'
+                            }).then(function () { clearForm(); });
+                            $("#btnCashTransfer").removeAttr("disabled");
+                        }
+                    });
+
+                    //credit side posting
+
+                    $.ajax({
+                        url: '../TellerAndTill/AddTransactionOperation/',
+                        type: 'POST',
+                        data: {
+                            AccountId: AccountIdCredit, DebitAmt: 0, CreditAmt: creditAmount, TransactionDate, NarrationCr
+                        },
+                        dataType: "json",
+
+                        success: function (result) {
+
+                            if (result.toString !== '' && result !== null) {
+                                swal({
+                                    title: 'Add transfer operation',
+                                    text: 'Transfer operation add successful!',
+                                    type: 'success'
+                                }).then(function () { clearForm(); });
+
+                                $('#AddNewCashTransfer').modal('hide');
+                                //$("#frmCashtransfer").trigger('reset');
+                                var form = $("#frmCashtransfer");
+                                form.trigger("reset");
+                                form.find("select").trigger("change");
+
+                                $('#tellerLoginTable').
+                                    bootstrapTable(
+                                        'refresh', { url: 'TellerAndTill/listTellerLogin' });
+
+                                $("#btnCashTransfer").removeAttr("disabled");
+                            }
+                            else {
+                                swal({
+                                    title: 'Add transfer operation',
+                                    text: 'Something went wrong: </br>' + result.toString(), type: 'error'
+                                }).then(function () { clearForm(); });
+                                $("#btnCashTransfer").removeAttr("disabled");
+                            }
+
+                        },
+                        error: function (e) {
+                            swal({
+                                title: 'Add transfer operation',
+                                text: 'Transfer operation add encountered an error', type: 'error'
+                            }).then(function () { clearForm(); });
+                            $("#btnCashTransfer").removeAttr("disabled");
+                        }
+                    });
+                
+            }
+        },
+
+        function (dismiss) {
+            swal('Add transfer operation', 'You cancelled transfer operation add.', 'error');
+            $("#btnCashTransfer").removeAttr("disabled");
         }
-    });
+    );
+
+    
+   
+    
 }
 
 var utilities = {

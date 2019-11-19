@@ -358,14 +358,14 @@ function sleep(milliseconds) {
 }
 
 
-$('#debitCreditNaration').change(function () {
+/*$('#debitCreditNaration').change(function () {
     debugger
     $('#creditNaration').val($(this).val());
 });
 
 $('#debitAmount').change(function () {
     $('#creditAmount').val($(this).val());
-});
+});*/
 
 
 

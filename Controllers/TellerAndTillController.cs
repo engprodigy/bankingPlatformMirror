@@ -247,7 +247,15 @@ namespace TheCoreBanking.Retail.Controllers
 
         protected IEnumerable<ChartOfAccountVM> LoadChartOfAccounts()
         {
+
+#if DEBUG
+            //string URI for out of office development
+           // string Uri = ApiConstants.BaseApiUrl + ApiConstants.ChartOfAccountEndpointDev;
+            //for office development
             string Uri = ApiConstants.BaseApiUrl + ApiConstants.ChartOfAccountEndpoint;
+#else
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.ChartOfAccountEndpoint;
+#endif
             var ChartOfAccounts = RetailUnitOfWork.API.GetAsync(Uri).Result;
             var settings = new JsonSerializerSettings
             {
@@ -287,9 +295,9 @@ namespace TheCoreBanking.Retail.Controllers
             ChartOfAccount result2 = (ChartOfAccount)result.Where(a => a.accountId == accountId);
             return result2;
         }
-        #endregion
+#endregion
 
-        #region Detail
+#region Detail
 
         [HttpGet]
         public JsonResult GetChartOfAccount()
@@ -307,6 +315,72 @@ namespace TheCoreBanking.Retail.Controllers
                     
                 });
             }
+            return Json(list);
+        }
+
+        [HttpGet]
+        public JsonResult GetChartOfAccountDev()
+        {
+
+            var ChartOfAccounts = RetailUnitOfWork.Chart.GetAll();
+
+            return Json(ChartOfAccounts);
+        }
+
+
+        [HttpGet]
+        public JsonResult GetChartOfAccountforTellerUser()
+        {
+
+            var loggedUser = User.Identity.Name;
+
+            if (User.Identity.Name == null)
+            {
+                loggedUser = "tayo.olawumi";
+
+            }
+            else
+            {
+                loggedUser = User.Identity.Name;
+            }
+
+            var tellerAccountId = RetailUnitOfWork.tellerlogin.GetAssignedUser(loggedUser).FirstOrDefault().Accountid;
+
+            var list = new List<SelectTwoContent>();
+#if DEBUG
+            var result = RetailUnitOfWork.Chart.GetAll();
+            foreach (var item in result)
+            {
+                if (tellerAccountId == item.AccountId)
+                {
+                    list.Add(new SelectTwoContent
+                    {
+                        Id = item.Id.ToString(),
+                        Text = item.AccountName,
+                        accountname = item.AccountName,
+                        accountId = item.AccountId
+
+                    });
+                }
+            }
+#else
+            var result = LoadChartOfAccounts();
+            foreach (var item in result)
+            {
+                if (tellerAccountId == item.AccountID)
+                {
+                    list.Add(new SelectTwoContent
+                    {
+                        Id = item.Id.ToString(),
+                        Text = item.AccountName,
+                        accountname = item.AccountName,
+                        accountId = item.AccountID
+
+                    });
+                }
+            }
+#endif
+
             return Json(list);
         }
 
@@ -488,9 +562,22 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(true);*/
         }
 
-        #endregion
+        [HttpGet]
+        public JsonResult getAllSingleTransfer()
+        {
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+            var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser);
 
-        #region Create
+             return Json(tellerTransactions);
+        }
+
+#endregion
+
+            #region Create
 
         [HttpPost]
         public JsonResult AddTillMap(TblTillmapping mapping)
@@ -617,21 +704,34 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(Setteller.Id);
         }
 
-        public JsonResult AddTransactionOperation(TblBankingsinglefundtransfer singlefund)
+        //public JsonResult AddTransactionOperation(TblBankingsinglefundtransfer singlefund)  TblFinanceTransaction
+        public JsonResult AddTransactionOperation(TblFinanceTransaction singlefund)
         {
             //var loginUsers = RetailUnitOfWork.TransactionOperations.Find(o => o.StaffName == User.Identity.Name);
-            var loginUsers = "Fagbemi Babatunde";
-            singlefund.CreateBy = loginUsers;
+            //var loginUsers = "Fagbemi Babatunde";
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+
+            
             singlefund.PostingTime = DateTime.Now.ToShortTimeString();
-            singlefund.CoyCode = "101";
-            singlefund.BrCode = "1";
-            singlefund.ApprovedBy = loginUsers;
+            //singlefund.CoyCode = "101";
+            //singlefund.BrCode = "1";
+            //singlefund.ApprovedBy = logUser;
             singlefund.ValueDate = DateTime.Now;
-            singlefund.DateApproved = DateTime.Now;
+            //singlefund.TransactionDate = DateTime.Now;
             singlefund.TransactionType = 1;
+            singlefund.PostedBy = logUser;
+            singlefund.Approved = false;
+            Random r = new Random();
+            int rInt = r.Next(0, 5000);
+            singlefund.Ref = "GLP/" + DateTime.Now.Year + "/" + rInt.ToString();
 
 
-            RetailUnitOfWork.SingleFundTransfer.Add(singlefund);
+            //RetailUnitOfWork.SingleFundTransfer.Add(singlefund);
+            RetailUnitOfWork.Transaction.Add(singlefund);
             RetailUnitOfWork.Commit();            
             //bool result = RetailUnitOfWork.TransactionOperations.SingleFundTransfer(singlefund.AccountDr, singlefund.AccountCr, singlefund.Amount, singlefund.NarrationCr, singlefund.ChequeNo);
 
@@ -708,6 +808,7 @@ namespace TheCoreBanking.Retail.Controllers
         {
             string Uri = ApiConstants.BaseApiUrl + ApiConstants.ChartOfAccountEndpoint;
             var ChartOfAccounts = RetailUnitOfWork.API.GetAsync(Uri).Result;
+            //var ChartOfAccounts = RetailUnitOfWork.Chart.GetAll();
             var settings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
@@ -738,6 +839,7 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(list);
         }
 
+       
 
         [HttpGet]
         public JsonResult loadVaultTillBalance(string accountId)
@@ -808,7 +910,7 @@ namespace TheCoreBanking.Retail.Controllers
 
 
 
-        #region SecurityImageDocument
+#region SecurityImageDocument
         public JsonResult AddExcelChequeUpload(UploadFiles upload)
         {
             using (var db = new TheCoreBanking_FilesContext())
@@ -836,12 +938,12 @@ namespace TheCoreBanking.Retail.Controllers
             }
             return Json(true);
         }
-        #endregion
+#endregion
 
 
-        #endregion
+#endregion
 
-        #region Update
+#region Update
 
         [HttpPost]
         public JsonResult updateTillMap(TblTillmapping mapping)
@@ -936,9 +1038,9 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(Setteller.Id);
         }
 
-        #endregion
+#endregion
 
-        #region Delete
+#region Delete
 
         public JsonResult DeleteTellerLimit(TblTellerlimit teller)
         {
@@ -1001,10 +1103,10 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(definition.Id);
         }
 
-        #endregion
+#endregion
 
 
-        #region
+#region
 
         // utilities
         private Dictionary<string, string>.KeyCollection GetApiData(string UriSuffix)
@@ -1022,9 +1124,9 @@ namespace TheCoreBanking.Retail.Controllers
                     settings
                 ).ToDictionary(x => x.Id, x => x.Text).Keys;
         }
-        #endregion
+#endregion
 
-        #region Select2 Helper
+#region Select2 Helper
 
         public class Select2Format
         {
@@ -1039,7 +1141,7 @@ namespace TheCoreBanking.Retail.Controllers
             public string accountId { get; set; }
             public decimal availablebalance { get; set; }
         }
-        #endregion
+#endregion
 
     }
 }
