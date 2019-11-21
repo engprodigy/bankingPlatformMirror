@@ -37,8 +37,13 @@ function logoutFormatter(value, row, index) {
 }
 
 
+
 $(document).ready(function ($) {
     $(".modal").perfectScrollbar();
+    $.fn.select2.defaults.set("theme", "bootstrap4");
+    $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
+    $.fn.select2.defaults.set("width", "100%");
+    $.fn.select2.defaults.set("allowClear", true);
     LodgementChange();
 });
 
@@ -66,9 +71,10 @@ function LodgementChange() {
                 theme: "bootstrap4",
                 placeholder: "Search/Select Account no.",  
                 width: '100%',
-                data: response
+                data: response,
+                dropdownParent: $("#AddNewTransferOperation.modal"),
             });
-            });     //for dropdown list control ends here
+            });    //for dropdown list control ends here
               
 
 
@@ -473,7 +479,8 @@ function addBasicInfoTransaction() {
 
                         debugger
                         //var ProductAcctNo = $('#ddlAcctNumber').select2("data").text;
-                        var AccountId = $('#ddlAcctNumber').select2("data")[0].text;
+                        //var AccountId = $('#ddlAcctNumber').select2("data")[0].text;
+                        var AccountId = $('#ddlAcctNumber').val();
                         var Ref = $('#referenceNum').val();
                         //var DepositorName = $('#transDepositorName').val();
                         var TransactionDate = $('#transDate').val();
@@ -489,7 +496,7 @@ function addBasicInfoTransaction() {
                         //var refNowithdraw = $('#withdrawalRefNumber').val();
                         //var name = $('#withdrawalName').val();
                         //var transdate = $('#withdrawaltransDate').val();
-                        var CreditAmt = $('#withdrawalAmount').val();
+                        var CreditAmt = $('#amountFigure').val();
                         //var forcedebit = $('#withdrawalFoecDebit').prop("checked");
                         //var COT = $('#withdrawalCOT').val();
                         //var chequeslip = $('#withdrawalChequeSlipNo').val();

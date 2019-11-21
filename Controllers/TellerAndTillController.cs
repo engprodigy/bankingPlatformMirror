@@ -49,6 +49,8 @@ namespace TheCoreBanking.Retail.Controllers
             return View();
         }
 
+
+
 #if DEBUG
         //[Authorize()]
 #else
@@ -726,8 +728,11 @@ namespace TheCoreBanking.Retail.Controllers
             singlefund.PostedBy = logUser;
             singlefund.Approved = false;
             Random r = new Random();
-            int rInt = r.Next(0, 5000);
-            singlefund.Ref = "GLP/" + DateTime.Now.Year + "/" + rInt.ToString();
+            int rInt = r.Next(1000, 5000);
+            //singlefund.Ref = "GLP/" + DateTime.Now.Year + "/" + rInt.ToString();
+
+            singlefund.Ref = "GLP/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString()
+                + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + rInt.ToString();
 
 
             //RetailUnitOfWork.SingleFundTransfer.Add(singlefund);
@@ -741,11 +746,22 @@ namespace TheCoreBanking.Retail.Controllers
 
         public JsonResult AddLodgement(TblFinanceTransaction transactions)
         {
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+
             transactions.ValueDate = DateTime.Now;
-            transactions.PostedBy = "sys";
+            transactions.PostedBy = logUser;
             transactions.PostingTime = DateTime.Now.ToShortTimeString();
-            transactions.Ref = "TRN/201/0020655";
+            // transactions.Ref = "TRN/201/0020655";
+            Random r = new Random();
+            int rInt = r.Next(1000, 5000);
+            transactions.Ref = "TRN/" + DateTime.Now.Year + "/" + DateTime.Now.Month + DateTime.Now.Hour + DateTime.Now.Minute
+                + DateTime.Now.Second  + DateTime.Now.Millisecond + rInt;
             transactions.SCoyCode = "101";
+            transactions.Approved = false;
 
 
             RetailUnitOfWork.Transaction.Add(transactions);
@@ -753,10 +769,10 @@ namespace TheCoreBanking.Retail.Controllers
             TblFinanceCounterpartyTransaction counterParty = new TblFinanceCounterpartyTransaction();
 
             //var user = User.Identity.Name;
-            var user = "Peter";
+           // var user = "Peter";
 
             counterParty.TransactionDate = DateTime.Now;
-            counterParty.UserName = user;
+            counterParty.UserName = logUser;
             counterParty.Coy = "1";
             counterParty.PostDate = DateTime.Now.Date;
             counterParty.SystemDateTime = DateTime.Now;

@@ -205,7 +205,8 @@ function TransferChange() {
                 theme: "bootstrap4",
                 placeholder: "Search/Select GL number", 
                 width: '100%',
-                data: response
+                data: response,
+                dropdownParent: $("#AddNewCashTransfer.modal"),
             });
             });     //for dropdown list control ends here
   //  });   
@@ -473,6 +474,11 @@ function save() {
                                 $('#tellerLoginTable').
                                     bootstrapTable(
                                         'refresh', { url: 'TellerAndTill/listTellerLogin' });
+                                $('#teller-transaction-table').
+                                    bootstrapTable(
+                                        'refresh', { url: 'TellerAndTill/getAllSingleTransfer' });
+
+                                location.reload(true);
 
                                 $("#btnCashTransfer").removeAttr("disabled");
                             }
@@ -517,7 +523,27 @@ var utilities = {
             "</button>"
         ].join("");
     },
+
+    approvalFormatter: function (val, row, index) {
+        if (row.approved == true) {
+            return [
+                'Approved'
+
+            ].join('');
+        } else {
+            return [
+                'Pending'
+
+            ].join('');
+
+        }
+    },
+
+
 }
+
+
+
 
 //window.tellerLogoutEvents = {
     function tellerLogoutService (id) {

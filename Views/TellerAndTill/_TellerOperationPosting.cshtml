@@ -1,0 +1,373 @@
+﻿<div class="card card-plain">
+    <div class="card-header text-center">
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ul class="nav nav-pills nav-pills-primary flex-column" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#link5" role="tablist">
+                                        Transfer
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="link5">
+                                    @*Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas.
+                                        <br><br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                                        <br /><br />*@
+                                    <button class="btn btn-danger" data-toggle="modal" id="btnCashTransfer" data-target="#AddNewCashTransfer"
+                                            type="button" value="Cash Transfer">
+                                        <i class="now-ui-icons ui-1_simple-add"></i>
+                                        Click to Perform Cash Transfer
+                                    </button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+
+<div id="AddNewCashTransfer" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 mb-3 pl-3">
+                    Petty Cash Transaction
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <div class="card card-plain">
+                                <ul class="row justify-content-space-around nav nav-pills nav-pills-primary" role="tablist">
+                                    <li class="col-xs-12 col-md-6 nav-item mb-3 mb-md-0">
+                                        <a class="nav-link active" data-toggle="tab" href="#single" role="tablist">
+                                            Single (Transfer)
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-12 col-md-6 nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#statussingle" role="tablist">
+                                            Status (Single)
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="single">
+                                        <form id="frmCashtransfer" class="card card-plain">
+                                            <div class="container pt-5 pb-3">
+
+
+
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <h5 style="color:red"><b>Debit</b></h5>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <h5 style="color:red"><b>Credit</b></h5>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group col-md-12 pl-1">
+                                                        <label></label>
+                                                        <select id="tillgeneralToGeneralLedger" name="tillgeneralToGeneralLedger"
+                                                                class="form-control">
+                                                            <option>
+                                                                General Ledger to General Ledger
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 pl-1 required">
+                                                        <div class="form-group">
+                                                            <label>GL Name Mapped To Teller User</label>
+                                                            <select id="ddlDebitGLNumber" name="ddlDebitGLNumber" class="form-control" required>
+                                                                <option> </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 pl-1 required">
+                                                        <div class="form-group">
+                                                            <label>GL Name</label>
+                                                            <select id="creditGLNumber" name="creditGLNumber" class="form-control" required>
+                                                                <option> </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>GL Name</label>
+                                                            <input id="debitGLName" name="debitGLName" class="form-control" readonly />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>GL Name</label>
+                                                            <input id="creditGLName" name="creditGLName" class="form-control" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>GL Number</label>
+                                                            <input id="debitGLNum" name="debitGLNum" class="form-control" readonly />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>GL Number</label>
+                                                            <input id="creditGLNum" name="creditGLNum" class="form-control" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>GL Balance</label>
+                                                            <input id="debitGLBalance" class="form-control" readonly />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 pl-1">
+                                                        <label>GL Balance</label>
+                                                        <div class="input-group">
+
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">&#8358;</span>
+                                                            </div>
+                                                            <input id="creditGLBalance" name="creditGLBalance"
+                                                                   style="color:red; font-weight:bold; font-size:large" class="form-control" readonly />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>Product</label>
+                                                            <input id="debitProduct" name="debitProduct" class="form-control" readonly />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>Product</label>
+                                                            <input id="creditProduct" name="creditProduct" class="form-control" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 pl-1 required">
+                                                        <div class="form-group">
+                                                            <label>Amount</label>
+                                                            @*<input id="debitAmount" name="debitAmount" class="form-control format-money" placeholder="0" required  />*@
+
+                                                            <input id="debitAmount" name="debitAmount" class="form-control" placeholder="0" required />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>Amount</label>
+                                                            <input id="creditAmount" name="creditAmount" class="form-control format-money" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 pl-1 required">
+                                                        <div class="form-group">
+                                                            <label>Transaction Date</label>
+                                                            <input id="debitTransactDate" name="debitTransactDate" class="form-control datetimepicker" required />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>Naration</label>
+                                                            <textarea id="creditNaration" name="creditNaration" class="form-control form-group-lg border"
+                                                                      placeholder="Credit Naration" readonly></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>Naration</label>
+                                                            <textarea id="debitCreditNaration" name="debitCreditNaration" class="form-control form-group-lg border"
+                                                                      placeholder="Debit Naration"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 pl-1">
+                                                        @*<div class="form-group">
+                                                                <label>Instrument Number</label>
+                                                                <input id="creditInstrumentNo" name="creditInstrumentNo" class="form-control"
+                                                                       placeholder="Enter GL number" />
+                                                            </div>*@
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 pl-1">
+                                                        <div class="form-group">
+                                                            <label>Transaction Type</label>
+                                                            <select name="debitTransactType" id="debitTransactType" disabled
+                                                                    class="form-control">
+                                                                <option value="1">Debit Entry</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <hr />
+                                                <div class="row mt-4 justify-content-between">
+                                                    <div class="col">
+                                                        <button class="btn btn-danger btn-wd pull-left"
+                                                                id="btnCashTransfer" onclick="save();">
+                                                            Save Record
+                                                        </button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button class="btn btn-warning btn-wd pull-right" type="reset"
+                                                                onclick="clearForm()">
+                                                            Clear
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                    <div class="tab-pane" id="statussingle">
+                                        @* <form id="frmStatusSingle"> *@
+                                        <div class="container py-4 px-0">
+
+                                            @*<div class="row">
+
+                                                                            <table id="singleStatusTable" class="data-table"
+                                                                                   data-show-refresh="true"
+                                                                                   data-show-toggle="true"
+                                                                                   data-show-columns="true"
+                                                                                   data-show-export="true"
+                                                                                   data-url="@Url.Action("listTellerLogin", "TellerAndTill")"
+                                                                                   data-show-pagination-switch="true"
+                                                                                   data-pagination="true"
+                                                                                   data-page-list="[10, 25, 50, 100, ALL]"
+                                                                                   data-export-types="['excel', 'pdf']"
+                                                                                   data-export-options='{
+                                                                               "fileName"
+                                                                               "Perform Transaction" ,
+                                                                               "worksheetName"
+                                                                               "Transactions" ,
+                                                                               "jspdf"
+                                                                               {"orientation":"landscape",
+                                                                               "autotable"
+                                                                               {"theme" "grid" ,
+                                                                               "styles"
+                                                                               { "rowHeight"
+                                                                               20, "fontSize"
+                                                                               9},
+                                                                               "headerStyles"
+                                                                               { "fillColor"
+                                                                               [40, 10, 255], "textColor"
+                                                                               255 }
+                                                                               }  }
+                                                       }'>
+
+
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th data-field="ledgername" data-sortable="true">Till Account Name</th>
+                                                                                        <th data-field="accountid">Till Account Number</th>
+
+                                                                                        <th data-formatter="utilities.logoutFormatter"
+                                                                                            data-align="center" data-width="5%">Logout</th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                            </table>
+
+                                                </div>*@
+                                            <table id="teller-transaction-table" data-toggle="table"
+                                                   data-url="@Url.Action("getAllSingleTransfer", "TellerAndTill")"
+                                                   data-search="true" class="data-table"
+                                                   data-toolbar="#cheque-type-toolbar"
+                                                   data-search-align="right"
+                                                   data-show-pagination-switch="true"
+                                                   data-mobile-responsive="true"
+                                                   data-show-refresh="true" data-detail-view="true"
+                                                   data-show-toggle="true" data-unique-id="id"
+                                                   data-buttons-class="danger">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-field="accountId" data-sortable="true">Credit GL Code</th>
+                                                        <th data-field="creditAmt" data-align="right">Amount</th>
+
+                                                        <th data-field="transactionDate" data-sortable="true" data-align="right">Transaction Date</th>
+                                                        <th data-field="postingTime" data-sortable="true" data-align="right">Transaction Time</th>
+                                                        <th data-field="approved" data-sortable="true" data-align="left"
+                                                            data-formatter="utilities.approvalFormatter">Approval Status</th>
+                                                        @*<th data-field="isdeleted" data-sortable="true" data-align="center"
+                                                                data-formatter="utilities.chequeTypeActiveFormatter">Active</th>
+                                                            <th data-formatter="utilities.editChequetypeFormatter"
+                                                                data-align="center" data-width="5%"></th>
+                                                            <th data-formatter="utilities.deleteChequetypeFormatter"
+                                                                data-align="center" data-width="5%"></th>*@
+                                                    </tr>
+                                                </thead>
+                                            </table>
+
+
+                                        </div>
+                                        @* </form>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
