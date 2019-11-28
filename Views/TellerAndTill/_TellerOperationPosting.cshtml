@@ -8,7 +8,7 @@
                 <div class="card-body">
 
                     <div class="row">
-                        <div class="col-md-4">
+                       @* <div class="col-md-4">
                             <ul class="nav nav-pills nav-pills-primary flex-column" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#link5" role="tablist">
@@ -17,7 +17,7 @@
                                 </li>
 
                             </ul>
-                        </div>
+                        </div>*@
                         <div class="col-md-8">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="link5">
@@ -330,11 +330,12 @@
 
                                                 </div>*@
                                             <table id="teller-transaction-table" data-toggle="table"
-                                                   data-url="@Url.Action("getAllSingleTransfer", "TellerAndTill")"
+                                                   
                                                    data-search="true" class="data-table"
                                                    data-toolbar="#cheque-type-toolbar"
                                                    data-search-align="right"
                                                    data-show-pagination-switch="true"
+                                                   data-pagination="true"
                                                    data-mobile-responsive="true"
                                                    data-show-refresh="true" data-detail-view="true"
                                                    data-show-toggle="true" data-unique-id="id"

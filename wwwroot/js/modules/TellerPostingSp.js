@@ -5,7 +5,7 @@ if (url_path.charAt(url_path.length - 1) === '/') {
 
 //var chartofaccounts = {}, AccountChartObj,
 //    REQUEST_IN_PROGRESS = "request_in_progress";
-var tellerId;
+var tellerId, transactions = {};
 
 function logoutFormatter(value, row, index) {
     return [
@@ -34,7 +34,36 @@ $(document).ready(function ($) {
         evt.preventDefault();
        
     });
+    debugger
 
+    var url = url_path;
+    if (url == "/retail/TellerAndTill/TellerPosting") {
+
+        url = "getAllSingleTransfer"
+
+    } else {
+
+        url = "/TellerAndTill/getAllSingleTransfer"
+    }
+
+    var test = url_path;
+
+    $("#teller-transaction-table")
+        .bootstrapTable("refresh", {
+            url: url
+        });
+
+    /*$.ajax(url)
+        .then(function (response) {
+            // debugger
+            $.each(response, function (index, value) {
+                transactions = value;
+            });
+            // Let data table load its data / refresh with url
+            
+            $('#teller-transaction-table')
+                .bootstrapTable('load', response);
+        });*/
     
 
     
@@ -53,7 +82,7 @@ function initEventListeners() {
            // });
 
            // var form = $("#frmCashtransfer");
-            debugger
+            //debugger
             $('#creditAmount').val(this.value);
             var value = $.trim(this.value).replace(/,/g, "");
             //var value = $.trim(this.value).replace(/,/g, "");
@@ -191,7 +220,7 @@ var transaction;
 
 function TransferChange() {
    // $(document).ready(function () {
-        debugger
+       // debugger
     $("#creditGLNumber").select2({
             theme: "bootstrap4",
             placeholder: "Loading..."
@@ -200,7 +229,7 @@ function TransferChange() {
         $.ajax({
             url: "../TellerAndTill/GetChartOfAccount",
         }).then(function (response) {
-            debugger
+           // debugger
             $("#creditGLNumber").select2({
                 theme: "bootstrap4",
                 placeholder: "Search/Select GL number", 
@@ -217,11 +246,11 @@ function TransferChange() {
 
     });
 
-    debugger
+   // debugger
     $.ajax({
         url: "../TellerAndTill/GetChartOfAccountforTellerUser",
     }).then(function (response) {
-        debugger
+       // debugger
         $("#ddlDebitGLNumber").select2({
             theme: "bootstrap4",
             placeholder: "Search/Select GL number",
@@ -235,7 +264,7 @@ function TransferChange() {
 $("#creditGLNumber").on("select2:select", function (e) {
             //var user = User.Identtity.Name;
             var user = "Peter Nwankwo";
-            debugger
+           // debugger
             var datas = e.params.data;
                // $('#ddlDebitGLNumber').val(datas.accountId);
             // $('#creditGLNumber').val(datas.accountname);
@@ -287,7 +316,7 @@ $("#ddlDebitGLNumber").on("select2:select", function (e) {
 
 
 $('#debitCreditNaration').change(function () {
-            debugger
+            //debugger
             $('#creditNaration').val($(this).val());
         });
 
@@ -326,7 +355,7 @@ $('#debitCreditNaration').change(function () {
 };   
 
 function amountChange() {
-    debugger
+   // debugger
     var debitamount = $('#debitAmount').val();
     var creditamount = $('#creditAmount').val();
     if (debitamount <= 0 || debitamount === 0 || debitamount === "") {
@@ -347,7 +376,7 @@ function amountChange() {
 
 function save() {
 
-    debugger
+    //debugger
 
     var form = $("#frmCashtransfer");
     if (!form.valid()) return;
@@ -376,7 +405,7 @@ function save() {
         function (isConfirm) {
                 if (isConfirm) {
 
-                    debugger
+                   // debugger
 
                     $("#btnCashTransfer").attr("disabled", "disabled");
 
@@ -463,9 +492,13 @@ function save() {
                                     title: 'Add transfer operation',
                                     text: 'Transfer operation add successful!',
                                     type: 'success'
-                                }).then(function () { clearForm(); });
+                                }).then(function () {
+                                    clearForm();
+                                    //location.reload(true);
 
-                                $('#AddNewCashTransfer').modal('hide');
+                                });
+
+                                //$('#AddNewCashTransfer').modal('hide');
                                 //$("#frmCashtransfer").trigger('reset');
                                 var form = $("#frmCashtransfer");
                                 form.trigger("reset");
@@ -473,12 +506,22 @@ function save() {
 
                                 $('#tellerLoginTable').
                                     bootstrapTable(
-                                        'refresh', { url: 'TellerAndTill/listTellerLogin' });
+                                        'refresh', { url: 'listTellerLogin' });
                                 $('#teller-transaction-table').
                                     bootstrapTable(
-                                        'refresh', { url: 'TellerAndTill/getAllSingleTransfer' });
+                                        'refresh', { url: 'getAllSingleTransfer' });
 
-                                location.reload(true);
+                                   
+
+                                    /// wait 3 seconds
+                                /*setTimeout(function () {
+
+                                    location.reload(true);
+
+                                    }, 20000);*/
+                                
+
+                                
 
                                 $("#btnCashTransfer").removeAttr("disabled");
                             }
@@ -515,6 +558,8 @@ function save() {
 }
 
 var utilities = {
+
+    
     logoutFormatter: function (val, row, index) {
         return [
             "<button type='button' class='remove btn btn-sm btn-danger' title='Delete'",
@@ -537,6 +582,24 @@ var utilities = {
             ].join('');
 
         }
+    },
+
+    getAllSingleTransfer: function (val, row, index) {
+
+        $.ajax({
+            url: "../TellerAndTill/getAllSingleTransfer",
+            //data: { AccountID: $('#ddlDebitGLNumber').val() },
+           // data: { AccountID: datas.accountId },
+            type: "GET",
+            cache: false,
+        }).then(function (response) {
+            //$("#creditGLBalance").val(response);
+            transactions = response;
+        });
+
+        return [
+            transactions
+        ].join("");
     },
 
 
@@ -565,7 +628,7 @@ var utilities = {
 function getTellerLogout() {
 
     // = $("#username").text().trim();
-    debugger
+    //debugger
 
 
    // $.getJSON("../TellerAndTill/updateTellerUserLogout", { id: id }, function (value) {        });

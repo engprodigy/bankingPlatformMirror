@@ -283,6 +283,21 @@ namespace TheCoreBanking.Retail.Controllers
             return result;
         }
 
+        protected IEnumerable<CustomerAccountNumberVM> LoadCustomerAccountNumber()
+        {
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CASAEndpoint;
+            var CustomerAccountNumber = RetailUnitOfWork.API.GetAsync(Uri).Result;
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+            IEnumerable<CustomerAccountNumberVM> result =
+                JsonConvert.DeserializeObject<IEnumerable<CustomerAccountNumberVM>>(CustomerAccountNumber, settings);
+            return result;
+        }
+
+
         public ChartOfAccount LoadChartOfAccountByacctId(string accountId)
         {
             string chartOfAcctUrl = ApiConstants.BaseApiUrl + ApiConstants.ChartOfAccountEndpoint;
@@ -315,6 +330,24 @@ namespace TheCoreBanking.Retail.Controllers
                     accountname = item.AccountName,
                     accountId = item.AccountID
                     
+                });
+            }
+            return Json(list);
+        }
+
+        [HttpGet]
+        public JsonResult GetCustomerAccountNumber()
+        {
+            var list = new List<SelectTwoContent>();
+            var result = LoadCustomerAccountNumber();
+            foreach (var item in result)
+            {
+                list.Add(new SelectTwoContent
+                {
+                    Id = item.Id.ToString(),
+                    Text = item.Text,
+                    
+
                 });
             }
             return Json(list);
@@ -564,17 +597,27 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(true);*/
         }
 
+        
+
         [HttpGet]
         public JsonResult getAllSingleTransfer()
         {
             var logUser = User.Identity.Name;
+
             if (logUser == null)
             {
                 logUser = "tayo.olawumi";
-            }
-            var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser);
 
-             return Json(tellerTransactions);
+            }
+            else
+            {
+                logUser = User.Identity.Name;
+            }
+
+            var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser).OrderByDescending(x => x.Id).Take(5);
+           // var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser);
+
+            return Json(tellerTransactions);
         }
 
 #endregion
@@ -758,35 +801,69 @@ namespace TheCoreBanking.Retail.Controllers
             // transactions.Ref = "TRN/201/0020655";
             Random r = new Random();
             int rInt = r.Next(1000, 5000);
-            transactions.Ref = "TRN/" + DateTime.Now.Year + "/" + DateTime.Now.Month + DateTime.Now.Hour + DateTime.Now.Minute
-                + DateTime.Now.Second  + DateTime.Now.Millisecond + rInt;
+            transactions.Ref = "TRN/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString()
+                + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + rInt.ToString();
             transactions.SCoyCode = "101";
-            transactions.Approved = false;
+            //transactions.Approved = false;
+            transactions.Approved = true;
+            //transactions.Legtype = 
 
 
             RetailUnitOfWork.Transaction.Add(transactions);
 
-            TblFinanceCounterpartyTransaction counterParty = new TblFinanceCounterpartyTransaction();
+            transactions.CreditAmt = transactions.DebitAmt;
+            transactions.DebitAmt = 0;
 
-            //var user = User.Identity.Name;
-           // var user = "Peter";
+            RetailUnitOfWork.Transaction.Add(transactions);
+
+            /*TblFinanceCounterpartyTransaction counterParty = new TblFinanceCounterpartyTransaction();
 
             counterParty.TransactionDate = DateTime.Now;
             counterParty.UserName = logUser;
             counterParty.Coy = "1";
             counterParty.PostDate = DateTime.Now.Date;
             counterParty.SystemDateTime = DateTime.Now;
-            counterParty.BatchRef = "TRN/201/0020655";
+            counterParty.Ref = transactions.AccountId;
+            counterParty.BatchRef = transactions.Ref;
+            //counterParty.Ref = transactions.Ref;
+            counterParty.Legtype = transactions.Legtype;
+
+            RetailUnitOfWork.FinCounterParty.Add(counterParty);*/
+
+
+            RetailUnitOfWork.Commit();
+            return Json(transactions);
+        }
+
+        public JsonResult AddCounterPartyLodgement(TblFinanceTransaction transactions)
+        {
+            TblFinanceCounterpartyTransaction counterParty = new TblFinanceCounterpartyTransaction();
+
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+
+            counterParty.TransactionDate = DateTime.Now;
+            counterParty.UserName = logUser;
+            counterParty.Coy = "1";
+            counterParty.PostDate = DateTime.Now.Date;
+            counterParty.SystemDateTime = DateTime.Now;
+            counterParty.Ref = transactions.AccountId;
+            counterParty.BatchRef = transactions.Ref;
+            //counterParty.Ref = transactions.Ref;
+            counterParty.Legtype = transactions.Legtype;
 
             RetailUnitOfWork.FinCounterParty.Add(counterParty);
 
 
             RetailUnitOfWork.Commit();
-            return Json(transactions.Id);
+            return Json(transactions);
         }
 
 
-        public JsonResult AddVaultToTill(TblFinanceTransaction vaulttoTill)
+            public JsonResult AddVaultToTill(TblFinanceTransaction vaulttoTill)
         {
             //var loginUsers = RetailUnitOfWork.Transaction.Find(o => o.StaffName == User.Identity.Name);
             var user = "sys";               //@TODO, Change to login user later
