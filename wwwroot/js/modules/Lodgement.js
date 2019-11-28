@@ -3,7 +3,7 @@ if (url_path.charAt(url_path.length - 1) === '/') {
     url_path = url_path.slice(0, url_path.length - 1);
 }
 
-var transactionsObj = {} , returnTracker,
+var transactionsObj = {}, returnTracker;
 //    REQUEST_IN_PROGRESS = "request_in_progress";
 
 
@@ -742,7 +742,54 @@ function addBasicInfoTransaction() {
                                     //    });
 
                                    // $('#AddNewTransferOperation').modal('hide');
-                                    returnTracker == true;
+                                   // returnTracker == true;
+
+                                    $.ajax({
+                                        url: '../TellerAndTill/AddCounterPartyLodgement/',
+                                        type: 'POST',
+                                        data: {
+                                            Ref: transactionsObj.Ref, AccountId, TransactionDate, DebitAmt, Description, CreditAmt, CurrencyRate, LegType
+                                        },
+                                        dataType: "json",
+
+                                        success: function (result) {
+
+                                            if (result.toString !== '' && result !== null) {
+
+                                                transactionsObj = result;
+                                                console.log(transactionsObj);
+                                                swal({ title: 'Add lodgement/widthdrawal', text: 'Lodgement/widthdrawal addition completed successfully!', type: 'success' })
+                                                    .then(function () {
+
+                                                        //window.location.reload();
+
+                                                    });
+
+                                                // $('#AddNewTransferOperation').modal('hide');
+
+                                                $('#tellerLoginTable').
+                                                    bootstrapTable(
+                                                        'refresh', { url: 'listTellerLogin' });
+
+                                                var form = $("#frmPerformtransaction");
+                                                form.trigger("reset");
+                                                form.find("select").trigger("change");
+
+
+                                                $("#btnTransactOperations").removeAttr("disabled");
+                                            }
+                                            else {
+                                                //swal({ title: 'Add lodgement and widthdrawal', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { clearForm(); });
+                                                //$("#btnTransactOperations").removeAttr("disabled");
+                                            }
+                                            //  $('#AddNewProductCategory').modal('hide');      //Hides the modal view
+
+                                        },
+                                        error: function (e) {
+                                            swal({ title: 'Add lodgement and widthdrawal', text: 'Lodgement and widthdrawal operation add encountered an error', type: 'error' }).then(function () { clearForm(); });
+                                            $("#btnTransactOperations").removeAttr("disabled");
+                                        }
+                                    });
 
                                     $('#tellerLoginTable').
                                         bootstrapTable(
@@ -778,52 +825,7 @@ function addBasicInfoTransaction() {
                             return;
 
 
-                        $.ajax({
-                            url: '../TellerAndTill/AddCounterPartyLodgement/',
-                            type: 'POST',
-                            data: {
-                                transactionsObj
-                            },
-                            dataType: "json",
-
-                            success: function (result) {
-
-                                if (result.toString !== '' && result !== null) {
-
-                                    transactionsObj = result;
-                                    console.log(transactionsObj);
-                                    swal({ title: 'Add lodgement/widthdrawal', text: 'Lodgement/widthdrawal addition completed successfully!', type: 'success' })
-                                        .then(function () {
-
-                                            //window.location.reload();
-
-                                        });
-
-                                    // $('#AddNewTransferOperation').modal('hide');
-
-                                    $('#tellerLoginTable').
-                                        bootstrapTable(
-                                            'refresh', { url: 'listTellerLogin' });
-
-                                    var form = $("#frmPerformtransaction");
-                                    form.trigger("reset");
-                                    form.find("select").trigger("change");
-
-
-                                    $("#btnTransactOperations").removeAttr("disabled");
-                                }
-                                else {
-                                    swal({ title: 'Add lodgement and widthdrawal', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { clearForm(); });
-                                    $("#btnTransactOperations").removeAttr("disabled");
-                                }
-                                //  $('#AddNewProductCategory').modal('hide');      //Hides the modal view
-
-                            },
-                            error: function (e) {
-                                swal({ title: 'Add lodgement and widthdrawal', text: 'Lodgement and widthdrawal operation add encountered an error', type: 'error' }).then(function () { clearForm(); });
-                                $("#btnTransactOperations").removeAttr("disabled");
-                            }
-                        });
+                     
 
                         //Credit leg
                         /*$.ajax({

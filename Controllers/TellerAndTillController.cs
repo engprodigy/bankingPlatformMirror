@@ -18,9 +18,19 @@ using IdentityServer4.Extensions;
 
 namespace TheCoreBanking.Retail.Controllers
 {
+
+    public static class Globals
+    {
+       // public const Int32 BUFFER_SIZE = 512; // Unmodifiable
+        public static string batchRef = ""; // Modifiable
+       // public static readonly String CODE_PREFIX = "US-"; // Unmodifiable
+    }
+
     public class TellerAndTillController : Controller
     {
         private IRetailUnitOfWork RetailUnitOfWork { get; }
+
+       
 
 
 
@@ -795,6 +805,11 @@ namespace TheCoreBanking.Retail.Controllers
                 logUser = "tayo.olawumi";
             }
 
+            //retreive logged user TILL GL number 
+
+
+            //retrieve product GL number
+
             transactions.ValueDate = DateTime.Now;
             transactions.PostedBy = logUser;
             transactions.PostingTime = DateTime.Now.ToShortTimeString();
@@ -806,7 +821,8 @@ namespace TheCoreBanking.Retail.Controllers
             transactions.SCoyCode = "101";
             //transactions.Approved = false;
             transactions.Approved = true;
-            //transactions.Legtype = 
+            //transactions.Legtype = z
+            Globals.batchRef = transactions.Ref;
 
 
             RetailUnitOfWork.Transaction.Add(transactions);
@@ -846,12 +862,13 @@ namespace TheCoreBanking.Retail.Controllers
             }
 
             counterParty.TransactionDate = DateTime.Now;
+            counterParty.CreditAmount = transactions.CreditAmt;
             counterParty.UserName = logUser;
             counterParty.Coy = "1";
             counterParty.PostDate = DateTime.Now.Date;
             counterParty.SystemDateTime = DateTime.Now;
             counterParty.Ref = transactions.AccountId;
-            counterParty.BatchRef = transactions.Ref;
+            counterParty.BatchRef = Globals.batchRef;
             //counterParty.Ref = transactions.Ref;
             counterParty.Legtype = transactions.Legtype;
 
