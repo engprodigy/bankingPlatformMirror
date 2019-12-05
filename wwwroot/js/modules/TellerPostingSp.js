@@ -557,7 +557,7 @@ function save() {
     
 }
 
-var utilities = {
+var utility = {
 
     
     logoutFormatter: function (val, row, index) {

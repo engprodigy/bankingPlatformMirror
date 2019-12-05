@@ -23,7 +23,12 @@ namespace TheCoreBanking.Retail.Controllers
     {
        // public const Int32 BUFFER_SIZE = 512; // Unmodifiable
         public static string batchRef = ""; // Modifiable
-       // public static readonly String CODE_PREFIX = "US-"; // Unmodifiable
+        public static string customerCode = ""; // Modifiable
+        public static string productCode = ""; // Modifiable
+        public static string glAccountId = ""; // Modifiable
+                                                // public static readonly String CODE_PREFIX = "US-"; // Unmodifiable
+        public static TblFinanceTransaction transactionsSecondLeg = new TblFinanceTransaction();
+        public static string transactionRef = ""; // Modifiable
     }
 
     public class TellerAndTillController : Controller
@@ -261,9 +266,12 @@ namespace TheCoreBanking.Retail.Controllers
         {
 
 #if DEBUG
-            //string URI for out of office development
-           // string Uri = ApiConstants.BaseApiUrl + ApiConstants.ChartOfAccountEndpointDev;
-            //for office development
+             //string URI for out of office development
+
+             //  string Uri = ApiConstants.BaseApiUrl + ApiConstants.ChartOfAccountEndpointDev;
+
+             //for office development
+
             string Uri = ApiConstants.BaseApiUrl + ApiConstants.ChartOfAccountEndpoint;
 #else
             string Uri = ApiConstants.BaseApiUrl + ApiConstants.ChartOfAccountEndpoint;
@@ -295,7 +303,13 @@ namespace TheCoreBanking.Retail.Controllers
 
         protected IEnumerable<CustomerAccountNumberVM> LoadCustomerAccountNumber()
         {
-            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CASAEndpoint;
+           // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CASAEndpoint;
+
+            
+            //For Out of Office Development
+            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CASAEndpointDevHome;
+
+
             var CustomerAccountNumber = RetailUnitOfWork.API.GetAsync(Uri).Result;
             var settings = new JsonSerializerSettings
             {
@@ -375,6 +389,66 @@ namespace TheCoreBanking.Retail.Controllers
 
         [HttpGet]
         public JsonResult GetChartOfAccountforTellerUser()
+        {
+
+            var loggedUser = User.Identity.Name;
+
+            if (User.Identity.Name == null)
+            {
+                loggedUser = "tayo.olawumi";
+
+            }
+            else
+            {
+                loggedUser = User.Identity.Name;
+            }
+
+            var tellerAccountId = RetailUnitOfWork.tellerlogin.GetAssignedUser(loggedUser).FirstOrDefault().Accountid;
+
+            var list = new List<SelectTwoContent>();
+#if DEBUG
+            var result = RetailUnitOfWork.Chart.GetAll();
+            foreach (var item in result)
+            {
+                if (tellerAccountId == item.AccountId)
+                {
+                    list.Add(new SelectTwoContent
+                    {
+                        Id = item.Id.ToString(),
+                        Text = item.AccountName,
+                        accountname = item.AccountName,
+                        accountId = item.AccountId
+
+                    });
+                }
+            }
+#else
+            var result = LoadChartOfAccounts();
+            foreach (var item in result)
+            {
+                if (tellerAccountId == item.AccountID)
+                {
+                    list.Add(new SelectTwoContent
+                    {
+                        Id = item.Id.ToString(),
+                        Text = item.AccountName,
+                        accountname = item.AccountName,
+                        accountId = item.AccountID
+
+                    });
+                }
+            }
+#endif
+
+            return Json(list);
+        }
+
+
+        
+
+
+        [HttpGet]
+        public JsonResult GetChartOfAccountforTellerUser2()
         {
 
             var loggedUser = User.Identity.Name;
@@ -630,9 +704,52 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(tellerTransactions);
         }
 
-#endregion
+        [HttpGet]
+        public JsonResult getAllVaultToTillTransfers()
+        {
+            var logUser = User.Identity.Name;
 
-            #region Create
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+
+            }
+            else
+            {
+                logUser = User.Identity.Name;
+            }
+
+            var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser).Where(t => t.TransactionType == 38).OrderByDescending(x => x.Id).Take(5);
+            // var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser);
+
+            return Json(tellerTransactions);
+        }
+
+        [HttpGet]
+        public JsonResult getAllTillToVaultTransfers()
+        {
+            var logUser = User.Identity.Name;
+
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+
+            }
+            else
+            {
+                logUser = User.Identity.Name;
+            }
+
+            var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser).Where(t => t.TransactionType == 37).OrderByDescending(x => x.Id).Take(5);
+            // var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser);
+
+            return Json(tellerTransactions);
+        }
+
+
+        #endregion
+
+        #region Create
 
         [HttpPost]
         public JsonResult AddTillMap(TblTillmapping mapping)
@@ -771,6 +888,7 @@ namespace TheCoreBanking.Retail.Controllers
             }
 
             
+
             singlefund.PostingTime = DateTime.Now.ToShortTimeString();
             //singlefund.CoyCode = "101";
             //singlefund.BrCode = "1";
@@ -799,6 +917,8 @@ namespace TheCoreBanking.Retail.Controllers
 
         public JsonResult AddLodgement(TblFinanceTransaction transactions)
         {
+
+            //TblFinanceTransaction transactionsSecondLeg = new TblFinanceTransaction();
             var logUser = User.Identity.Name;
             if (logUser == null)
             {
@@ -807,8 +927,30 @@ namespace TheCoreBanking.Retail.Controllers
 
             //retreive logged user TILL GL number 
 
+            var tellerAccountGL = RetailUnitOfWork.tellerlogin.GetAssignedUser(logUser).FirstOrDefault().Accountid;
 
             //retrieve product GL number
+
+            //For office development
+           // string Uri = ApiConstants.BaseApiUrl + ApiConstants.PrincipalGLIdEndpoint + "/" + transactions.AccountId;
+
+            //For out of Office Development
+            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.PrincipalGLIdEndpointDev + "/" + transactions.AccountId;
+            var productAccountGL = RetailUnitOfWork.API.GetAsync(Uri).Result;
+
+            Globals.glAccountId = productAccountGL;
+
+            // var productGl = RetailUnitOfWork.
+
+            if (transactions.CreditAmt != 0)
+            {
+                transactions.AccountId = tellerAccountGL;
+            }
+            else
+            {
+                transactions.AccountId = productAccountGL;
+                
+            }
 
             transactions.ValueDate = DateTime.Now;
             transactions.PostedBy = logUser;
@@ -816,42 +958,54 @@ namespace TheCoreBanking.Retail.Controllers
             // transactions.Ref = "TRN/201/0020655";
             Random r = new Random();
             int rInt = r.Next(1000, 5000);
-            transactions.Ref = "TRN/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString()
-                + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + rInt.ToString();
+            //transactions.Ref = "TRN/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString()
+            //    + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + rInt.ToString();
             transactions.SCoyCode = "101";
-            //transactions.Approved = false;
-            transactions.Approved = true;
+            transactions.Approved = false;
+            transactions.BatchRef = transactions.Ref;
+            //transactions.Approved = true;
             //transactions.Legtype = z
+
+
             Globals.batchRef = transactions.Ref;
 
+           
 
             RetailUnitOfWork.Transaction.Add(transactions);
 
-            transactions.CreditAmt = transactions.DebitAmt;
-            transactions.DebitAmt = 0;
-
-            RetailUnitOfWork.Transaction.Add(transactions);
-
-            /*TblFinanceCounterpartyTransaction counterParty = new TblFinanceCounterpartyTransaction();
-
-            counterParty.TransactionDate = DateTime.Now;
-            counterParty.UserName = logUser;
-            counterParty.Coy = "1";
-            counterParty.PostDate = DateTime.Now.Date;
-            counterParty.SystemDateTime = DateTime.Now;
-            counterParty.Ref = transactions.AccountId;
-            counterParty.BatchRef = transactions.Ref;
-            //counterParty.Ref = transactions.Ref;
-            counterParty.Legtype = transactions.Legtype;
-
-            RetailUnitOfWork.FinCounterParty.Add(counterParty);*/
+            
 
 
             RetailUnitOfWork.Commit();
             return Json(transactions);
         }
 
-        public JsonResult AddCounterPartyLodgement(TblFinanceTransaction transactions)
+        [HttpGet]
+        public JsonResult getCustomerCasaBalance(string accountNumber)   
+        {
+
+            //For office development
+           // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+
+            //For out of Office Development
+            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerAccountBalanceEndpointDevHome + "/?accountNumber=" + accountNumber;
+            var customerBalance = RetailUnitOfWork.API.GetAsync(Uri).Result;
+
+            return Json(customerBalance);
+
+        }
+
+
+        public JsonResult AddLodgementSecondLeg(TblFinanceTransaction transactions)   //Lodgement transaction Credit Leg
+        {
+
+            RetailUnitOfWork.Transaction.Add(Globals.transactionsSecondLeg);
+            RetailUnitOfWork.Commit();
+            return Json(transactions);
+
+        }
+
+            public JsonResult AddCounterPartyLodgement(TblFinanceTransaction transactions)
         {
             TblFinanceCounterpartyTransaction counterParty = new TblFinanceCounterpartyTransaction();
 
@@ -861,9 +1015,30 @@ namespace TheCoreBanking.Retail.Controllers
                 logUser = "tayo.olawumi";
             }
 
+            //For office development
+            //get customer code
+            // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+
+            //For out of Office Development
+            //get customer code
+            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+            var customerCode = RetailUnitOfWork.API.GetAsync(Uri).Result;
+
+            //For office development
+            //get customer product code
+            // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+
+            //For out of Office Development
+            //get customer product code
+            string Uri2 = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerProductCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+            var customerProductCode = RetailUnitOfWork.API.GetAsync(Uri2).Result;
+
             counterParty.TransactionDate = DateTime.Now;
             counterParty.CreditAmount = transactions.CreditAmt;
+            counterParty.DebitAmount = 0;
             counterParty.UserName = logUser;
+            counterParty.CustCode = customerCode;
+            counterParty.ProductCode = customerProductCode;
             counterParty.Coy = "1";
             counterParty.PostDate = DateTime.Now.Date;
             counterParty.SystemDateTime = DateTime.Now;
@@ -871,6 +1046,59 @@ namespace TheCoreBanking.Retail.Controllers
             counterParty.BatchRef = Globals.batchRef;
             //counterParty.Ref = transactions.Ref;
             counterParty.Legtype = transactions.Legtype;
+            counterParty.Approved = false;
+            counterParty.GlaccountId = Globals.glAccountId;
+
+            RetailUnitOfWork.FinCounterParty.Add(counterParty);
+
+
+            RetailUnitOfWork.Commit();
+            return Json(transactions);
+        }
+
+        public JsonResult AddCounterPartyWithdrawalLodgement(TblFinanceTransaction transactions)
+        {
+            TblFinanceCounterpartyTransaction counterParty = new TblFinanceCounterpartyTransaction();
+
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+
+            //For office development
+            //get customer code
+            // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+
+            //For out of Office Development
+            //get customer code
+            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+            var customerCode = RetailUnitOfWork.API.GetAsync(Uri).Result;
+
+            //For office development
+            //get customer product code
+            // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+
+            //For out of Office Development
+            //get customer product code
+            string Uri2 = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerProductCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+            var customerProductCode = RetailUnitOfWork.API.GetAsync(Uri2).Result;
+
+            counterParty.TransactionDate = DateTime.Now;
+            counterParty.DebitAmount = transactions.DebitAmt;
+            counterParty.CreditAmount = 0;
+            counterParty.UserName = logUser;
+            counterParty.CustCode = customerCode;
+            counterParty.ProductCode = customerProductCode;
+            counterParty.Coy = "1";
+            counterParty.PostDate = DateTime.Now.Date;
+            counterParty.SystemDateTime = DateTime.Now;
+            counterParty.Ref = transactions.AccountId;
+            counterParty.BatchRef = Globals.batchRef;
+            //counterParty.Ref = transactions.Ref;
+            counterParty.Legtype = transactions.Legtype;
+            counterParty.Approved = false;
+            counterParty.GlaccountId = Globals.glAccountId;
 
             RetailUnitOfWork.FinCounterParty.Add(counterParty);
 
@@ -880,25 +1108,120 @@ namespace TheCoreBanking.Retail.Controllers
         }
 
 
-            public JsonResult AddVaultToTill(TblFinanceTransaction vaulttoTill)
+        public JsonResult AddVaultToTill(TblFinanceTransaction vaulttoTill)
         {
             //var loginUsers = RetailUnitOfWork.Transaction.Find(o => o.StaffName == User.Identity.Name);
-            var user = "sys";               //@TODO, Change to login user later
+
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+
+           /* Random r = new Random();
+            int rInt = r.Next(1000, 5000);
+            if (vaulttoTill.CreditAmt != 0) { 
+             vaulttoTill.Ref = "TRN/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString()
+                + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + rInt.ToString();
+
+            Globals.transactionRef = vaulttoTill.Ref;
+            }
+            else
+            {
+                vaulttoTill.Ref = Globals.transactionRef;
+                Globals.transactionRef = "";
+            }*/
+
+            //var user = "sys";               //@TODO, Change to login user later
             vaulttoTill.TransactionDate = DateTime.Now;
             vaulttoTill.ValueDate = DateTime.Now;
-            vaulttoTill.PostedBy = "sys";
+            vaulttoTill.PostedBy = logUser;
             vaulttoTill.PostingTime = DateTime.Now.ToShortTimeString();
             vaulttoTill.SCoyCode = "101";
-            vaulttoTill.ApprovedBy = user;
-            vaulttoTill.SourceBranch = user;
+            vaulttoTill.ApprovedBy = logUser;
+            vaulttoTill.SourceBranch = logUser;
             vaulttoTill.DestinationBranch = "201";
-            vaulttoTill.BatchRef = "TRN/201/0020655";
-            vaulttoTill.ApplicationId = "FintrakBanking";         
+            //vaulttoTill.BatchRef = Globals.transactionRef;
+            vaulttoTill.BatchRef = vaulttoTill.Ref;
+            vaulttoTill.ApplicationId = "FintrakBanking";  
+            
 
             RetailUnitOfWork.Transaction.Add(vaulttoTill);            
             RetailUnitOfWork.Commit();
-            return Json(vaulttoTill.Id);
+
+            Random r = new Random();
+            int rInt = r.Next(1000, 5000);
+
+           
+            var newRef = "TRN/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString()
+                   + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + rInt.ToString();
+
+
+            return Json(newRef);
         }
+
+        public JsonResult AddVaultToTillReversal(TblFinanceTransaction vaulttoTill)
+        {
+            //var loginUsers = RetailUnitOfWork.Transaction.Find(o => o.StaffName == User.Identity.Name);
+
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+
+            /* Random r = new Random();
+             int rInt = r.Next(1000, 5000);
+             if (vaulttoTill.CreditAmt != 0) { 
+              vaulttoTill.Ref = "TRN/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString()
+                 + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + rInt.ToString();
+
+             Globals.transactionRef = vaulttoTill.Ref;
+             }
+             else
+             {
+                 vaulttoTill.Ref = Globals.transactionRef;
+                 Globals.transactionRef = "";
+             }*/
+
+            //var user = "sys";               //@TODO, Change to login user later
+            vaulttoTill.TransactionDate = DateTime.Now;
+            vaulttoTill.ValueDate = DateTime.Now;
+            vaulttoTill.PostedBy = logUser;
+            vaulttoTill.PostingTime = DateTime.Now.ToShortTimeString();
+            vaulttoTill.SCoyCode = "101";
+            vaulttoTill.ApprovedBy = logUser;
+            vaulttoTill.SourceBranch = logUser;
+            vaulttoTill.DestinationBranch = "201";
+            //vaulttoTill.BatchRef = Globals.transactionRef;
+            vaulttoTill.BatchRef = vaulttoTill.Ref;
+            vaulttoTill.ApplicationId = "FintrakBanking";
+
+
+            RetailUnitOfWork.Transaction.Add(vaulttoTill);
+            RetailUnitOfWork.Commit();
+
+            Random r = new Random();
+            int rInt = r.Next(1000, 5000);
+
+
+            var newRef = "RCF/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString()
+                   + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + rInt.ToString();
+
+
+            return Json(newRef);
+        }
+
+
+        
+        public JsonResult RetreiveDebitAccountGL(TblFinanceTransaction vaulttoTill)
+        {
+
+           var debitAccountGL = RetailUnitOfWork.Transaction.getDebitAccountGL(vaulttoTill.Ref);
+
+            return Json(debitAccountGL.AccountId);
+        }
+            
 
 
         [HttpGet]
@@ -912,6 +1235,20 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(balance);
         }
 
+
+        [HttpGet]
+        public JsonResult getStartReferenceNumber()
+        {
+            Random r = new Random();
+            int rInt = r.Next(1000, 5000);
+
+
+            var newRef = "RCF/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString()
+                   + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + rInt.ToString();
+
+
+            return Json(newRef);
+        }
 
 
         protected IEnumerable<ChartOfAccountVM> LoadChartOfAccounts2()

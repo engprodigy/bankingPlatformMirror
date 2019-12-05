@@ -14,9 +14,13 @@ $(document).ready(function ($) {
     $('#btnTransactOperations').on("click", function () {
         addBasicInfoTransaction();
     });
+    
+    $('#btnWithdrawalTransactOperations').on("click", function () {
+        updateWithdrawalTransaction();
+    });
 
-    $('#btnAddSingleCheque').on("click", function () {
-        addSingleCheque();
+    $('#btnAddSingleChequeLodgement').on("click", function () {
+        addSingleChequeLodgement();
     });
     $('#btnAddMultipleCheque').on("click", function () {
         addMultipleCheque();
@@ -28,7 +32,11 @@ $(document).ready(function ($) {
 
     $('#btnAddWithdrawal').on("click", function () {
         addChequeWithdrawal();
-    });    
+    }); 
+
+    $('#ddlAcctNumber').on("select2:selecting", function () {
+        getAccountBalance();
+    });
 });
 
 function logoutFormatter(value, row, index) {
@@ -108,7 +116,42 @@ $(document).ready(function ($) {
 
 }*/
 
+function getAccountBalance() {
 
+    debugger
+
+    var accountNumber = $("#ddlAcctNumber").val();
+
+    $.ajax({
+        url: '../TellerAndTill/getCustomerCasaBalance/',
+        data: { accountNumber },
+        type: 'GET',
+        dataType: "json",
+
+        success: function (result) {
+
+            if (result.toString !== '' && result !== null) {
+
+                console.log(result);
+                $("#customerBalanceFigure").val(result);
+
+
+
+            }
+            else {
+                //swal({ title: 'Retrieve Customer Balance', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then();
+
+            }
+
+
+        },
+        error: function (e) {
+            swal({ title: 'Retrieve Customer Balance', text: 'Customer Balance Retrieval encountered an error', type: 'error' }).then();
+
+        }
+    });
+
+}
 
 
 function RemoveTellerPosting(url_path) {
@@ -362,6 +405,36 @@ function CashLodgemntView() {
            $("#withdrawalchequeview").hide();
            $("#withdrawalHideBysinglecheque").hide();
            $('input[name="withdrawalsinglecheque"]').prop('checked', false);
+           var accountNumber = $("#ddlAcctNumber").val();
+
+           $.ajax({
+               url: '../TellerAndTill/getCustomerCasaBalance/',
+               data: { accountNumber },
+               type: 'GET',
+               dataType: "json",
+
+               success: function (result) {
+
+                   if (result.toString !== '' && result !== null) {
+
+                       console.log(result);
+                       $("#customerBalanceFigure").val(result);
+                       
+
+                      
+                   }
+                   else {
+                       //swal({ title: 'Retrieve Customer Balance', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then();
+                       
+                   }
+                  
+
+               },
+               error: function (e) {
+                   swal({ title: 'Retrieve Customer Balance', text: 'Customer Balance Retrieval encountered an error', type: 'error' }).then();
+                  
+               }
+           });
 
          }
 
@@ -583,6 +656,10 @@ function reloadpage() {
  
 }
 
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
 
 
 
@@ -618,8 +695,8 @@ function addBasicInfoTransaction() {
 
         rules: {
             transDepositorPhone: {
-                required: true,
-                number: true
+                required: true
+         
             },
             transDepositSlipNo: {
                 required: true,
@@ -637,9 +714,9 @@ function addBasicInfoTransaction() {
             depositorAddress: {
                 required: true
             },
-            /*amountFigure: {
-                decimal: true
-            },*/
+            amountFigure: {
+                required: true
+            },
         },
 
         messages: {
@@ -651,6 +728,8 @@ function addBasicInfoTransaction() {
             transDate: { required: "Transaction date is required" },
 
             depositorAddress: { required: "Depositor's address is required" },
+
+            amountFigure: { required: "Amount to lodge is required" },
 
             transDepositSlipNo: {
                 required: "Deposit Slip Number is required",
@@ -717,14 +796,23 @@ function addBasicInfoTransaction() {
                         var CurrencyRate = $('#withdrawalCountercheque').val();
                         //var addInfo = $('#withdrawaladdInfo').val();
                        // var remark = $('#withdrawaRemark').val();
-                        var LegType =   $('#ddlAcctNumber').val();
+                        var LegType = $('#ddlAcctNumber').val();
+                        debugger
+                        var dt = new Date();
+                        var testData = dt.getYear();
+                        var ranInt = getRndInteger(100, 1000);
 
-                       //Debit leg and credit leg
+
+                        console.log(testData);
+
+                        var Ref = "TRN/" + dt.getYear().toString() + "/" + Date.now().toString() + ranInt.toString();
+
+                       //Debit leg 
                         $.ajax({
                             url: '../TellerAndTill/AddLodgement/',
                             type: 'POST',
                             data: {
-                                AccountId, TransactionDate, DebitAmt, Description, CreditAmt: 0, CurrencyRate, LegType
+                                Ref, AccountId, TransactionDate, DebitAmt, Description, CreditAmt: 0, CurrencyRate, LegType
                             },
                             dataType: "json",
 
@@ -744,6 +832,8 @@ function addBasicInfoTransaction() {
                                    // $('#AddNewTransferOperation').modal('hide');
                                    // returnTracker == true;
 
+                                   
+                                    //Counter Party Leg
                                     $.ajax({
                                         url: '../TellerAndTill/AddCounterPartyLodgement/',
                                         type: 'POST',
@@ -806,8 +896,7 @@ function addBasicInfoTransaction() {
                                     swal({ title: 'Add lodgement and widthdrawal', text: 'Something went wrong: </br>' + result.toString(), type: 'error' })
                                         .then(function () { clearForm(); });
                                     //$("#btnTransactOperations").removeAttr("disabled");
-                                    returnTracker = true;
-                                    return;
+                                   
                                 }
                                 //  $('#AddNewProductCategory').modal('hide');      //Hides the modal view
 
@@ -821,18 +910,18 @@ function addBasicInfoTransaction() {
 
                         //Counter Party Transaction Leg
                         debugger
-                        if (returnTracker == true)
-                            return;
+                       /* if (returnTracker == true)
+                            return;*/
 
 
                      
 
                         //Credit leg
-                        /*$.ajax({
+                        $.ajax({
                             url: '../TellerAndTill/AddLodgement/',
                             type: 'POST',
                             data: {
-                                AccountId, TransactionDate, DebitAmt:0, Description, CreditAmt, CurrencyRate, LegType
+                                Ref, AccountId, TransactionDate, DebitAmt:0, Description, CreditAmt, CurrencyRate, LegType
                             },
                             dataType: "json",
 
@@ -870,7 +959,7 @@ function addBasicInfoTransaction() {
                                 swal({ title: 'Add lodgement and widthdrawal', text: 'Lodgement and widthdrawal operation add encountered an error', type: 'error' }).then(function () { clearForm(); });
                                 $("#btnTransactOperations").removeAttr("disabled");
                             }
-                        });*/
+                        });
 
                     }
                 },
@@ -885,24 +974,360 @@ function addBasicInfoTransaction() {
 }
 
 
-function addSingleCheque() {
-    $('#frmPerformtransaction').validate({
-        messages: {
-            cheqlocation: { required: "Select Location No is required" },
-            bankcheque: { required: "Bank is required" },
-            branchcheque: { required: "Select branche is required" },
-            cheqtype: { required: "Select cheque type is required" },
+function updateWithdrawalTransaction() {
 
-            singlechequeamount: {
-                number: true
+       debugger
+   
+    $('#frmPerformWithdrawaltransaction').validate({
+
+            debug: true,
+
+            onfocusout: false,
+            onkeyup: false,
+            onclick: false,
+            normalizer: function (value) {
+                // Trim the value of every element
+                // before validation
+                return $.trim(value);
+            },
+
+            errorPlacement: function (error, element) {
+                $.notify({
+                    icon: "now-ui-icons travel_info",
+                    message: error.text(),
+                }, {
+                        type: 'danger',
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        }
+                    });
+            },
+
+            rules: {
+                transWithdrawalPhone: {
+                    required: true,
+                    /*number: true*/
+                },
+                withdrawalSlipNo: {
+                    required: true,
+                    number: true
+                },
+                ddlAcctNumber: {
+                    required: true
+                },
+                transWithdrawalName: {
+                    required: true
+                },
+                transWithdrawalDate: {
+                    required: true
+                },
+                
+                amountWithdrawalFigure: {
+                    required: true
+                }
             },
 
             messages: {
-                singlechequeamount: {
-                    required: "Please select one charge type",
-                    singlechequeamount: "Amount is not a valid number"
-                }
+
+                ddlAcctNumber: { required: "Please Select Account Number" },
+
+                transWithdrawalName: { required: "Depositor Name is required" },
+
+                transWithdrawalDate: { required: "Transaction date is required" },
+
+                withdrawalSlipNo: {
+                    required: "Deposit Slip Number is required",
+                    number: "Input not valid, please enter digits only"
+                },
+
+                transWithdrawalPhone: {
+                    required: "Depositor's Phone Number is required",
+                    number: "Input not valid, please enter digits only"
+                },
+
+                amountWithdrawalFigure: { required: "Amount to withdraw is required" },
+
+
+
+
+
+
+            },
+            submitHandler: function (form) {
+                $("input[type=submit]").attr("disabled", "disabled");
+                swal({
+                    title: "Are you sure?",
+                    text: "Withdrawal Transaction will be added!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#ff9800",
+                    confirmButtonText: "Yes, continue",
+                    cancelButtonText: "No, stop!",
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                        return new Promise(function (resolve) {
+                            setTimeout(function () {
+                                resolve();
+                            }, 4000);
+                        });
+                    }
+                }).then(
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            $("#btnWithdrawalTransactOperations").attr("disabled", "disabled");
+
+                            
+                            var AccountId = $('#ddlAcctNumber').val();
+                            
+                            var TransactionDate = $('#transWithdrawalDate').val();
+                            
+                            //var SlipNumber = $('#transDepositSlipNo').val();
+                            //var CharheStamp = $('#chargeStampDuty').prop("checked");
+                            var DebitAmt = $('#amountWithdrawalFigure').val();
+                            //var DepositorAddr = $('#depositorAddress').val();
+                            var Description = $('#remark').val();
+                            //var Narration = $('#additionalInfo').val();
+                            //var MoreDetails = $('#isMoreDetails').prop("checked");
+
+                            //var refNowithdraw = $('#withdrawalRefNumber').val();
+                            //var name = $('#withdrawalName').val();
+                            //var transdate = $('#transWithdrawalPhone').val();
+                            var CreditAmt = $('#amountWithdrawalFigure').val();
+                            //var forcedebit = $('#withdrawalFoecDebit').prop("checked");
+                            //var COT = $('#withdrawalCOT').val();
+                            //var chequeslip = $('#withdrawalChequeSlipNo').val();
+                           // var CurrencyRate = $('#withdrawalCountercheque').val();
+                            //var addInfo = $('#withdrawaladdInfo').val();
+                            // var remark = $('#withdrawaRemark').val();
+                            var LegType = $('#ddlAcctNumber').val();
+                            debugger
+                            var dt = new Date();
+                            var testData = dt.getYear();
+                            var ranInt = getRndInteger(100, 1000);
+
+
+                            console.log(testData);
+
+                            var Ref = "TRN/" + dt.getYear().toString() + "/" + Date.now().toString() + ranInt.toString();
+
+                            //Debit leg 
+                            $.ajax({
+                                url: '../TellerAndTill/AddLodgement/',
+                                type: 'POST',
+                                data: {
+                                    Ref, AccountId, TransactionDate, DebitAmt: 0, Description, CreditAmt, LegType
+                                },
+                                dataType: "json",
+
+                                success: function (result) {
+
+                                    if (result.toString !== '' && result !== null) {
+
+                                       transactionsObj = result;
+                                       // console.log(transactionsObj);
+                                        // swal({ title: 'Add lodgement/widthdrawal', text: 'Lodgement/widthdrawal addition completed successfully!', type: 'success' })
+                                        //    .then(function () {
+
+                                        //window.location.reload();
+
+                                        //    });
+
+                                        // $('#AddNewTransferOperation').modal('hide');
+                                        // returnTracker == true;
+
+
+                                        //Counter Party Leg
+                                        $.ajax({
+                                            url: '../TellerAndTill/AddCounterPartyWithdrawalLodgement/',
+                                            type: 'POST',
+                                            data: {
+                                                Ref: transactionsObj.Ref, AccountId, TransactionDate, DebitAmt, Description, CreditAmt, LegType
+                                            },
+                                            dataType: "json",
+
+                                            success: function (result) {
+
+                                                if (result.toString !== '' && result !== null) {
+
+                                                    transactionsObj = result;
+                                                    console.log(transactionsObj);
+                                                    swal({ title: 'Add lodgement/widthdrawal', text: 'Lodgement/widthdrawal addition completed successfully!', type: 'success' })
+                                                        .then(function () {
+
+                                                            //window.location.reload();
+
+                                                        });
+
+                                                    // $('#AddNewTransferOperation').modal('hide');
+
+                                                   /* $('#tellerLoginTable').
+                                                        bootstrapTable(
+                                                            'refresh', { url: 'listTellerLogin' });*/
+
+                                                    var form = $("#frmPerformWithdrawaltransaction");
+                                                    form.trigger("reset");
+                                                    form.find("select").trigger("change");
+
+
+                                                    $("#btnWithdrawalTransactOperations").removeAttr("disabled");
+                                                }
+                                                else {
+                                                    //swal({ title: 'Add lodgement and widthdrawal', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { clearForm(); });
+                                                    //$("#btnTransactOperations").removeAttr("disabled");
+                                                }
+                                                //  $('#AddNewProductCategory').modal('hide');      //Hides the modal view
+
+                                            },
+                                            error: function (e) {
+                                                swal({ title: 'Add lodgement and widthdrawal', text: 'Lodgement and widthdrawal operation add encountered an error', type: 'error' }).then(function () { clearForm(); });
+                                                $("#btnWithdrawalTransactOperations").removeAttr("disabled");
+                                            }
+                                        });
+
+                                       
+
+                                        var form = $("#frmPerformWithdrawaltransaction");
+                                        form.trigger("reset");
+                                        form.find("select").trigger("change");
+
+
+                                        $("#btnWithdrawalTransactOperations").removeAttr("disabled");
+                                    }
+                                    else {
+                                        swal({ title: 'Add lodgement and widthdrawal', text: 'Something went wrong: </br>' + result.toString(), type: 'error' })
+                                            .then(function () { clearForm(); });
+                                        //$("#btnTransactOperations").removeAttr("disabled");
+
+                                    }
+                                    //  $('#AddNewProductCategory').modal('hide');      //Hides the modal view
+
+                                },
+                                error: function (e) {
+                                    swal({ title: 'lodgement and widthdrawal Transactions', text: 'Lodgement and widthdrawal operation encountered an error', type: 'error' }).then(function () { clearForm(); });
+                                    $("#btnWithdrawalTransactOperations").removeAttr("disabled");
+                                    return;
+                                }
+                            });
+
+                            //Counter Party Transaction Leg
+                            debugger
+                            /* if (returnTracker == true)
+                                 return;*/
+
+
+
+
+                            //Credit leg
+                            $.ajax({
+                                url: '../TellerAndTill/AddLodgement/',
+                                type: 'POST',
+                                data: {
+                                    Ref, AccountId, TransactionDate, DebitAmt, Description, CreditAmt: 0, LegType
+                                },
+                                dataType: "json",
+
+                                success: function (result) {
+
+                                    if (result.toString !== '' && result !== null) {
+                                        swal({ title: 'Add lodgement/widthdrawal', text: 'Lodgement/widthdrawal transaction completed successfully!', type: 'success' })
+                                            .then(function () {
+
+                                                //window.location.reload();
+
+                                            });
+
+                                        // $('#AddNewTransferOperation').modal('hide');
+
+                                        $('#tellerLoginTable').
+                                            bootstrapTable(
+                                                'refresh', { url: 'listTellerLogin' });
+
+                                        var form = $("#frmPerformWithdrawaltransaction");
+                                        form.trigger("reset");
+                                        form.find("select").trigger("change");
+
+
+                                        $("#btnWithdrawalTransactOperations").removeAttr("disabled");
+                                    }
+                                    else {
+                                        swal({ title: 'Add lodgement and widthdrawal', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { clearForm(); });
+                                        $("#btnWithdrawalTransactOperations").removeAttr("disabled");
+                                    }
+                                    //  $('#AddNewProductCategory').modal('hide');      //Hides the modal view
+
+                                },
+                                error: function (e) {
+                                    swal({ title: 'Add lodgement and widthdrawal', text: 'Lodgement and widthdrawal operation add encountered an error', type: 'error' }).then(function () { clearForm(); });
+                                    $("#btnWithdrawalTransactOperations").removeAttr("disabled");
+                                }
+                            });
+
+                        }
+                    },
+
+                    function (dismiss) {
+                        swal('Add lodgement and widthdrawal', 'You cancelled lodgement and widthdrawal add.', 'error');
+                        $("#btnWithdrawalTransactOperations").removeAttr("disabled");
+                    }
+                );
             }
+        });
+    
+
+
+
+
+}
+
+
+function addSingleChequeLodgement() {
+    $('#frmSingleChequeLodgementTransaction').validate({
+
+        rules: {
+            singlechequenamelodgement: {
+                required: true,
+                /*number: true*/
+            },
+            singlechequenolodgement: {
+                required: true,
+                number: true
+            },
+            singlechequeamountlodgement: {
+                required: true
+            },
+            singlechequedatelodgement: {
+                required: true
+            },
+            ddlAcctNumber: {
+                required: true
+            },
+           
+            transWithdrawalDate: {
+                required: true
+            },
+
+            amountWithdrawalFigure: {
+                required: true
+            }
+        },
+
+
+
+        messages: {
+            singlechequenamelodgement: { required: "Name on cheque is required" },
+            singlechequedatelodgement: { required: "Date is required" },
+            singlechequeamountlodgement: {
+                required: "please enter an amount"
+            },
+            singlechequenolodgement: {
+                required: "Please enter cheque number",
+                number: "cheque value entered is not a valid number"
+            },
+            branchcheque: { required: "Select branche is required" },
+            cheqtype: { required: "Select cheque type is required" },
+            
+           
 
         },
         errorPlacement: function (error, element) {
@@ -918,7 +1343,7 @@ function addSingleCheque() {
                 });
         },
         submitHandler: function (form) {
-            $("input[type=submit]").attr("disabled", "disabled");
+            $("btnAddSingleChequeLodgement").attr("disabled", "disabled");
             swal({
                 title: "Are you sure?",
                 text: "Single cheque details will be added!",
@@ -938,23 +1363,23 @@ function addSingleCheque() {
             }).then(
                 function (isConfirm) {
                     if (isConfirm) {
-                        $("#btnAddSingleCheque").attr("disabled", "disabled");
+                        //$("#btnAddSingleCheque").attr("disabled", "disabled");
 
                         //debugger
                         var AccountId = $('#ddlAcctNumber').val();
-                        var AmtDeposited1 = $('#singlechequeamount').val();
+                        var chequeAmount = $('#singlechequeamountlodgement').val();
                         //var Productcategoryid = $('#cheqlocation').val();
-                        var ChequeBank = $('#bankcheque').val();
-                        var BankLocation = $('#branchcheque').val();
+                       // var ChequeBank = $('#bankcheque').val();
+                        //var BankLocation = $('#branchcheque').val();
                         // var Phone = $('#cheqtype').val();
-                        var ChequeNo = $('#chequeno').val();
-                        var ActualDate = $('#chequedate').val();
+                        var ChequeNo = $('#inglechequenolodgement').val();
+                        var Date = $('#inglechequedatelodgement').val();
                         //var Amount = $('#chequecomment').val();
 
                         $.ajax({
                             url: '../TellerAndTill/AddSingleChequeOperation',
                             type: 'POST',
-                            data: { AccountId, AmtDeposited1, ChequeBank, BankLocation, ChequeNo, ActualDate },
+                            data: { AccountId, AmtDeposited1: chequeAmount, ChequeBank, BankLocation, ChequeNo, ActualDate:Date },
                             dataType: "json",
 
                             success: function (result) {
@@ -963,7 +1388,8 @@ function addSingleCheque() {
                                     singlechequeDocument();                                                
                                 }
                                 else {
-                                    swal({ title: 'Add single cheque', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { clearForm(); });
+                                    swal({ title: 'Add single cheque', text: 'Something went wrong: </br>' + result.toString(), type: 'error' })
+                                        .then(function () { clearForm(); });
                                     $("#btnAddSingleCheque").removeAttr("disabled");
                                 }
 

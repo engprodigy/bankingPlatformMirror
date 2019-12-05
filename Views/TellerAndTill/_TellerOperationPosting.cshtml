@@ -285,59 +285,61 @@
 
                                             @*<div class="row">
 
-                                                                            <table id="singleStatusTable" class="data-table"
-                                                                                   data-show-refresh="true"
-                                                                                   data-show-toggle="true"
-                                                                                   data-show-columns="true"
-                                                                                   data-show-export="true"
-                                                                                   data-url="@Url.Action("listTellerLogin", "TellerAndTill")"
-                                                                                   data-show-pagination-switch="true"
-                                                                                   data-pagination="true"
-                                                                                   data-page-list="[10, 25, 50, 100, ALL]"
-                                                                                   data-export-types="['excel', 'pdf']"
-                                                                                   data-export-options='{
-                                                                               "fileName"
-                                                                               "Perform Transaction" ,
-                                                                               "worksheetName"
-                                                                               "Transactions" ,
-                                                                               "jspdf"
-                                                                               {"orientation":"landscape",
-                                                                               "autotable"
-                                                                               {"theme" "grid" ,
-                                                                               "styles"
-                                                                               { "rowHeight"
-                                                                               20, "fontSize"
-                                                                               9},
-                                                                               "headerStyles"
-                                                                               { "fillColor"
-                                                                               [40, 10, 255], "textColor"
-                                                                               255 }
-                                                                               }  }
-                                                       }'>
+                                    <table id="singleStatusTable" class="data-table"
+                                           data-show-refresh="true"
+                                           data-show-toggle="true"
+                                           data-show-columns="true"
+                                           data-show-export="true"
+                                           data-url="@Url.Action("listTellerLogin", "TellerAndTill")"
+                                           data-show-pagination-switch="true"
+                                           data-pagination="true"
+                                           data-page-list="[10, 25, 50, 100, ALL]"
+                                           data-export-types="['excel', 'pdf']"
+                                           data-export-options='{
+                                       "fileName"
+                                       "Perform Transaction" ,
+                                       "worksheetName"
+                                       "Transactions" ,
+                                       "jspdf"
+                                       {"orientation":"landscape",
+                                       "autotable"
+                                       {"theme" "grid" ,
+                                       "styles"
+                                       { "rowHeight"
+                                       20, "fontSize"
+                                       9},
+                                       "headerStyles"
+                                       { "fillColor"
+                                       [40, 10, 255], "textColor"
+                                       255 }
+                                       }  }
+               }'>
 
 
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th data-field="ledgername" data-sortable="true">Till Account Name</th>
-                                                                                        <th data-field="accountid">Till Account Number</th>
+                                        <thead>
+                                            <tr>
+                                                <th data-field="ledgername" data-sortable="true">Till Account Name</th>
+                                                <th data-field="accountid">Till Account Number</th>
 
-                                                                                        <th data-formatter="utilities.logoutFormatter"
-                                                                                            data-align="center" data-width="5%">Logout</th>
+                                                <th data-formatter="utilities.logoutFormatter"
+                                                    data-align="center" data-width="5%">Logout</th>
 
-                                                                                    </tr>
-                                                                                </thead>
-                                                                            </table>
+                                            </tr>
+                                        </thead>
+                                    </table>
 
-                                                </div>*@
+        </div>*@
+                                            
+
+
                                             <table id="teller-transaction-table" data-toggle="table"
-                                                   
                                                    data-search="true" class="data-table"
-                                                   data-toolbar="#cheque-type-toolbar"
+                                                   data-toolbar="#tillout-type-toolbar"
                                                    data-search-align="right"
                                                    data-show-pagination-switch="true"
                                                    data-pagination="true"
                                                    data-mobile-responsive="true"
-                                                   data-show-refresh="true" data-detail-view="true"
+                                                   data-show-refresh="true"
                                                    data-show-toggle="true" data-unique-id="id"
                                                    data-buttons-class="danger">
                                                 <thead>
@@ -350,15 +352,14 @@
                                                         <th data-field="approved" data-sortable="true" data-align="left"
                                                             data-formatter="utilities.approvalFormatter">Approval Status</th>
                                                         @*<th data-field="isdeleted" data-sortable="true" data-align="center"
-                                                                data-formatter="utilities.chequeTypeActiveFormatter">Active</th>
-                                                            <th data-formatter="utilities.editChequetypeFormatter"
-                                                                data-align="center" data-width="5%"></th>
-                                                            <th data-formatter="utilities.deleteChequetypeFormatter"
-                                                                data-align="center" data-width="5%"></th>*@
+                        data-formatter="utilities.chequeTypeActiveFormatter">Active</th>
+                    <th data-formatter="utilities.editChequetypeFormatter"
+                        data-align="center" data-width="5%"></th>
+                    <th data-formatter="utilities.deleteChequetypeFormatter"
+                        data-align="center" data-width="5%"></th>*@
                                                     </tr>
                                                 </thead>
                                             </table>
-
 
                                         </div>
                                         @* </form>*@

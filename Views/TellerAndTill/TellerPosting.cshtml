@@ -35,7 +35,7 @@
                     <th data-field="ledgername" data-sortable="true">Till Account Name</th>
                     <th data-field="accountid">Till Account Number</th>
 
-                    <th data-formatter="utilities.logoutFormatter"
+                    <th data-formatter="utility.logoutFormatter"
                         data-align="center" data-width="5%">Logout</th>
 
                 </tr>
@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#reversalPrivilege" role="tablist">
+                            <a class="nav-link" data-toggle="tab" href="#tellertillvault" role="tablist">
                                 <i class="now-ui-icons business_bulb-63"></i>
                                 Vault Till Transfer
                             </a>
@@ -81,9 +81,9 @@
                         <div class="tab-pane" id="transfercharges">
                             @Html.Partial("_TellerOperationLodgement")
                         </div>
-                        @*<div class="tab-pane" id="reversalPrivilege">
-                        @Html.Partial("_GrantReversalPrivilege")
-                    </div>*@
+                        <div class="tab-pane" id="tellertillvault">
+                        @Html.Partial("_TellerTillVaultOperation")
+                    </div>
 
                     </div>
                 </div>

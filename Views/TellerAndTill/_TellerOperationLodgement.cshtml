@@ -171,7 +171,7 @@
 
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="performtransaction">
-                                        <form id="frmPerformtransaction">
+                                       
                                             <div class="container pt-5 pb-3">
 
                                                 <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
@@ -191,13 +191,13 @@
                                                                 </div>
 
                                                                 @*<div class="row">
-                                                                    <div class="form-group col-md-6 pl-1">
-                                                                        <label><b>CASH WITH CASHIER 2</b></label>
-                                                                    </div>
-                                                                    <div class="form-group col-md-6 pl-1">
-                                                                        <label id="cashierLabel2"></label>
-                                                                    </div>
-                                                                </div>*@
+                                    <div class="form-group col-md-6 pl-1">
+                                        <label><b>CASH WITH CASHIER 2</b></label>
+                                    </div>
+                                    <div class="form-group col-md-6 pl-1">
+                                        <label id="cashierLabel2"></label>
+                                    </div>
+                                </div>*@
 
 
                                                                 <div class="row mb-4">
@@ -220,36 +220,36 @@
 
 
                                                                 @* <div class="row mb-4">
-                                                     <table id="transactionPerformingTable" class="data-table"
-                                                            data-show-refresh="true"
-                                                            data-show-toggle="true"
-                                                            data-show-columns="true"
-                                                            data-show-export="true"
-                                                            data-show-pagination-switch="true"
-                                                            data-pagination="true"
-                                                            data-page-list="[10, 25, 50, 100, ALL]"
-                                                            data-export-types="['excel', 'pdf']"
-                                                            data-export-options='{
-                                "fileName"
-                                "Perform Transaction" ,
-                                "worksheetName"
-                                "Transactions" ,
-                                "jspdf"
-                                {"orientation":"landscape",
-                                "autotable"
-                                {"theme" "grid" ,
-                                "styles"
-                                { "rowHeight"
-                                20, "fontSize"
-                                9},
-                                "headerStyles"
-                                { "fillColor"
-                                [40, 10, 255], "textColor"
-                                255 }
-                                }  }
-        }'></table>
+                                                                             <table id="transactionPerformingTable" class="data-table"
+                                                                                    data-show-refresh="true"
+                                                                                    data-show-toggle="true"
+                                                                                    data-show-columns="true"
+                                                                                    data-show-export="true"
+                                                                                    data-show-pagination-switch="true"
+                                                                                    data-pagination="true"
+                                                                                    data-page-list="[10, 25, 50, 100, ALL]"
+                                                                                    data-export-types="['excel', 'pdf']"
+                                                                                    data-export-options='{
+                                                        "fileName"
+                                                        "Perform Transaction" ,
+                                                        "worksheetName"
+                                                        "Transactions" ,
+                                                        "jspdf"
+                                                        {"orientation":"landscape",
+                                                        "autotable"
+                                                        {"theme" "grid" ,
+                                                        "styles"
+                                                        { "rowHeight"
+                                                        20, "fontSize"
+                                                        9},
+                                                        "headerStyles"
+                                                        { "fillColor"
+                                                        [40, 10, 255], "textColor"
+                                                        255 }
+                                                        }  }
+                                }'></table>
 
-                                                 </div>*@
+                                                                         </div>*@
 
 
                                                                 <div class="row mb-4">
@@ -257,64 +257,64 @@
                                                                         <label></label>
                                                                     </div>
                                                                     @* <div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">
-                    <div class="form-check form-check-radio">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="lodgementWithdrawal"
-                                   id="lodgement" onclick="CheckedLodgement()" value="lodgement" required>
-                            <span class="form-check-sign"></span> <b style="color:red">Lodgement</b>
-                        </label>
-                    </div>
-                    <div class="form-check form-check-radio">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="lodgementWithdrawal"
-                                   id="withdrawal" onclick="CheckWithdrawalView()" value="withdrawal" required>
-                            <span class="form-check-sign"></span> <b style="color:red">Withdrawal</b>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                    <div class="row mb-4" id="ShowCashCheque" style="display:none">
-                        <div class="col-xs-12 col-md-3 mt-1">
-                            <label></label>
-                        </div>
-                        <div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">
-                            <div class="form-check form-check-radio">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" type="radio" name="cashCheque"
-                                           style="background-color:red;"
-                                           id="cash" onclick="CashLodgemntView()" value="cash" required>
-                                    <span class="form-check-sign"></span> Cash
-                                </label>
-                            </div>
-                            <div class="form-check form-check-radio">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" type="radio" name="cashCheque"
-                                           id="cheque" onclick="ChequeLodgmentCheque()" value="cheque" required>
-                                    <span class="form-check-sign"></span> Cheque
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                                            <div class="form-check form-check-radio">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" name="lodgementWithdrawal"
+                                                           id="lodgement" onclick="CheckedLodgement()" value="lodgement" required>
+                                                    <span class="form-check-sign"></span> <b style="color:red">Lodgement</b>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-radio">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" name="lodgementWithdrawal"
+                                                           id="withdrawal" onclick="CheckWithdrawalView()" value="withdrawal" required>
+                                                    <span class="form-check-sign"></span> <b style="color:red">Withdrawal</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                            <div class="row mb-4" id="ShowCashCheque" style="display:none">
+                                                <div class="col-xs-12 col-md-3 mt-1">
+                                                    <label></label>
+                                                </div>
+                                                <div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">
+                                                    <div class="form-check form-check-radio">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="cashCheque"
+                                                                   style="background-color:red;"
+                                                                   id="cash" onclick="CashLodgemntView()" value="cash" required>
+                                                            <span class="form-check-sign"></span> Cash
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-radio">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="cashCheque"
+                                                                   id="cheque" onclick="ChequeLodgmentCheque()" value="cheque" required>
+                                                            <span class="form-check-sign"></span> Cheque
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                                                     *@
 
 
                                                                     <div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">
                                                                         <div class="radio-item">
-                                                                            
-                                                                                <input type="radio" name="transactiontype"
-                                                                                       id="lodgement" onclick="CheckedLodgement()" value="lodgement" required>
-                                                                                <label for="lodgement">
-                                                                                    <span class="form-check-sign"></span> <b style="color:red">Lodgement</b>
-                                                                                </label>
+
+                                                                            <input type="radio" name="transactiontype"
+                                                                                   id="lodgement" onclick="CheckedLodgement()" value="lodgement" required>
+                                                                            <label for="lodgement">
+                                                                                <span class="form-check-sign"></span> <b style="color:red">Lodgement</b>
+                                                                            </label>
                                                                         </div>
                                                                         <div class="radio-item">
-                                                                           
-                                                                                <input  type="radio" name="transactiontype"
-                                                                                       id="withdrawal" onclick="CheckedWithdrawalView()" value="withdrawal" required>
-                                                                                <label for="withdrawal">
-                                                                                    <span class="form-check-sign"></span> <b style="color:red">Withdrawal</b>
-                                                                                </label>
+
+                                                                            <input type="radio" name="transactiontype"
+                                                                                   id="withdrawal" onclick="CheckedWithdrawalView()" value="withdrawal" required>
+                                                                            <label for="withdrawal">
+                                                                                <span class="form-check-sign"></span> <b style="color:red">Withdrawal</b>
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -344,31 +344,31 @@
                                                                     </div>
 
                                                                     @* <div class="row mb-4" id="ShowCashChequeWithdrawal" style="display:none">
-            <div class="col-xs-12 col-md-3 mt-1">
-                <label></label>
-            </div>
-            <div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">
-                <div class="radio-item">
+                                        <div class="col-xs-12 col-md-3 mt-1">
+                                            <label></label>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">
+                                            <div class="radio-item">
 
-                    <input type="radio" name="cashchequewithdrawal"
-                           id="cashwithdrawal" onclick="CashWithdrawalView()" value="cashwithdrawal" required>
-                    <label for="cash">
-                        <span class="form-check-sign"></span> Cash
-                    </label>
-                </div>
-                <div class="radio-item">
+                                                <input type="radio" name="cashchequewithdrawal"
+                                                       id="cashwithdrawal" onclick="CashWithdrawalView()" value="cashwithdrawal" required>
+                                                <label for="cash">
+                                                    <span class="form-check-sign"></span> Cash
+                                                </label>
+                                            </div>
+                                            <div class="radio-item">
 
-                    <input type="radio" name="cashchequewithdrawal"
-                           id="chequewithdrawal" onclick="ChequeWithdrawalView()" value="chequewithdrawal" required>
-                    <label for="cheque">
-                        <span class="form-check-sign"></span> Cheque
-                    </label>
-                </div>
-            </div>
-        </div>*@
+                                                <input type="radio" name="cashchequewithdrawal"
+                                                       id="chequewithdrawal" onclick="ChequeWithdrawalView()" value="chequewithdrawal" required>
+                                                <label for="cheque">
+                                                    <span class="form-check-sign"></span> Cheque
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>*@
 
-                                                                    <div class="cashcontainer" id="lodgmentcashview" style="display:none">
-
+                                                                <div class="cashcontainer" id="lodgmentcashview" style="display:none">
+                                                                    <form id="frmPerformtransaction">
                                                                         <div class="row">
                                                                             <label style="color:red"><b>Basic Information</b></label>
                                                                         </div>
@@ -471,11 +471,11 @@
                                                                                 <div class="form-group mb-2">
                                                                                     <div class="col-md-8 mb-3">
                                                                                         <div class="form-check form-check-inline pl-0">
-                                                                                           @* <label class="form-check-label">
-                                                                                                <input id="isMoreDetails" name="isMoreDetails" class="form-check-input" type="checkbox">
-                                                                                                <span class="form-check-sign"></span>
-                                                                                                More Details
-                                                                                            </label>*@
+                                                                                            @* <label class="form-check-label">
+                                    <input id="isMoreDetails" name="isMoreDetails" class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"></span>
+                                    More Details
+                                </label>*@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -491,9 +491,10 @@
                                                                                 </button>
                                                                             </div>
                                                                         </div>
-
-                                                                    </div>
-                                                                    <div class="cashcontainer" id="withdrawalcashview" style="display:none">
+                                                                    </form>
+                                                                </div>
+                                                                <div class="cashcontainer" id="withdrawalcashview" style="display:none">
+                                                                    <form id="frmPerformWithdrawaltransaction">
 
                                                                         <div class="row">
                                                                             <label style="color:red"><b>Withdrawal Basic Information</b></label>
@@ -504,14 +505,14 @@
                                                                             <div class="col-md-6 pl-1">
                                                                                 <div class="form-group">
                                                                                     <label>Name</label>
-                                                                                    <input id="transDepositorName" name="transDepositorName" class="form-control" />
+                                                                                    <input id="transWithdrawalName" name="transWithdrawalName" class="form-control" />
                                                                                 </div>
                                                                             </div>
 
                                                                             <div class="col-md-6 pl-1">
                                                                                 <div class="form-group">
                                                                                     <label>Transaction Date</label>
-                                                                                    <input id="transDate" name="transDate" class="form-control datetimepicker" />
+                                                                                    <input id="transWithdrawalDate" name="transWithdrawalDate" class="form-control datetimepicker" />
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -519,40 +520,52 @@
                                                                         <div class="row">
                                                                             <div class="col-md-6 pl-1">
                                                                                 <div class="form-group">
-                                                                                    <label>Depositor's Phone</label>
-                                                                                    <input id="transDepositorPhone" name="transDepositorPhone" class="form-control" />
+                                                                                    <label>Phone Number</label>
+                                                                                    <input id="transWithdrawalPhone" name="transWithdrawalPhone" class="form-control" />
                                                                                 </div>
                                                                             </div>
 
                                                                             <div class="col-md-6 pl-1">
                                                                                 <div class="form-group">
-                                                                                    <label>Deposit Slip No</label>
-                                                                                    <input id="transDepositSlipNo" name="transDepositSlipNo" class="form-control" />
+                                                                                    <label>Withdrawal Slip No</label>
+                                                                                    <input id="withdrawalSlipNo" name="withdrawalSlipNo" class="form-control" />
                                                                                 </div>
                                                                             </div>
                                                                         </div>
 
                                                                         <div class="row">
+
                                                                             <div class="col-md-6 pl-1">
-                                                                                <div class="form-group mb-2">
-                                                                                    <div class="col-md-8 mb-3">
-                                                                                        <div class="form-check form-check-inline pl-0">
-                                                                                            <label class="form-check-label">
-                                                                                                <input id="chargeStampDuty" name="chargeStampDuty" class="form-check-input" type="checkbox">
-                                                                                                <span class="form-check-sign"></span>
-                                                                                                Charge Stamp Duty
-                                                                                            </label>
-                                                                                        </div>
+                                                                                <label>Customer Balance (Figures)</label>
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-prepend">
+                                                                                        <span class="input-group-text">&#8358;</span>
                                                                                     </div>
+                                                                                    <input id="customerBalanceFigure" name="customerBalanceFigure"
+                                                                                           class="form-control format-money" style="color:red;
+                                                                           font-weight:bold; font-size:large" readonly />
                                                                                 </div>
                                                                             </div>
+                                                                            @* <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group mb-2">
+                <div class="col-md-8 mb-3">
+                    <div class="form-check form-check-inline pl-0">
+                        <label class="form-check-label">
+                            <input id="chargeStampDuty" name="chargeStampDuty" class="form-check-input" type="checkbox">
+                            <span class="form-check-sign"></span>
+                            Charge Stamp Duty
+                        </label>
+                    </div>
+                                                                                    </div>
+                                                                                        </div
+                                                                                </div>>*@
                                                                             <div class="col-md-6 pl-1">
                                                                                 <label>Amount (Figures)</label>
                                                                                 <div class="input-group">
                                                                                     <div class="input-group-prepend">
                                                                                         <span class="input-group-text">&#8358;</span>
                                                                                     </div>
-                                                                                    <input id="amountFigure" name="amountFigure" class="form-control format-money" />
+                                                                                    <input id="amountWithdrawalFigure" name="amountWithdrawalFigure" class="form-control format-money" />
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -560,14 +573,14 @@
                                                                         <div class="row">
                                                                             <div class="col-md-6 pl-1">
                                                                                 <div class="form-group">
-                                                                                    <label>Depositor's Address</label>
-                                                                                    <textarea id="depositorAddress" name="depositorAddress" class="form-control"></textarea>
+                                                                                    <label>Address</label>
+                                                                                    <textarea id="withdrawAddress" name="withdrawAddress" class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-md-6 pl-1">
                                                                                 <div class="form-group">
                                                                                     <label>Remark</label>
-                                                                                    <textarea id="remark" name="remark" class="form-control"></textarea>
+                                                                                    <textarea id="remarkWithdrawal" name="remarkWithdrawal" class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -576,36 +589,43 @@
                                                                             <div class="col-md-6 pl-1">
                                                                                 <div class="form-group">
                                                                                     <label>Additional Information</label>
-                                                                                    <textarea id="additionalInfo" name="additionalInfo" class="form-control"></textarea>
+                                                                                    <textarea id="additionalWithdrawalInfo" name="additionalWithdrawalInfo" class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
 
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group mb-2">
-                                                                                    <div class="col-md-8 mb-3">
-                                                                                        <div class="form-check form-check-inline pl-0">
-                                                                                            <label class="form-check-label">
-                                                                                                <input id="isMoreDetails" name="isMoreDetails" class="form-check-input" type="checkbox">
-                                                                                                <span class="form-check-sign"></span>
-                                                                                                More Details
-                                                                                            </label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
+                                                                            @*<div class="col-md-6 pl-1">
+                    <div class="form-group mb-2">
+                        <div class="col-md-8 mb-3">
+                            <div class="form-check form-check-inline pl-0">
+                                <label class="form-check-label">
+                                    <input id="isMoreDetails" name="isMoreDetails" class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"></span>
+                                    More Details
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
                                                                         </div>
 
                                                                         <hr />
                                                                         <div class="row mt-4 justify-content-between">
+
                                                                             <div class="col">
                                                                                 <button class="btn btn-danger btn-wd pull-right" type="submit"
-                                                                                        id="btnTransactOperations">
+
+                                                                                        id="btnWithdrawalTransactOperations" name="btnWithdrawalTransactOperations">
+
                                                                                     Save Record
+
                                                                                 </button>
                                                                             </div>
+
                                                                         </div>
 
-                                                                    </div>
+                                                                        </form>
+
+                                                                </div>
 
                                                                     <div class="row card" id="chequetypeView" style="display:none">
 
@@ -696,59 +716,82 @@
 
                                                                     <div class="singlecheque hideElement" id="HideBysinglecheque" style="display:none">
                                                                         <p style="color:red">Third Party Cheque Lodgement Detail</p>
-
+                                                                        <form id="frmSingleChequeLodgementTransaction">
                                                                         <div class="row">
                                                                             <div class="col-md-12 pl-1">
-                                                                                <div class="form-group">
+                                                                                <div class="form-group required">
                                                                                     <label>Name on Cheque</label>
 
-                                                                                    <input id="singlechequename" name="singlechequename" class="form-control" />
+                                                                                    <input id="singlechequenamelodgement" name="singlechequenamelodgement" class="form-control" />
                                                                                 </div>
 
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <div class="col-md-12 pl-1">
-                                                                                <div class="form-group">
+                                                                            <div class="col-md-6 pl-1">
+                                                                                <div class="form-group required">
                                                                                     <label>Amount</label>
-                                                                                    <input id="singlechequeamount" name="singlechequeamount" class="form-control format-money" />
+                                                                                    <input id="singlechequeamountlodgement" name="singlechequeamountlodgement" class="form-control format-money" />
                                                                                 </div>
                                                                             </div>
-                                                                            @*<div class="col-md-3 pl-1">
-                <div class="form-group">
-                    <label>Cheque Location</label>
-                    <select id="cheqlocation" name="cheqlocation" class="form-control">
-                        <option value="Others" selected="selected">Others</option>
-                        <option value="Local">Local</option>
-                    </select>
-                </div>
+                                                                            <div class="col-md-6 pl-1" style="margin-top:10px">
+                                                                                <div class="form-check pl-0 pr-1 mt-4" >
+                                                                                    <label class="form-check-label" style="margin-top:0px">
+                                                                                        Charge Stamp Duty
+                                                                                        <input name="singlechequechargestampdutylodgement" class="form-check-input"
+                                                                                               type="checkbox" id="singlechequechargestampdutylodgement" >
+                                                                                        <span class="form-check-sign"></span>
+                                                                                    </label>
+                                                                                </div> 
+                                                                                @*  <label class="col-form-label mt-4">
+                                                                                    Charge Stamp Duty
+                                                                                    <span class="text-info small d-none">
+                                                                                        (Amount: <span id="stamp-duty-amount"></span>)
+                                                                                    </span>
+                                                                                </label>
+                                                                                <div class="form-check pl-0 pr-1 mt-4">
+                                                                                    <label class="form-check-label">
+                                                                                        <input name="chargestampduty" class="form-check-input"
+                                                                                               type="checkbox" id="chargestampduty">
+                                                                                        <span class="form-check-sign"></span>
+                                                                                    </label>
+                                                                                </div>"*@
+
+                                                                            </div>
+                                                                                @* <div class="form-group">
+                <label>Cheque Location</label>
+                <select id="cheqlocation" name="cheqlocation" class="form-control">
+                    <option value="Others" selected="selected">Others</option>
+                    <option value="Local">Local</option>
+                </select>
             </div>
-            <div class="col-md-3 pl-1">
-                <div class="form-group">
-                    <label>Bank</label>
-                    <select id="bankcheque" name="bankcheque" class="form-control">
-                        <option value=""></option>
-                        <option value=""></option>
-                    </select>
-                </div>
+        </div>
+        <div class="col-md-3 pl-1">
+            <div class="form-group">
+                <label>Bank</label>
+                <select id="bankcheque" name="bankcheque" class="form-control">
+                    <option value=""></option>
+                    <option value=""></option>
+                </select>
             </div>
-            <div class="col-md-3 pl-1">
-                <div class="form-group">
-                    <label>Branch</label>
-                    <select id="branchcheque" name="branchcheque" class="form-control">
-                        <option value=""></option>
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>*@
-                                                                        </div>
+        </div>
+        <div class="col-md-3 pl-1">
+            <div class="form-group">
+                <label>Branch</label>
+                <select id="branchcheque" name="branchcheque" class="form-control">
+                    <option value=""></option>
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>*@
+                                                                            </div>
 
                                                                         <div class="row">
                                                                             <div class="col-md-12 pl-1">
-                                                                                <div class="form-group">
+                                                                                <div class="form-group required">
                                                                                     <label>Cheque No</label>
 
-                                                                                    <input id="singlechequeno" name="singlechequeno" class="form-control" />
+                                                                                    <input id="singlechequenolodgement" name="singlechequenolodgement" class="form-control" />
                                                                                 </div>
 
                                                                             </div>
@@ -766,15 +809,15 @@
             </div>*@
                                                                             
                                                                             <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
+                                                                                <div class="form-group required">
                                                                                     <label>Date on Cheque</label>
-                                                                                    <input id="chequedate" name="chequedate" class="form-control datetimepicker" />
+                                                                                    <input id="singlechequedatelodgement" name="singlechequedatelodgement" class="form-control datetimepicker" />
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-md-6 pl-1">
                                                                                 <div class="form-group">
                                                                                     <label>Comment</label>
-                                                                                    <textarea id="chequecomment" name="chequecomment" class="form-control"></textarea>
+                                                                                    <textarea id="singlechequecommentlodgement" name="singlechequecommentlodgement" class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -799,12 +842,12 @@
                                                                                 <i class="now-ui-icons ui-1_simple-remove"></i>
                                                                                 Clear
                                                                             </button>
-                                                                            <button class="btn btn-danger" id="btnAddSingleCheque" type="submit" value="Save Record">
+                                                                            <button class="btn btn-danger" id="btnAddSingleChequeLodgement" type="submit" value="Save Record">
                                                                                 <i class="now-ui-icons ui-1_simple-add"></i>
                                                                                 Save
                                                                             </button>
                                                                         </div>
-
+                                                                        </form>
                                                                     </div>
 
 
@@ -1353,7 +1396,7 @@
 
                                                 </div>
                                             </div>
-                                        </form>
+                                       
                                     </div>
 
 

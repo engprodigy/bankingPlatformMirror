@@ -1,0 +1,430 @@
+﻿
+<div class="card card-plain">
+    <div class="card-header text-center">
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+
+                    <div class="row">
+                        @* <div class="col-md-4">
+                                <ul class="nav nav-pills nav-pills-primary flex-column" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#link5" role="tablist">
+                                            Transfer
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>*@
+                        <div class="col-md-8">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="link5">
+                                    @*Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas.
+                                        <br><br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                                        <br /><br />*@
+                                    <button class="btn btn-danger" data-toggle="modal" id="tillvaultoperation" data-target="#AddNewTillVaultOperation"
+                                            type="button" value="Cash Transfer">
+                                        <i class="now-ui-icons ui-1_simple-add"></i>
+                                        Click to Perform Till Vault Operation
+                                    </button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddNewTillVaultOperation" class="modal fade" role="dialog" data-keyboard="false"
+     aria-hidden="true" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 mb-3 pl-3">
+                    Till/Vault Operation
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <div class="card card-plain">
+
+
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tillvaultoperation">
+                                        
+                                            <div class="container pt-5 pb-3">
+
+                                                <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+
+                                                    <div class="card card-plain">
+                                                        <div class="card-header" role="tab" id="headingOne">
+                                                            <a data-toggle="collapse" data-parent="#accordion" style="color:red" href="#tillvaultoperation" aria-expanded="true" aria-controls="tillvaultoperation">
+                                                                <b>Till/Vault</b>
+                                                                <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div id="tillvaultoperation" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+
+                                                            <div class="card-body">
+
+                                                                <div class="container">
+                                                                    <div class="row ">
+
+                                                                        <span class="col-md-4 pl-1">
+                                                                            <span class="form-group mb-2">
+                                                                                <span class="col-md-3 mb-3">
+                                                                                    <span class="form-check form-check-inline pl-0">
+                                                                                        <label class="form-check-label">
+                                                                                            <input id="vaulttotills" name="vaulttotills" value="" class="form-check-input" type="checkbox">
+                                                                                            <span class="form-check-sign"></span>
+                                                                                            Vault To Till
+                                                                                        </label>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="col-md-4 pl-1">
+                                                                            <span class="form-group mb-2">
+                                                                                <span class="col-md-3 mb-3">
+                                                                                    <span class="form-check form-check-inline pl-0">
+                                                                                        <label class="form-check-label">
+                                                                                            <input id="tilltovaults" name="tilltovaults" class="form-check-input" type="checkbox">
+                                                                                            <span class="form-check-sign"></span>
+                                                                                            Till To Vault
+                                                                                        </label>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="col-md-4 pl-1">
+                                                                            <span class="form-group mb-2">
+                                                                                <span class="form-group mb-2">
+                                                                                    <span class="col-md-3 mb-3">
+                                                                                        <span class="form-check form-check-inline pl-0">
+                                                                                            <label class="form-check-label">
+                                                                                                <input id="reversetransfer" name="reversetransfer" class="form-check-input" type="checkbox">
+                                                                                                <span class="form-check-sign"></span>
+                                                                                                Reverse Transfer
+                                                                                            </label>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </span>
+                                                                        <br /><br />
+
+                                                                    </div>
+                                                                    <hr />
+
+
+                                                                    <div class="vaulttotills hideElement1" id="HideByVaulttoTills" style="display:none">
+                                                                        <form id="frmVaultTill" >
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Vault Account</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group required">
+                                                                                        <select class="form-control" id="vaultAcct" name="vaultAcct">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label"><u><b>Current Balance</b></u></label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="input-group">
+                                                                                        <div class="input-group-prepend">
+                                                                                            <span class="input-group-text">&#8358;</span>
+                                                                                        </div>
+                                                                                        <input id="currentBal" name="currentBal" class="form-control"
+                                                                                               style="color:red; font-weight:bold; font-size:large" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Amount (Figures)</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <input id="amountfigures" name="amountfigures" class="form-control format-money"
+                                                                                               onmouseout="amountwords.innerHTML=numberToEnglish(this.value)" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Amount (Words)</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <label id="amountwords" name="amountwords"
+                                                                                               style="color:red; font-weight:bold"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Cash Till Account</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <select class="form-control" name="cashtillacct"
+                                                                                                id="cashtillacct">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label"><u><b>Current Balance</b></u></label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="input-group">
+                                                                                        <div class="input-group-prepend">
+                                                                                            <span class="input-group-text">&#8358;</span>
+                                                                                        </div>
+                                                                                        <input id="cashtillcurrentBal" name="cashtillcurrentBal" class="form-control"
+                                                                                               style="color:red; font-weight:bold; font-size:large" value="" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Reference Number</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        @*<label id="cashtillrefNo" name="cashtillrefNo">RCF/@DateTime.Now.Year/@DateTime.MaxValue.Month </label>*@
+                                                                                        <input id="cashtillrefNo" name="cashtillrefNo" class="form-control" readonly style="color:red; font-weight:bold"
+                                                                                               value="" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Remark</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <textarea id="vaulttillRemark" name="vaulttillRemark" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-3">
+                                                                                    <input id="vaultAcctGL" name="vaultAcctGL" class="form-control" hidden />
+                                                                                </div>
+                                                                                <div class="col-md-3">
+                                                                                    <input id="cashTillAcctGL" name="cashTillAcctGL" class="form-control" hidden />
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <hr />
+                                                                            <div class="form-group text-right">
+                                                                                <button class="btn btn-danger" id="btnAddVaultTill" type="submit" value="Save Record">
+                                                                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                                                                    Save
+                                                                                </button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+
+
+                                                                    <div class="tilltovaults-container hideElement2" id="HideByTillVault" style="display:none">
+                                                                        <form id="frmTillVault">
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Cash Till Account</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <select class="form-control" name="cashtillvaultacct" 
+                                                                                                id="cashtillvaultacct">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label"><u><b>Current Balance</b></u></label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="input-group">
+                                                                                        <div class="input-group-prepend">
+                                                                                            <span class="input-group-text">&#8358;</span>
+                                                                                        </div>
+                                                                                        <input id="tilltovaultcurrentBal" name="tilltovaultcurrentBal" class="form-control"
+                                                                                               style="color:red; font-weight:bold; font-size:large" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Amount (Figures)</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <input id="tillvaultamountfigures" name="tillvaultamountfigures" class="form-control format-money"
+                                                                                               onmouseout="amountwordsTilltoVault.innerHTML=numberToEnglish(this.value)" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Amount (Words)</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <label id="amountwordsTilltoVault" name="amountwordsTilltoVault"
+                                                                                               style="color:red; font-weight:bold"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Vault Account</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <select class="form-control" name="tillvaultaccounts"
+                                                                                                 id="tillvaultaccounts">
+                                                                                            <option></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label"><u><b>Current Balance</b></u></label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="input-group">
+                                                                                        <div class="input-group-prepend">
+                                                                                            <span class="input-group-text">&#8358;</span>
+                                                                                        </div>
+                                                                                        <input id="tillvaultcurrentBal" name="tillvaultcurrentBal" class="form-control"
+                                                                                               style="color:red; font-weight:bold; font-size:large" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Reference Number</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <input id="tillvaultrefNo" name="tillvaultrefNo" class="form-control" readonly style="color:red; font-weight:bold"
+                                                                                               value="" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Remark</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <textarea id="tillvaultRemark" name="tillvaultRemark" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-3">
+                                                                                    <input id="tilltoVaultGL" name="tilltoVaultGL" class="form-control" hidden />
+                                                                                </div>
+                                                                                <div class="col-md-3">
+                                                                                    <input id="tilltoCashAcctGL" name="tilltoCashAcctGL" class="form-control" hidden />
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                            <hr />
+                                                                            <div class="form-group text-right">
+                                                                                <button class="btn btn-danger" id="btnAddTillVault" type="submit" value="Save Record">
+                                                                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                                                                    Save
+                                                                                </button>
+                                                                            </div>
+                                                                            </form>
+                                                                    </div>
+
+                                                                    <div class="reversetransfer-container hideElement3" id="HideByReverseTransfer" style="display:none">
+                                                                        <form id="frmReverseTransfer" >
+                                                                            <p><b class="text-danger text-center">Reverse Transfers</b></p>
+                                                                            <div class="row">
+                                                                                <label class="col-md-3 col-form-label">Transfer Type</label>
+                                                                                <div class="col-md-9">
+                                                                                    <div class="form-group">
+                                                                                        <select class="form-control" name="transferreverse"
+                                                                                                required id="transferreverse">
+                                                                                            <option>  </option>
+
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                        <table id="transfer-transaction-table" data-toggle="table"
+                                                                               data-search="true" class="data-table"
+                                                                               data-toolbar="#cheque-type-toolbar"
+                                                                               data-search-align="right"
+                                                                               data-show-pagination-switch="true"
+                                                                               data-pagination="true"
+                                                                               data-mobile-responsive="true"
+                                                                               data-show-refresh="true" 
+                                                                               data-show-toggle="true" data-unique-id="id"
+                                                                               data-buttons-class="danger">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th data-field="accountId" data-sortable="true">Credit GL Code</th>
+                                                                                    <th data-field="creditAmt" data-align="right">Amount</th>
+
+                                                                                    <th data-field="transactionDate" data-sortable="true" data-align="right">Date</th>
+                                                                                    <th data-field="postingTime" data-sortable="true" data-align="right"> Time</th>
+                                                                                    <th data-field="approved" data-sortable="true" data-align="left"
+                                                                                        data-formatter="utilities.approvalFormatter">Approval Status</th>
+                                                                                    <th data-formatter="utilities.reverseTransactionFormatter"
+                                                                                        data-width="5%" data-align="center"></th>
+                                                                                    @*<th data-field="isdeleted" data-sortable="true" data-align="center"
+            data-formatter="utilities.chequeTypeActiveFormatter">Active</th>
+        <th data-formatter="utilities.editChequetypeFormatter"
+            data-align="center" data-width="5%"></th>
+        <th data-formatter="utilities.deleteChequetypeFormatter"
+            data-align="center" data-width="5%"></th>*@
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
