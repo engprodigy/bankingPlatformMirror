@@ -35,13 +35,19 @@ namespace TheCoreBanking.Retail.Controllers
     {
         private IRetailUnitOfWork RetailUnitOfWork { get; }
 
-       
+        private readonly TheCoreBankingRetailContext _context = new TheCoreBankingRetailContext();
+
+
+        //var dbContextTransaction = TheCoreBankingRetailContext.Database.BeginTransaction();
+
+
 
 
 
         public TellerAndTillController(IRetailUnitOfWork retailUnitOfWork)
         {
             RetailUnitOfWork = retailUnitOfWork;
+            
         }
 
 #if DEBUG
@@ -303,11 +309,20 @@ namespace TheCoreBanking.Retail.Controllers
 
         protected IEnumerable<CustomerAccountNumberVM> LoadCustomerAccountNumber()
         {
-           // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CASAEndpoint;
+#if DEBUG
+            //Office Development
+             string Uri = ApiConstants.BaseApiUrl + ApiConstants.CASAEndpoint;
 
-            
+
             //For Out of Office Development
-            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CASAEndpointDevHome;
+            //string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CASAEndpointDevHome;
+
+#else
+                
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CASAEndpoint;
+
+#endif
+
 
 
             var CustomerAccountNumber = RetailUnitOfWork.API.GetAsync(Uri).Result;
@@ -719,7 +734,8 @@ namespace TheCoreBanking.Retail.Controllers
                 logUser = User.Identity.Name;
             }
 
-            var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser).Where(t => t.TransactionType == 38).OrderByDescending(x => x.Id).Take(5);
+            var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser).Where(t => t.TransactionType == 38
+            && t.Ref.Contains("RCF")).OrderByDescending(x => x.Id).Take(5);
             // var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser);
 
             return Json(tellerTransactions);
@@ -740,11 +756,15 @@ namespace TheCoreBanking.Retail.Controllers
                 logUser = User.Identity.Name;
             }
 
-            var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser).Where(t => t.TransactionType == 37).OrderByDescending(x => x.Id).Take(5);
+            var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser).Where(t => t.TransactionType == 37
+             && t.Ref.Contains("RCF")).OrderByDescending(x => x.Id).Take(5);
             // var tellerTransactions = RetailUnitOfWork.Transaction.tellerTransactions(logUser);
 
             return Json(tellerTransactions);
         }
+
+
+
 
 
         #endregion
@@ -876,6 +896,35 @@ namespace TheCoreBanking.Retail.Controllers
             return Json(Setteller.Id);
         }
 
+
+        
+        public JsonResult LodgeInwardCheque(TblInwardbankcheque Cheque)
+        {
+            Cheque.Datecreated = DateTime.Now;
+            // Cheque.Operationid = ;
+            var chequeDetails = RetailUnitOfWork.ChequeDetails.GetByAccountNo(Cheque.Casaaccountno).
+                ToList().Where(k => k.Isexhausted == false).FirstOrDefault();
+
+            Cheque.Chequebookdetailid = chequeDetails.Id;
+
+            //retrieve product code
+            //API end = CASAEndpoint
+
+#if DEBUG
+            //in office development
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CASAEndpoint;
+#else
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CASAEndpoint;
+#endif
+            var ChartOfAccounts = RetailUnitOfWork.API.GetAsync(Uri).Result;
+
+           
+
+            RetailUnitOfWork.InwardCheques.Add(Cheque);
+            RetailUnitOfWork.Commit();
+            return Json(Cheque.Id);
+        }
+
         //public JsonResult AddTransactionOperation(TblBankingsinglefundtransfer singlefund)  TblFinanceTransaction
         public JsonResult AddTransactionOperation(TblFinanceTransaction singlefund)
         {
@@ -930,12 +979,17 @@ namespace TheCoreBanking.Retail.Controllers
             var tellerAccountGL = RetailUnitOfWork.tellerlogin.GetAssignedUser(logUser).FirstOrDefault().Accountid;
 
             //retrieve product GL number
-
+#if DEBUG
             //For office development
-           // string Uri = ApiConstants.BaseApiUrl + ApiConstants.PrincipalGLIdEndpoint + "/" + transactions.AccountId;
+             string Uri = ApiConstants.BaseApiUrl + ApiConstants.PrincipalGLIdEndpoint + "/" + transactions.AccountId;
 
             //For out of Office Development
-            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.PrincipalGLIdEndpointDev + "/" + transactions.AccountId;
+           // string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.PrincipalGLIdEndpointDev + "/" + transactions.AccountId;
+
+#else
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.PrincipalGLIdEndpoint + "/" + transactions.AccountId;
+#endif
+
             var productAccountGL = RetailUnitOfWork.API.GetAsync(Uri).Result;
 
             Globals.glAccountId = productAccountGL;
@@ -984,13 +1038,22 @@ namespace TheCoreBanking.Retail.Controllers
         public JsonResult getCustomerCasaBalance(string accountNumber)   
         {
 
+#if DEBUG
             //For office development
-           // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
 
             //For out of Office Development
-            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerAccountBalanceEndpointDevHome + "/?accountNumber=" + accountNumber;
-            var customerBalance = RetailUnitOfWork.API.GetAsync(Uri).Result;
+           // string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerAccountBalanceEndpointDevHome + "/?accountNumber=" + accountNumber;
 
+
+#else
+
+string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+
+
+#endif
+
+            var customerBalance = RetailUnitOfWork.API.GetAsync(Uri).Result;
             return Json(customerBalance);
 
         }
@@ -1015,22 +1078,42 @@ namespace TheCoreBanking.Retail.Controllers
                 logUser = "tayo.olawumi";
             }
 
+
+#if DEBUG
             //For office development
             //get customer code
-            // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerCodeEndpoint + "/?accountNumber=" + transactions.AccountId;
 
             //For out of Office Development
             //get customer code
-            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+            //string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+
+
+
+#else
+
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerCodeEndpoint + "/?accountNumber=" + transactions.AccountId;
+
+#endif
             var customerCode = RetailUnitOfWork.API.GetAsync(Uri).Result;
 
+
+#if DEBUG
             //For office development
             //get customer product code
-            // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+            string Uri2 = ApiConstants.BaseApiUrl + ApiConstants.CustomerProductCodeEndpoint + "/?accountNumber=" + transactions.AccountId;
 
             //For out of Office Development
             //get customer product code
-            string Uri2 = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerProductCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+            // string Uri2 = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerProductCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+
+#else
+
+             string Uri2 = ApiConstants.BaseApiUrl + ApiConstants.CustomerProductCodeEndpoint  + "/?accountNumber=" + transactions.AccountId;
+
+#endif
+
+
             var customerProductCode = RetailUnitOfWork.API.GetAsync(Uri2).Result;
 
             counterParty.TransactionDate = DateTime.Now;
@@ -1066,22 +1149,40 @@ namespace TheCoreBanking.Retail.Controllers
                 logUser = "tayo.olawumi";
             }
 
+
+#if DEBUG
             //For office development
             //get customer code
-            // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+             string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerCodeEndpoint + "/?accountNumber=" + transactions.AccountId;
 
             //For out of Office Development
             //get customer code
-            string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+           // string Uri = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+
+#else
+
+            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerCodeEndpoint + "/?accountNumber=" + transactions.AccountId;
+
+#endif
+
+
             var customerCode = RetailUnitOfWork.API.GetAsync(Uri).Result;
 
+
+#if DEBUG
             //For office development
             //get customer product code
-            // string Uri = ApiConstants.BaseApiUrl + ApiConstants.CustomerAccountBalanceEndpoint + "/?accountNumber=" + accountNumber;
+             string Uri2 = ApiConstants.BaseApiUrl + ApiConstants.CustomerProductCodeEndpoint + "/?accountNumber=" + transactions.AccountId;
 
             //For out of Office Development
             //get customer product code
-            string Uri2 = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerProductCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+            //string Uri2 = ApiConstants.BaseApiUrlDevHome + ApiConstants.CustomerProductCodeEndpointDevHome + "/?accountNumber=" + transactions.AccountId;
+
+#else
+
+            string Uri2 = ApiConstants.BaseApiUrl + ApiConstants.CustomerProductCodeEndpoint + "/?accountNumber=" + transactions.AccountId;
+#endif
+
             var customerProductCode = RetailUnitOfWork.API.GetAsync(Uri2).Result;
 
             counterParty.TransactionDate = DateTime.Now;
@@ -1197,6 +1298,14 @@ namespace TheCoreBanking.Retail.Controllers
             vaulttoTill.BatchRef = vaulttoTill.Ref;
             vaulttoTill.ApplicationId = "FintrakBanking";
 
+            var transactRef = vaulttoTill.Ref;
+            string newTransactRef = transactRef.Replace("RCF", "RVSL");
+            vaulttoTill.Ref = newTransactRef;
+            vaulttoTill.BatchRef = newTransactRef;
+
+
+
+
 
             RetailUnitOfWork.Transaction.Add(vaulttoTill);
             RetailUnitOfWork.Commit();
@@ -1217,7 +1326,46 @@ namespace TheCoreBanking.Retail.Controllers
         public JsonResult RetreiveDebitAccountGL(TblFinanceTransaction vaulttoTill)
         {
 
-           var debitAccountGL = RetailUnitOfWork.Transaction.getDebitAccountGL(vaulttoTill.Ref);
+            var debitAccountGL = RetailUnitOfWork.Transaction.getDebitAccountGL(vaulttoTill.Ref);
+
+            var creditAccountGL = RetailUnitOfWork.Transaction.getCreditAccountGL(vaulttoTill.Ref);
+
+            var debitTransactRef = debitAccountGL.Ref;
+
+            var creditTransactRef = creditAccountGL.Ref;
+
+            //replace transaction start string to show reversal
+
+            string newDebitTransactRef = debitTransactRef.Replace("RCF", "RVSL");
+
+            string newCreditTransactRef = creditTransactRef.Replace("RCF", "RVSL");
+
+            debitAccountGL.Ref = newDebitTransactRef;
+            debitAccountGL.BatchRef = newDebitTransactRef;
+
+            creditAccountGL.Ref = newCreditTransactRef;
+            creditAccountGL.BatchRef = newCreditTransactRef;
+
+            var dbContextTransaction = _context.Database.BeginTransaction();
+             try
+             {
+
+
+                _context.TblFinanceTransaction.Update(debitAccountGL);
+                _context.SaveChanges();
+
+                _context.TblFinanceTransaction.Update(creditAccountGL);
+                _context.SaveChanges();
+
+                dbContextTransaction.Commit();
+
+
+
+             }
+             catch
+              {
+                dbContextTransaction.Rollback();
+           }
 
             return Json(debitAccountGL.AccountId);
         }
@@ -1384,6 +1532,64 @@ namespace TheCoreBanking.Retail.Controllers
                 db.SaveChanges();
             }
             return Json(true);
+        }
+
+
+
+        [HttpPost]
+        public JsonResult ConfirmChequeLeaveNoStatus([FromBody]ChequeInfoVm Cheque)
+        {
+             var result = RetailUnitOfWork.ChequeDetails.GetDetailedByAccountNo(Cheque.accountnumber);
+
+           // var result = RetailUnitOfWork.ChequeDetails.GetDetailedByAccountNo("00897878721");
+
+            if(result.Count() == 0)
+            {
+                return Json("No Cheque registered with account");
+            }
+           
+
+
+            int? chequeId = null;
+            int? startRange = null;
+            int? endRange = null;
+
+            foreach (var Item in result)
+            {
+                chequeId = Item.Id;
+                startRange = Item.Startrange;
+                endRange = Item.Endrange;
+            }
+
+            var chequeLeavesResult = RetailUnitOfWork.ChequeLeaves
+                .GetByChequeBookID(chequeId)
+                .ToList().Where(l => l.Leafno == Cheque.chequeleaveno && (l.Leafstatus == 1 || l.Leafstatus == 2));
+
+            if (chequeLeavesResult.Count() > 0 )
+            {
+                return Json(false);
+            }
+            else
+            {
+                //check if cheque number has been logged but has not been approved in inward cheque table
+                var inwardChequeResult = RetailUnitOfWork.InwardCheques.GetByAccountNo(Cheque.accountnumber)
+                    .ToList().Where(l => l.Chequeleaveno == Cheque.chequeleaveno.ToString());
+                if (inwardChequeResult.Count() > 0)
+                {
+                    return Json(false);
+                }
+                else if(Cheque.chequeleaveno >= startRange && Cheque.chequeleaveno <= endRange)
+                {
+                    //.GetByChequeBookID(chequeId)
+                    return Json("Cheque No is valid");
+                }
+                else
+                {
+                    return Json("Cheque No is Invalid or Out of Range");
+                }
+            }
+
+
         }
 #endregion
 
@@ -1591,4 +1797,6 @@ namespace TheCoreBanking.Retail.Controllers
 #endregion
 
     }
+
+
 }

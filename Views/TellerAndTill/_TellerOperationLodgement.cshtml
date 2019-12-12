@@ -344,333 +344,356 @@
                                                                     </div>
 
                                                                     @* <div class="row mb-4" id="ShowCashChequeWithdrawal" style="display:none">
-                                        <div class="col-xs-12 col-md-3 mt-1">
-                                            <label></label>
-                                        </div>
-                                        <div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">
-                                            <div class="radio-item">
+            <div class="col-xs-12 col-md-3 mt-1">
+                <label></label>
+            </div>
+            <div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">
+                <div class="radio-item">
 
-                                                <input type="radio" name="cashchequewithdrawal"
-                                                       id="cashwithdrawal" onclick="CashWithdrawalView()" value="cashwithdrawal" required>
-                                                <label for="cash">
-                                                    <span class="form-check-sign"></span> Cash
-                                                </label>
-                                            </div>
-                                            <div class="radio-item">
-
-                                                <input type="radio" name="cashchequewithdrawal"
-                                                       id="chequewithdrawal" onclick="ChequeWithdrawalView()" value="chequewithdrawal" required>
-                                                <label for="cheque">
-                                                    <span class="form-check-sign"></span> Cheque
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>*@
-
-                                                                <div class="cashcontainer" id="lodgmentcashview" style="display:none">
-                                                                    <form id="frmPerformtransaction">
-                                                                        <div class="row">
-                                                                            <label style="color:red"><b>Basic Information</b></label>
-                                                                        </div>
-
-                                                                        @* <div class="row" style="display:none">
-                <div class="col-md-6 pl-1">
-                    <div class="form-group">
-                        <label>Reference Number</label>
-                    </div>
+                    <input type="radio" name="cashchequewithdrawal"
+                           id="cashwithdrawal" onclick="CashWithdrawalView()" value="cashwithdrawal" required>
+                    <label for="cash">
+                        <span class="form-check-sign"></span> Cash
+                    </label>
                 </div>
+                <div class="radio-item">
 
-                <div class="col-md-6 pl-1">
-                    <div class="form-group">
-                        <label id="referenceNum"></label>
-                    </div>
+                    <input type="radio" name="cashchequewithdrawal"
+                           id="chequewithdrawal" onclick="ChequeWithdrawalView()" value="chequewithdrawal" required>
+                    <label for="cheque">
+                        <span class="form-check-sign"></span> Cheque
+                    </label>
                 </div>
-            </div>*@
+            </div>
+        </div>*@
 
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group required">
-                                                                                    <label>Depositor's Name</label>
-                                                                                    <input id="transDepositorName" name="transDepositorName" class="form-control" />
-                                                                                </div>
+                                                                    <div class="cashcontainer" id="lodgmentcashview" style="display:none">
+                                                                        <form id="frmPerformtransaction">
+                                                                            <div class="row">
+                                                                                <label style="color:red"><b>Basic Information</b></label>
                                                                             </div>
 
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group required">
-                                                                                    <label>Transaction Date</label>
-                                                                                    <input id="transDate" name="transDate" class="form-control datetimepicker" />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group required">
-                                                                                    <label>Depositor's Phone</label>
-                                                                                    <input id="transDepositorPhone" name="transDepositorPhone" class="form-control" />
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group required">
-                                                                                    <label>Deposit Slip No</label>
-                                                                                    <input id="transDepositSlipNo" name="transDepositSlipNo" class="form-control" />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group mb-2">
-                                                                                    <div class="col-md-8 mb-3">
-                                                                                        <div class="form-check form-check-inline pl-0">
-                                                                                            <label class="form-check-label">
-                                                                                                <input id="chargeStampDuty" name="chargeStampDuty" class="form-check-input" type="checkbox">
-                                                                                                <span class="form-check-sign"></span>
-                                                                                                Charge Stamp Duty
-                                                                                            </label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6 pl-1 required">
-                                                                                <label>Amount (Figures)</label>
-                                                                                <div class="input-group ">
-                                                                                    <div class="input-group-prepend">
-                                                                                        <span class="input-group-text">&#8358;</span>
-                                                                                    </div>
-                                                                                    <input id="amountFigure" name="amountFigure" class="form-control format-money" />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group required">
-                                                                                    <label>Depositor's Address</label>
-                                                                                    <textarea id="depositorAddress" name="depositorAddress" class="form-control"></textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Remark</label>
-                                                                                    <textarea id="remark" name="remark" class="form-control"></textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Additional Information</label>
-                                                                                    <textarea id="additionalInfo" name="additionalInfo" class="form-control"></textarea>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group mb-2">
-                                                                                    <div class="col-md-8 mb-3">
-                                                                                        <div class="form-check form-check-inline pl-0">
-                                                                                            @* <label class="form-check-label">
-                                    <input id="isMoreDetails" name="isMoreDetails" class="form-check-input" type="checkbox">
-                                    <span class="form-check-sign"></span>
-                                    More Details
-                                </label>*@
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <hr />
-                                                                        <div class="row mt-4 justify-content-between">
-                                                                            <div class="col">
-                                                                                <button class="btn btn-danger btn-wd pull-right" type="submit"
-                                                                                        id="btnTransactOperations">
-                                                                                    Save Record
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                                <div class="cashcontainer" id="withdrawalcashview" style="display:none">
-                                                                    <form id="frmPerformWithdrawaltransaction">
-
-                                                                        <div class="row">
-                                                                            <label style="color:red"><b>Withdrawal Basic Information</b></label>
-                                                                        </div>
-
-
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Name</label>
-                                                                                    <input id="transWithdrawalName" name="transWithdrawalName" class="form-control" />
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Transaction Date</label>
-                                                                                    <input id="transWithdrawalDate" name="transWithdrawalDate" class="form-control datetimepicker" />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Phone Number</label>
-                                                                                    <input id="transWithdrawalPhone" name="transWithdrawalPhone" class="form-control" />
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Withdrawal Slip No</label>
-                                                                                    <input id="withdrawalSlipNo" name="withdrawalSlipNo" class="form-control" />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <label>Customer Balance (Figures)</label>
-                                                                                <div class="input-group">
-                                                                                    <div class="input-group-prepend">
-                                                                                        <span class="input-group-text">&#8358;</span>
-                                                                                    </div>
-                                                                                    <input id="customerBalanceFigure" name="customerBalanceFigure"
-                                                                                           class="form-control format-money" style="color:red;
-                                                                           font-weight:bold; font-size:large" readonly />
-                                                                                </div>
-                                                                            </div>
-                                                                            @* <div class="col-md-6 pl-1">
-                                                                                        <div class="form-group mb-2">
-                <div class="col-md-8 mb-3">
-                    <div class="form-check form-check-inline pl-0">
-                        <label class="form-check-label">
-                            <input id="chargeStampDuty" name="chargeStampDuty" class="form-check-input" type="checkbox">
-                            <span class="form-check-sign"></span>
-                            Charge Stamp Duty
-                        </label>
+                                                                            @* <div class="row" style="display:none">
+                    <div class="col-md-6 pl-1">
+                        <div class="form-group">
+                            <label>Reference Number</label>
+                        </div>
                     </div>
-                                                                                    </div>
-                                                                                        </div
-                                                                                </div>>*@
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <label>Amount (Figures)</label>
-                                                                                <div class="input-group">
-                                                                                    <div class="input-group-prepend">
-                                                                                        <span class="input-group-text">&#8358;</span>
-                                                                                    </div>
-                                                                                    <input id="amountWithdrawalFigure" name="amountWithdrawalFigure" class="form-control format-money" />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
 
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Address</label>
-                                                                                    <textarea id="withdrawAddress" name="withdrawAddress" class="form-control"></textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Remark</label>
-                                                                                    <textarea id="remarkWithdrawal" name="remarkWithdrawal" class="form-control"></textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Additional Information</label>
-                                                                                    <textarea id="additionalWithdrawalInfo" name="additionalWithdrawalInfo" class="form-control"></textarea>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            @*<div class="col-md-6 pl-1">
-                    <div class="form-group mb-2">
-                        <div class="col-md-8 mb-3">
-                            <div class="form-check form-check-inline pl-0">
-                                <label class="form-check-label">
-                                    <input id="isMoreDetails" name="isMoreDetails" class="form-check-input" type="checkbox">
-                                    <span class="form-check-sign"></span>
-                                    More Details
-                                </label>
-                            </div>
+                    <div class="col-md-6 pl-1">
+                        <div class="form-group">
+                            <label id="referenceNum"></label>
                         </div>
                     </div>
                 </div>*@
-                                                                        </div>
 
-                                                                        <hr />
-                                                                        <div class="row mt-4 justify-content-between">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Depositor's Name</label>
+                                                                                        <input id="transDepositorName" name="transDepositorName" class="form-control" />
+                                                                                    </div>
+                                                                                </div>
 
-                                                                            <div class="col">
-                                                                                <button class="btn btn-danger btn-wd pull-right" type="submit"
-
-                                                                                        id="btnWithdrawalTransactOperations" name="btnWithdrawalTransactOperations">
-
-                                                                                    Save Record
-
-                                                                                </button>
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Transaction Date</label>
+                                                                                        <input id="transDate" name="transDate" class="form-control datetimepicker" />
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
 
-                                                                        </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Depositor's Phone</label>
+                                                                                        <input id="transDepositorPhone" name="transDepositorPhone" class="form-control" />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Deposit Slip No</label>
+                                                                                        <input id="transDepositSlipNo" name="transDepositSlipNo" class="form-control" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group mb-2">
+                                                                                        <div class="col-md-8 mb-3">
+                                                                                            <div class="form-check form-check-inline pl-0">
+                                                                                                <label class="form-check-label">
+                                                                                                    <input id="chargeStampDuty" name="chargeStampDuty" class="form-check-input" type="checkbox">
+                                                                                                    <span class="form-check-sign"></span>
+                                                                                                    Charge Stamp Duty
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6 pl-1 required">
+                                                                                    <label>Amount (Figures)</label>
+                                                                                    <div class="input-group ">
+                                                                                        <div class="input-group-prepend">
+                                                                                            <span class="input-group-text">&#8358;</span>
+                                                                                        </div>
+                                                                                        <input id="amountFigure" name="amountFigure" class="form-control format-money" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Depositor's Address</label>
+                                                                                        <textarea id="depositorAddress" name="depositorAddress" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Remark</label>
+                                                                                        <textarea id="remark" name="remark" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Additional Information</label>
+                                                                                        <textarea id="additionalInfo" name="additionalInfo" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group mb-2">
+                                                                                        <div class="col-md-8 mb-3">
+                                                                                            <div class="form-check form-check-inline pl-0">
+                                                                                                @* <label class="form-check-label">
+                                        <input id="isMoreDetails" name="isMoreDetails" class="form-check-input" type="checkbox">
+                                        <span class="form-check-sign"></span>
+                                        More Details
+                                    </label>*@
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <hr />
+                                                                            <div class="row mt-4 justify-content-between">
+                                                                                <div class="col">
+                                                                                    <button class="btn btn-danger btn-wd pull-right" type="submit"
+                                                                                            id="btnTransactOperations">
+                                                                                        Save Record
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="cashcontainer" id="withdrawalcashview" style="display:none">
+                                                                        <form id="frmPerformWithdrawaltransaction">
+
+                                                                            <div class="row">
+                                                                                <label style="color:red"><b>Withdrawal Basic Information</b></label>
+                                                                            </div>
+
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Name</label>
+                                                                                        <input id="transWithdrawalName" name="transWithdrawalName" class="form-control" />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Transaction Date</label>
+                                                                                        <input id="transWithdrawalDate" name="transWithdrawalDate" class="form-control datetimepicker" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Phone Number</label>
+                                                                                        <input id="transWithdrawalPhone" name="transWithdrawalPhone" class="form-control" />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Withdrawal Slip No</label>
+                                                                                        <input id="withdrawalSlipNo" name="withdrawalSlipNo" class="form-control" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <label>Customer Balance (Figures)</label>
+                                                                                    <div class="input-group">
+                                                                                        <div class="input-group-prepend">
+                                                                                            <span class="input-group-text">&#8358;</span>
+                                                                                        </div>
+                                                                                        <input id="customerBalanceFigure" name="customerBalanceFigure"
+                                                                                               class="form-control format-money" style="color:red;
+                                                                           font-weight:bold; font-size:large" readonly />
+                                                                                    </div>
+                                                                                </div>
+                                                                                @* <div class="col-md-6 pl-1">
+                                                                                            <div class="form-group mb-2">
+                    <div class="col-md-8 mb-3">
+                        <div class="form-check form-check-inline pl-0">
+                            <label class="form-check-label">
+                                <input id="chargeStampDuty" name="chargeStampDuty" class="form-check-input" type="checkbox">
+                                <span class="form-check-sign"></span>
+                                Charge Stamp Duty
+                            </label>
+                        </div>
+                                                                                        </div>
+                                                                                            </div
+                                                                                    </div>>*@
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <label>Amount (Figures)</label>
+                                                                                    <div class="input-group">
+                                                                                        <div class="input-group-prepend">
+                                                                                            <span class="input-group-text">&#8358;</span>
+                                                                                        </div>
+                                                                                        <input id="amountWithdrawalFigure" name="amountWithdrawalFigure" class="form-control format-money" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Address</label>
+                                                                                        <textarea id="withdrawAddress" name="withdrawAddress" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Remark</label>
+                                                                                        <textarea id="remarkWithdrawal" name="remarkWithdrawal" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Additional Information</label>
+                                                                                        <textarea id="additionalWithdrawalInfo" name="additionalWithdrawalInfo" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                @*<div class="col-md-6 pl-1">
+                        <div class="form-group mb-2">
+                            <div class="col-md-8 mb-3">
+                                <div class="form-check form-check-inline pl-0">
+                                    <label class="form-check-label">
+                                        <input id="isMoreDetails" name="isMoreDetails" class="form-check-input" type="checkbox">
+                                        <span class="form-check-sign"></span>
+                                        More Details
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                                                                            </div>
+
+                                                                            <hr />
+                                                                            <div class="row mt-4 justify-content-between">
+
+                                                                                <div class="col">
+                                                                                    <button class="btn btn-danger btn-wd pull-right" type="submit"
+                                                                                            id="btnWithdrawalTransactOperations" name="btnWithdrawalTransactOperations">
+
+                                                                                        Save Record
+
+                                                                                    </button>
+                                                                                </div>
+
+                                                                            </div>
 
                                                                         </form>
 
-                                                                </div>
+                                                                    </div>
 
                                                                     <div class="row card" id="chequetypeView" style="display:none">
 
                                                                         <p class="text-danger text-center"><b>Cheque Type</b></p>
-                                                                        <span class="col-md-3 pl-1">
-                                                                            <span class="form-group mb-2">
-                                                                                <span class="col-md-3 mb-3">
-                                                                                    <span class="form-check form-check-inline pl-0">
-                                                                                        <label class="form-check-label">
-                                                                                            <input id="singlecheque" name="singlecheque" class="form-check-input" type="checkbox">
-                                                                                            <span class="form-check-sign"></span>
-                                                                                            Single Cheque
-                                                                                        </label>
-                                                                                    </span>
-                                                                                </span>
-                                                                            </span>
-                                                                        </span>
-                                                                        @*<span class="col-md-3 pl-1">
-                <span class="form-group mb-2">
-                    <span class="col-md-3 mb-3">
-                        <span class="form-check form-check-inline pl-0">
-                            <label class="form-check-label">
-                                <input id="multiplecheque" name="multiplecheque" class="form-check-input" type="checkbox">
-                                <span class="form-check-sign"></span>
-                                Multiple Cheque
-                            </label>
-                        </span>
-                    </span>
-                </span>
-            </span>*@
-                                                                        <span class="col-md-3 pl-1">
-                                                                            <span class="form-group mb-2">
+                                                                        <p>
+                                                                            <span class="col-md-3 pl-1">
                                                                                 <span class="form-group mb-2">
                                                                                     <span class="col-md-3 mb-3">
                                                                                         <span class="form-check form-check-inline pl-0">
                                                                                             <label class="form-check-label">
-                                                                                                <input id="chequeexcelupload" name="chequeexcelupload" class="form-check-input" type="checkbox">
+                                                                                                <input id="singlecheque" name="singlecheque" class="form-check-input" type="checkbox">
                                                                                                 <span class="form-check-sign"></span>
-                                                                                                Upload Cheques from Excel
+                                                                                                Single Cheque
                                                                                             </label>
                                                                                         </span>
                                                                                     </span>
                                                                                 </span>
                                                                             </span>
-                                                                        </span>
+                                                                            @*<span class="col-md-3 pl-1">
+                    <span class="form-group mb-2">
+                        <span class="col-md-3 mb-3">
+                            <span class="form-check form-check-inline pl-0">
+                                <label class="form-check-label">
+                                    <input id="multiplecheque" name="multiplecheque" class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"></span>
+                                    Multiple Cheque
+                                </label>
+                            </span>
+                        </span>
+                    </span>
+                </span>*@
+                                                                            <span class="col-md-3 pl-1">
+                                                                                <span class="form-group mb-2">
+                                                                                    <span class="form-group mb-2">
+                                                                                        <span class="col-md-3 mb-3">
+                                                                                            <span class="form-check form-check-inline pl-0">
+                                                                                                <label class="form-check-label">
+                                                                                                    <input id="chequeexcelupload" name="chequeexcelupload" class="form-check-input" type="checkbox">
+                                                                                                    <span class="form-check-sign"></span>
+                                                                                                    Upload Cheques from Excel
+                                                                                                </label>
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </p>
+
+                                                                        <p>
+                                                                            <div id="chequeclearingTypeView" style="display:none">
+                                                                                <div class="radio-item" style="margin-left:50px;">
+
+                                                                                    <input type="radio" name="chequeclearingtype"
+                                                                                           id="inwardcheque" onclick="InwardChequeView()" value="inward" required>
+                                                                                    <label for="inwardcheque">
+                                                                                        <span class="form-check-sign"></span> My Bank Cheque (Inward)
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="radio-item" style="margin-left:50px;">
+
+                                                                                    <input type="radio" name="chequeclearingtype"
+                                                                                           id="outwardcheque" onclick="OutwardChequeView()" value="outward" required>
+                                                                                    <label for="outwardcheque">
+                                                                                        <span class="form-check-sign"></span> Other Bank Cheque (Outward)
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </p>
+
                                                                         <br /><br />
 
                                                                     </div>
@@ -679,35 +702,38 @@
                                                                     <div class="row card" id="withdrawalchequeview" style="display:none">
 
                                                                         <p class="text-danger text-center"><b>Cheque Type</b></p>
-                                                                        <span class="col-md-3 pl-1">
-                                                                            <span class="form-group mb-2">
-                                                                                <span class="col-md-3 mb-3">
-                                                                                    <span class="form-check form-check-inline pl-0">
-                                                                                        <label class="form-check-label">
-                                                                                            <input id="withdrawalsinglecheque" name="withdrawalsinglecheque" class="form-check-input" type="checkbox">
-                                                                                            <span class="form-check-sign"></span>
-                                                                                            Single Cheque
-                                                                                        </label>
-                                                                                    </span>
-                                                                                </span>
-                                                                            </span>
-                                                                        </span>
-
-                                                                        <span class="col-md-3 pl-1">
-                                                                            <span class="form-group mb-2">
+                                                                        <p>
+                                                                            <span class="col-md-3 pl-1">
                                                                                 <span class="form-group mb-2">
                                                                                     <span class="col-md-3 mb-3">
                                                                                         <span class="form-check form-check-inline pl-0">
                                                                                             <label class="form-check-label">
-                                                                                                <input id="withdrawalchequeexcelupload" name="withdrawalchequeexcelupload" class="form-check-input" type="checkbox">
+                                                                                                <input id="withdrawalsinglecheque" name="withdrawalsinglecheque" class="form-check-input" type="checkbox">
                                                                                                 <span class="form-check-sign"></span>
-                                                                                                Upload Cheques from Excel
+                                                                                                Single Cheque
                                                                                             </label>
                                                                                         </span>
                                                                                     </span>
                                                                                 </span>
                                                                             </span>
-                                                                        </span>
+
+                                                                            <span class="col-md-3 pl-1">
+                                                                                <span class="form-group mb-2">
+                                                                                    <span class="form-group mb-2">
+                                                                                        <span class="col-md-3 mb-3">
+                                                                                            <span class="form-check form-check-inline pl-0">
+                                                                                                <label class="form-check-label">
+                                                                                                    <input id="withdrawalchequeexcelupload" name="withdrawalchequeexcelupload" class="form-check-input" type="checkbox">
+                                                                                                    <span class="form-check-sign"></span>
+                                                                                                    Upload Cheques from Excel
+                                                                                                </label>
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </p>
+
                                                                         <br /><br />
 
                                                                     </div>
@@ -715,50 +741,81 @@
 
 
                                                                     <div class="singlecheque hideElement" id="HideBysinglecheque" style="display:none">
-                                                                        <p style="color:red">Third Party Cheque Lodgement Detail</p>
-                                                                        <form id="frmSingleChequeLodgementTransaction">
-                                                                        <div class="row">
-                                                                            <div class="col-md-12 pl-1">
-                                                                                <div class="form-group required">
-                                                                                    <label>Name on Cheque</label>
+                                                                        <p style="color:red">Bank Third Party Cheque Lodgement Detail (Inward)</p>
+                                                                        <form id="frmSingleChequeLodgementTransactionInward">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Issuer's Name/Account Number</label>
 
-                                                                                    <input id="singlechequenamelodgement" name="singlechequenamelodgement" class="form-control" />
-                                                                                </div>
+                                                                                        <select id="ddlAcctNumberforChequeInward" name="ddlAcctNumberforChequeInward" class="form-control">
 
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group required">
-                                                                                    <label>Amount</label>
-                                                                                    <input id="singlechequeamountlodgement" name="singlechequeamountlodgement" class="form-control format-money" />
+                                                                                            <option></option>
+
+                                                                                        </select>
+
+                                                                                    </div>
+
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-md-6 pl-1" style="margin-top:10px">
-                                                                                <div class="form-check pl-0 pr-1 mt-4" >
-                                                                                    <label class="form-check-label" style="margin-top:0px">
-                                                                                        Charge Stamp Duty
-                                                                                        <input name="singlechequechargestampdutylodgement" class="form-check-input"
-                                                                                               type="checkbox" id="singlechequechargestampdutylodgement" >
-                                                                                        <span class="form-check-sign"></span>
-                                                                                    </label>
-                                                                                </div> 
-                                                                                @*  <label class="col-form-label mt-4">
-                                                                                    Charge Stamp Duty
-                                                                                    <span class="text-info small d-none">
-                                                                                        (Amount: <span id="stamp-duty-amount"></span>)
-                                                                                    </span>
-                                                                                </label>
-                                                                                <div class="form-check pl-0 pr-1 mt-4">
-                                                                                    <label class="form-check-label">
-                                                                                        <input name="chargestampduty" class="form-check-input"
-                                                                                               type="checkbox" id="chargestampduty">
-                                                                                        <span class="form-check-sign"></span>
-                                                                                    </label>
-                                                                                </div>"*@
 
+                                                                             <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Receiver's Account Number</label>
+
+                                                                                        <input id="ddlAcctReceiverNumberforChequeInward" name="ddlAcctReceiverNumberforChequeInward" class="form-control" value=""
+                                                                                               disabled />
+                                                                                    </div>
+
+                                                                                </div>
                                                                             </div>
-                                                                                @* <div class="form-group">
+
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Receiver's Name on Cheque</label>
+
+                                                                                        <input id="singlechequenamelodgementInward" name="singlechequenamelodgementInward" class="form-control" />
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Amount</label>
+                                                                                        <input id="singlechequeamountlodgementInward" name="singlechequeamountlodgementInward" class="form-control format-money" />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6 pl-1" style="margin-top:10px">
+                                                                                    <div class="form-check pl-0 pr-1 mt-4">
+                                                                                        <label class="form-check-label" style="margin-top:0px">
+                                                                                            Charge Stamp Duty
+                                                                                            <input name="singlechequechargestampdutylodgementInward" class="form-check-input"
+                                                                                                   type="checkbox" id="singlechequechargestampdutylodgementInward">
+                                                                                            <span class="form-check-sign"></span>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            @*  <label class="col-form-label mt-4">
+            Charge Stamp Duty
+            <span class="text-info small d-none">
+                (Amount: <span id="stamp-duty-amount"></span>)
+            </span>
+        </label>
+        <div class="form-check pl-0 pr-1 mt-4">
+            <label class="form-check-label">
+                <input name="chargestampduty" class="form-check-input"
+                       type="checkbox" id="chargestampduty">
+                <span class="form-check-sign"></span>
+            </label>
+        </div>"*@
+
+
+                                                                            @* <div class="form-group">
                 <label>Cheque Location</label>
                 <select id="cheqlocation" name="cheqlocation" class="form-control">
                     <option value="Others" selected="selected">Others</option>
@@ -784,44 +841,44 @@
                 </select>
             </div>
         </div>*@
-                                                                            </div>
 
-                                                                        <div class="row">
-                                                                            <div class="col-md-12 pl-1">
-                                                                                <div class="form-group required">
-                                                                                    <label>Cheque No</label>
 
-                                                                                    <input id="singlechequenolodgement" name="singlechequenolodgement" class="form-control" />
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Cheque leaf No</label>
+
+                                                                                        <input id="singlechequenolodgementinward" name="singlechequenolodgementinward" class="form-control" />
+                                                                                    </div>
+
                                                                                 </div>
-
                                                                             </div>
-                                                                        </div>
 
-                                                                        <div class="row">
+
                                                                             @*<div class="col-md-3 pl-1">
-                <div class="form-group">
-                    <label>Cheque Type</label>
-                    <select id="cheqtype" name="cheqtype" class="form-control">
-                        <option value=""></option>
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>*@
-                                                                            
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group required">
-                                                                                    <label>Date on Cheque</label>
-                                                                                    <input id="singlechequedatelodgement" name="singlechequedatelodgement" class="form-control datetimepicker" />
+            <div class="form-group">
+                <label>Cheque Type</label>
+                <select id="cheqtype" name="cheqtype" class="form-control">
+                    <option value=""></option>
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>*@
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Date on Cheque</label>
+                                                                                        <input id="singlechequedatelodgementInward" name="singlechequedatelodgementInward" class="form-control datetimepicker" />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Comment</label>
+                                                                                        <textarea id="singlechequecommentlodgementInward" name="singlechequecommentlodgementInward" class="form-control"></textarea>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-md-6 pl-1">
-                                                                                <div class="form-group">
-                                                                                    <label>Comment</label>
-                                                                                    <textarea id="singlechequecommentlodgement" name="singlechequecommentlodgement" class="form-control"></textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        @* <div class="row" style="display:none">
+                                                                            @* <div class="row" style="display:none">
             <div class="col-md-3 pl-1">
                 <div class="form-group">
                     <!-- Photo uploads -->
@@ -835,559 +892,704 @@
             </div>
         </div>*@
 
-                                                                        <hr />
-                                                                        <div class="form-group text-right">
-                                                                            <button class="btn btn-warning" id="btnSingleChequeClear" type="reset" value="reset"
-                                                                                    onclick="clearForm()">
-                                                                                <i class="now-ui-icons ui-1_simple-remove"></i>
-                                                                                Clear
-                                                                            </button>
-                                                                            <button class="btn btn-danger" id="btnAddSingleChequeLodgement" type="submit" value="Save Record">
-                                                                                <i class="now-ui-icons ui-1_simple-add"></i>
-                                                                                Save
-                                                                            </button>
-                                                                        </div>
+                                                                            <hr />
+                                                                            <div class="form-group text-right">
+                                                                                <button class="btn btn-warning" id="btnSingleChequeClearInward" type="reset" value="reset"
+                                                                                        onclick="clearForm()">
+                                                                                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                                                    Clear
+                                                                                </button>
+                                                                                <button class="btn btn-danger" id="btnAddSingleChequeLodgementInward" >
+                                                                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                                                                    Save
+                                                                                </button>
+                                                                            </div>
                                                                         </form>
                                                                     </div>
 
 
-                                                                            <div class="singlecheque hideElement" id="withdrawalHideBysinglecheque" style="display:none">
+                                                                    <div class="singlecheque hideElement" id="chequeLodgementOtherBanks" style="display:none">
+                                                                        <p style="color:red">Other Banks Third Party Cheque Lodgement Detail (Outward)</p>
+                                                                        <form id="frmSingleChequeLodgementTransactionOutward">
+                                                                            @* <div class="row">
+            <div class="col-md-12 pl-1">
+                <div class="form-group required">
+                    <label>Issuer's Name/Account Number</label>
 
-                                                                                <div class="card-header" role="tab" id="headingTwo">
-                                                                                    <a data-toggle="collapse" data-parent="#accordion_" href="#withdrawalcheque" aria-expanded="true" aria-controls="withdrawalcheque" style="color:red">
-                                                                                        <b>Withdrawal Cheque</b>
-                                                                                        <i class="now-ui-icons arrows-1_minimal-down"></i>
-                                                                                    </a>
-                                                                                </div>
+                    <select id="ddlAcctNumberforChequeOutward" name="ddlAcctNumberforChequeOutward" class="form-control">
 
-                                                                                <div id="withdrawalcheque" class="collapse show" role="tabpanel" aria-labelledby="headingTwo">
-                                                                                    <div class="card-body">
+                        <option></option>
+
+                    </select>
+
+                </div>
+
+            </div>
+        </div>*@
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label> Issuer's Bank Name</label>
 
 
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Reference Number</label>
-                                                                                                </div>
-                                                                                            </div>
+                                                                                        <select id="bankname" name="bankname" class="form-control">
 
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label id="withdrawalRefNumber">  </label>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
+                                                                                            <option></option>
 
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Name</label>
-                                                                                                    <input id="withdrawalName" name="withdrawalName" class="form-control" />
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Transaction Date</label>
-                                                                                                    <input id="withdrawaltransDate" name="withdrawaltransDate" class="form-control datetimepicker" />
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <label>Amount (Figures)</label>
-                                                                                                <div class="input-group">
-                                                                                                    <div class="input-group-prepend">
-                                                                                                        <span class="input-group-text">&#8358;</span>
-                                                                                                    </div>
-                                                                                                    <input id="withdrawalAmount" name="withdrawalAmount" class="form-control format-money" />
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-3 pl-1">
-                                                                                                <div class="form-group mb-2">
-                                                                                                    <div class="col-md-8 mb-3">
-                                                                                                        <div class="form-check form-check-inline pl-0">
-                                                                                                            <label class="form-check-label">
-                                                                                                                <input id="withdrawalFoecDebit" name="withdrawalFoecDebit" class="form-check-input" type="checkbox">
-                                                                                                                <span class="form-check-sign"></span>
-                                                                                                                Force Debit
-                                                                                                            </label>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="form-group col-md-3 pl-1">
-                                                                                                <label>COT</label>
-                                                                                                <input id="withdrawalCOT" name="withdrawalCOT" class="form-control" />
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Cheque/Slip No</label>
-                                                                                                    <input id="withdrawalChequeSlipNo" name="withdrawalChequeSlipNo" class="form-control" />
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <label>Counter Cheque Charge</label>
-                                                                                                <div class="input-group">
-                                                                                                    <div class="input-group-prepend">
-                                                                                                        <span class="input-group-text">&#8358;</span>
-                                                                                                    </div>
-                                                                                                    <input id="withdrawalCountercheque" name="withdrawalCountercheque" class="form-control" placeholder="0" />
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Additional Narration</label>
-                                                                                                    <textarea id="withdrawaladdInfo" name="withdrawaladdInfo" class="form-control"></textarea>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Remark</label>
-                                                                                                    <textarea id="withdrawaRemark" name="withdrawaRemark" class="form-control"></textarea>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <!-- Photo uploads -->
-                                                                                                    <btn class="btn-danger btn btn-file btn-simple text-capitalize">
-                                                                                                        <input type="file" id="withrawchequeFileUpload" data-browse-label="Choose File"
-                                                                                                               data-theme="fas" data-show-upload="false" data-show-remove="false"
-                                                                                                               data-show-caption="false" data-drop-zone-enabled="false" class="file" multiple />
-                                                                                                        <h7>Attach Document</h7>
-                                                                                                    </btn>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <hr />
-                                                                                        <div class="form-group text-right">
-                                                                                            <button class="btn btn-danger" id="btnAddWithdrawal" type="submit" value="Save Record">
-                                                                                                <i class="now-ui-icons ui-1_simple-add"></i>
-                                                                                                Save Record
-                                                                                            </button>
-                                                                                        </div>
-
+                                                                                        </select>
                                                                                     </div>
                                                                                 </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Issuer's Name on Cheque</label>
+
+                                                                                        <input id="singlechequenamelodgementOutward" name="singlechequenamelodgementOutward" class="form-control" />
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
 
 
-                                                                                @* <p style="color:red">Cheque Details</p>
-                <div class="row">
-                    <div class="col-md-3 pl-1">
-                        <div class="form-group">
-                            <label>Amount</label>
-                            <input id="singlechequeamount" name="singlechequeamount" class="form-control format-money" />
-                        </div>
-                    </div>
-                    <div class="col-md-3 pl-1">
-                        <div class="form-group">
-                            <label>Cheque Location</label>
-                            <select id="cheqlocation" name="cheqlocation" class="form-control">
-                                <option value="Others" selected="selected">Others</option>
-                                <option value="Local">Local</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 pl-1">
-                        <div class="form-group">
-                            <label>Bank</label>
-                            <select id="bankcheque" name="bankcheque" class="form-control">
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 pl-1">
-                        <div class="form-group">
-                            <label>Branch</label>
-                            <select id="branchcheque" name="branchcheque" class="form-control">
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Issuer's Account No</label>
 
-                <div class="row">
-                    <div class="col-md-3 pl-1">
-                        <div class="form-group">
-                            <label>Cheque Type</label>
-                            <select id="cheqtype" name="cheqtype" class="form-control">
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 pl-1">
-                        <div class="form-group">
-                            <label>Cheque No.</label>
-                            <input id="chequeno" name="chequeno" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-3 pl-1">
-                        <div class="form-group">
-                            <label>Date of Cheque</label>
-                            <input id="chequedate" name="chequedate" class="form-control datetimepicker" />
-                        </div>
-                    </div>
-                    <div class="col-md-3 pl-1">
-                        <div class="form-group">
-                            <label>Comment</label>
-                            <textarea id="chequecomment" name="chequecomment" class="form-control"></textarea>
-                        </div>
-                    </div>
-                </div>
+                                                                                        <input id="singlechequenamelodgementOutward" name="singlechequenamelodgementOutward" class="form-control" />
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
 
 
-                <hr />
-                <div class="form-group text-right">
-                    <button class="btn btn-warning" id="btnSingleChequeClear" type="reset" value="reset"
-                            onclick="clearForm()">
-                        <i class="now-ui-icons ui-1_simple-remove"></i>
-                        Clear
-                    </button>
-                    <button class="btn btn-danger" id="btnAddSingleCheque" type="submit" value="Save Record">
-                        <i class="now-ui-icons ui-1_simple-add"></i>
-                        Save
-                    </button>
-                </div>*@
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Receiver's Account Number</label>
 
+                                                                                        <input id="ddlAcctReceiverNumberforChequeOutward" name="ddlAcctReceiverNumberforChequeOutward" class="form-control" value=""
+                                                                                               disabled />
+                                                                                    </div>
+
+                                                                                </div>
                                                                             </div>
 
 
 
-                                                                            @* <div class="multiplecheque hideElement1" id="HideBymultiplecheque" style="display:none">
-                <p style="color:red">Cheque Details</p>
-                <hr />
-                <div class="row">
-                    <div class="col-md-4 pl-1">
-                        <div class="form-group">
-                            <label>Number of Cheque</label>
-                            <select id="noofcheque" name="noofcheque" class="form-control">
-                                <option value=""></option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                        <div class="form-group">
-                            <label>Bank</label>
-                            <select id="bankchequemultiple" name="bankchequemultiple" class="form-control">
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                        <div class="form-group">
-                            <label>Branch</label>
-                            <select id="branchchequemultiple" name="branchchequemultiple" class="form-control">
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select>
-                        </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Receiver's Name on Cheque</label>
+
+                                                                                        <input id="singlechequenamelodgementOutward" name="singlechequenamelodgementOutward" class="form-control" />
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Amount</label>
+                                                                                        <input id="singlechequeamountlodgementOutward" name="singlechequeamountlodgementOutward" class="form-control format-money" />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6 pl-1" style="margin-top:10px">
+                                                                                    <div class="form-check pl-0 pr-1 mt-4">
+                                                                                        <label class="form-check-label" style="margin-top:0px">
+                                                                                            Charge Stamp Duty
+                                                                                            <input name="singlechequechargestampdutylodgementOutward" class="form-check-input"
+                                                                                                   type="checkbox" id="singlechequechargestampdutylodgementOutward">
+                                                                                            <span class="form-check-sign"></span>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Cheque No</label>
+
+                                                                                        <input id="singlechequenolodgementoutward" name="singlechequenolodgementoutward" class="form-control" />
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group required">
+                                                                                        <label>Date on Cheque</label>
+                                                                                        <input id="singlechequedatelodgementOutward" name="singlechequedatelodgementOutward" class="form-control datetimepicker" />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <label>Comment</label>
+                                                                                        <textarea id="singlechequecommentlodgementOutward" name="singlechequecommentlodgementOutward" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <hr />
+                                                                            <div class="form-group text-right">
+                                                                                <button class="btn btn-warning" id="btnSingleChequeClearOutward" type="reset" value="reset"
+                                                                                        onclick="clearForm()">
+                                                                                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                                                    Clear
+                                                                                </button>
+                                                                                <button class="btn btn-danger" id="btnAddSingleChequeLodgementOutward" type="submit" value="Save Record">
+                                                                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                                                                    Save
+                                                                                </button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+
+
+                                                                    <div class="singlecheque hideElement" id="withdrawalHideBysinglecheque" style="display:none">
+
+                                                                        <div class="card-header" role="tab" id="headingTwo">
+                                                                            <a data-toggle="collapse" data-parent="#accordion_" href="#withdrawalcheque" aria-expanded="true" aria-controls="withdrawalcheque" style="color:red">
+                                                                                <b>Withdrawal Cheque</b>
+                                                                                <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                                            </a>
+                                                                        </div>
+
+                                                                        <div id="withdrawalcheque" class="collapse show" role="tabpanel" aria-labelledby="headingTwo">
+                                                                            <div class="card-body">
+
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Reference Number</label>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label id="withdrawalRefNumber">  </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Name</label>
+                                                                                            <input id="withdrawalName" name="withdrawalName" class="form-control" />
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Transaction Date</label>
+                                                                                            <input id="withdrawaltransDate" name="withdrawaltransDate" class="form-control datetimepicker" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <label>Amount (Figures)</label>
+                                                                                        <div class="input-group">
+                                                                                            <div class="input-group-prepend">
+                                                                                                <span class="input-group-text">&#8358;</span>
+                                                                                            </div>
+                                                                                            <input id="withdrawalAmount" name="withdrawalAmount" class="form-control format-money" />
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-3 pl-1">
+                                                                                        <div class="form-group mb-2">
+                                                                                            <div class="col-md-8 mb-3">
+                                                                                                <div class="form-check form-check-inline pl-0">
+                                                                                                    <label class="form-check-label">
+                                                                                                        <input id="withdrawalFoecDebit" name="withdrawalFoecDebit" class="form-check-input" type="checkbox">
+                                                                                                        <span class="form-check-sign"></span>
+                                                                                                        Force Debit
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group col-md-3 pl-1">
+                                                                                        <label>COT</label>
+                                                                                        <input id="withdrawalCOT" name="withdrawalCOT" class="form-control" />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Cheque/Slip No</label>
+                                                                                            <input id="withdrawalChequeSlipNo" name="withdrawalChequeSlipNo" class="form-control" />
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <label>Counter Cheque Charge</label>
+                                                                                        <div class="input-group">
+                                                                                            <div class="input-group-prepend">
+                                                                                                <span class="input-group-text">&#8358;</span>
+                                                                                            </div>
+                                                                                            <input id="withdrawalCountercheque" name="withdrawalCountercheque" class="form-control" placeholder="0" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Additional Narration</label>
+                                                                                            <textarea id="withdrawaladdInfo" name="withdrawaladdInfo" class="form-control"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Remark</label>
+                                                                                            <textarea id="withdrawaRemark" name="withdrawaRemark" class="form-control"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <!-- Photo uploads -->
+                                                                                            <btn class="btn-danger btn btn-file btn-simple text-capitalize">
+                                                                                                <input type="file" id="withrawchequeFileUpload" data-browse-label="Choose File"
+                                                                                                       data-theme="fas" data-show-upload="false" data-show-remove="false"
+                                                                                                       data-show-caption="false" data-drop-zone-enabled="false" class="file" multiple />
+                                                                                                <h7>Attach Document</h7>
+                                                                                            </btn>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <hr />
+                                                                                <div class="form-group text-right">
+                                                                                    <button class="btn btn-danger" id="btnAddWithdrawal" type="submit" value="Save Record">
+                                                                                        <i class="now-ui-icons ui-1_simple-add"></i>
+                                                                                        Save Record
+                                                                                    </button>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        @* <p style="color:red">Cheque Details</p>
+            <div class="row">
+                <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input id="singlechequeamount" name="singlechequeamount" class="form-control format-money" />
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-4 pl-1">
-                        <div class="form-group">
-                            <label>Cheque Location</label>
-                            <select id="cheqlocationmultiple" name="cheqlocationmultiple" class="form-control">
-                                <option value="Others" selected="selected">Others</option>
-                                <option value="Local">Local</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                        <div class="form-group">
-                            <label>Comment</label>
-                            <textarea id="chequecommentmuliple" name="chequecommentmuliple" class="form-control"></textarea>
-                        </div>
+                <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                        <label>Cheque Location</label>
+                        <select id="cheqlocation" name="cheqlocation" class="form-control">
+                            <option value="Others" selected="selected">Others</option>
+                            <option value="Local">Local</option>
+                        </select>
                     </div>
                 </div>
-
-                <hr />
-                <div class="form-group text-right">
-                    <button class="btn btn-warning" id="btnMultipleChequeClear" type="reset" value="reset"
-                            onclick="clearForm()">
-                        <i class="now-ui-icons ui-1_simple-remove"></i>
-                        Clear
-                    </button>
-                    <button class="btn btn-danger" id="btnAddMultipleCheque" type="submit" value="Save Record">
-                        <i class="now-ui-icons ui-1_simple-add"></i>
-                        Save Transaction
-                    </button>
+                <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                        <label>Bank</label>
+                        <select id="bankcheque" name="bankcheque" class="form-control">
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
                 </div>
+                <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                        <label>Branch</label>
+                        <select id="branchcheque" name="branchcheque" class="form-control">
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                        <label>Cheque Type</label>
+                        <select id="cheqtype" name="cheqtype" class="form-control">
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                        <label>Cheque No.</label>
+                        <input id="chequeno" name="chequeno" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                        <label>Date of Cheque</label>
+                        <input id="chequedate" name="chequedate" class="form-control datetimepicker" />
+                    </div>
+                </div>
+                <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                        <label>Comment</label>
+                        <textarea id="chequecomment" name="chequecomment" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr />
+            <div class="form-group text-right">
+                <button class="btn btn-warning" id="btnSingleChequeClear" type="reset" value="reset"
+                        onclick="clearForm()">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                    Clear
+                </button>
+                <button class="btn btn-danger" id="btnAddSingleCheque" type="submit" value="Save Record">
+                    <i class="now-ui-icons ui-1_simple-add"></i>
+                    Save
+                </button>
             </div>*@
 
-                                                                            <div class="ExcelUpload-container hideElement2" id="HideByExcelUpload" style="display:none">
-                                                                                <p style="color:red">Cheque Upload from Excel</p>
-                                                                                <hr />
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12 pl-1">
-                                                                                        <div class="form-group">
-                                                                                            <label>Batch Upload Format</label>
-                                                                                            <p style="color:green"> TODO ExcelUpload Format</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6 pl-1">
-                                                                                        <div class="form-group">
-                                                                                            <label>Cheque Upload</label>
-                                                                                            <select id="chequeexcelupload" name="chequeexcelupload" class="form-control">
-                                                                                                <option value="Others" selected="selected">Others</option>
-                                                                                                <option value="Local">Local</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-6 pl-1">
-                                                                                        <div class="form-group">
-                                                                                            <label>Comment</label>
-                                                                                            <textarea id="chequetranscommentupload" name="chequetranscommentupload" class="form-control"></textarea>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6 pl-1">
-                                                                                        <div class="form-group">
-                                                                                            <!-- Photo uploads -->
-                                                                                            <btn class="btn-danger btn btn-file btn-simple text-capitalize">
-                                                                                                <input type="file" id="chequetransUpload" data-browse-label="Choose File"
-                                                                                                       data-theme="fas" data-show-upload="false" data-show-remove="false"
-                                                                                                       data-show-caption="false" data-drop-zone-enabled="false" class="file" multiple />
-                                                                                                <h7> Upload Cheque</h7>
-                                                                                            </btn>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <hr />
-                                                                                <div class="form-group text-right">
-                                                                                    <button class="btn btn-danger" id="btnAddExcelUpload" type="submit" value="Save Record">
-                                                                                        <i class="now-ui-icons ui-1_simple-add"></i>
-                                                                                        Upload Cheques
-                                                                                    </button>
-                                                                                </div>
-
-                                                                            </div>
-
-                                                                            <div class="ExcelUpload-container hideElement2" id="withdrawalHideByExcelUpload" style="display:none">
-                                                                                <p style="color:red">Cheque Upload from Excel</p>
-                                                                                <hr />
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12 pl-1">
-                                                                                        <div class="form-group">
-                                                                                            <label>Batch Upload Format</label>
-                                                                                            <p style="color:green"> TODO ExcelUpload Format</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6 pl-1">
-                                                                                        <div class="form-group">
-                                                                                            <label>Cheque Upload</label>
-                                                                                            <select id="chequeexcelupload" name="chequeexcelupload" class="form-control">
-                                                                                                <option value="Others" selected="selected">Others</option>
-                                                                                                <option value="Local">Local</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-6 pl-1">
-                                                                                        <div class="form-group">
-                                                                                            <label>Comment</label>
-                                                                                            <textarea id="chequetranscommentupload" name="chequetranscommentupload" class="form-control"></textarea>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6 pl-1">
-                                                                                        <div class="form-group">
-                                                                                            <!-- Photo uploads -->
-                                                                                            <btn class="btn-danger btn btn-file btn-simple text-capitalize">
-                                                                                                <input type="file" id="chequetransUpload" data-browse-label="Choose File"
-                                                                                                       data-theme="fas" data-show-upload="false" data-show-remove="false"
-                                                                                                       data-show-caption="false" data-drop-zone-enabled="false" class="file" multiple />
-                                                                                                <h7> Upload Cheque</h7>
-                                                                                            </btn>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <hr />
-                                                                                <div class="form-group text-right">
-                                                                                    <button class="btn btn-danger" id="btnAddExcelUpload" type="submit" value="Save Record">
-                                                                                        <i class="now-ui-icons ui-1_simple-add"></i>
-                                                                                        Upload Cheques
-                                                                                    </button>
-                                                                                </div>
-
-                                                                            </div>
+                                                                    </div>
 
 
 
-                                                                            <div class="withdrawal-container" id="HideByWithdrawalTrigger" style="display:none">
+                                                                    @* <div class="multiplecheque hideElement1" id="HideBymultiplecheque" style="display:none">
+            <p style="color:red">Cheque Details</p>
+            <hr />
+            <div class="row">
+                <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                        <label>Number of Cheque</label>
+                        <select id="noofcheque" name="noofcheque" class="form-control">
+                            <option value=""></option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                        <label>Bank</label>
+                        <select id="bankchequemultiple" name="bankchequemultiple" class="form-control">
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                        <label>Branch</label>
+                        <select id="branchchequemultiple" name="branchchequemultiple" class="form-control">
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-                                                                                <div class="card-header" role="tab" id="headingTwo">
-                                                                                    <a data-toggle="collapse" data-parent="#accordion_" href="#withdrawalcheque" aria-expanded="true" aria-controls="withdrawalcheque" style="color:red">
-                                                                                        <b>Withdrawal Cheque</b>
-                                                                                        <i class="now-ui-icons arrows-1_minimal-down"></i>
-                                                                                    </a>
-                                                                                </div>
+            <div class="row">
+                <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                        <label>Cheque Location</label>
+                        <select id="cheqlocationmultiple" name="cheqlocationmultiple" class="form-control">
+                            <option value="Others" selected="selected">Others</option>
+                            <option value="Local">Local</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 pl-1">
+                    <div class="form-group">
+                        <label>Comment</label>
+                        <textarea id="chequecommentmuliple" name="chequecommentmuliple" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
 
-                                                                                <div id="withdrawalcheque" class="collapse show" role="tabpanel" aria-labelledby="headingTwo" style="display:none">
-                                                                                    <div class="card-body">
+            <hr />
+            <div class="form-group text-right">
+                <button class="btn btn-warning" id="btnMultipleChequeClear" type="reset" value="reset"
+                        onclick="clearForm()">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                    Clear
+                </button>
+                <button class="btn btn-danger" id="btnAddMultipleCheque" type="submit" value="Save Record">
+                    <i class="now-ui-icons ui-1_simple-add"></i>
+                    Save Transaction
+                </button>
+            </div>
 
+        </div>*@
 
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Reference Number</label>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label id="withdrawalRefNumber">  </label>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Name</label>
-                                                                                                    <input id="withdrawalName" name="withdrawalName" class="form-control" />
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Transaction Date</label>
-                                                                                                    <input id="withdrawaltransDate" name="withdrawaltransDate" class="form-control datetimepicker" />
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <label>Amount (Figures)</label>
-                                                                                                <div class="input-group">
-                                                                                                    <div class="input-group-prepend">
-                                                                                                        <span class="input-group-text">&#8358;</span>
-                                                                                                    </div>
-                                                                                                    <input id="withdrawalAmount" name="withdrawalAmount" class="form-control format-money" />
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-3 pl-1">
-                                                                                                <div class="form-group mb-2">
-                                                                                                    <div class="col-md-8 mb-3">
-                                                                                                        <div class="form-check form-check-inline pl-0">
-                                                                                                            <label class="form-check-label">
-                                                                                                                <input id="withdrawalFoecDebit" name="withdrawalFoecDebit" class="form-check-input" type="checkbox">
-                                                                                                                <span class="form-check-sign"></span>
-                                                                                                                Force Debit
-                                                                                                            </label>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="form-group col-md-3 pl-1">
-                                                                                                <label>COT</label>
-                                                                                                <input id="withdrawalCOT" name="withdrawalCOT" class="form-control" />
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Cheque/Slip No</label>
-                                                                                                    <input id="withdrawalChequeSlipNo" name="withdrawalChequeSlipNo" class="form-control" />
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <label>Counter Cheque Charge</label>
-                                                                                                <div class="input-group">
-                                                                                                    <div class="input-group-prepend">
-                                                                                                        <span class="input-group-text">&#8358;</span>
-                                                                                                    </div>
-                                                                                                    <input id="withdrawalCountercheque" name="withdrawalCountercheque" class="form-control" placeholder="0" />
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Additional Narration</label>
-                                                                                                    <textarea id="withdrawaladdInfo" name="withdrawaladdInfo" class="form-control"></textarea>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <label>Remark</label>
-                                                                                                    <textarea id="withdrawaRemark" name="withdrawaRemark" class="form-control"></textarea>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6 pl-1">
-                                                                                                <div class="form-group">
-                                                                                                    <!-- Photo uploads -->
-                                                                                                    <btn class="btn-danger btn btn-file btn-simple text-capitalize">
-                                                                                                        <input type="file" id="withrawchequeFileUpload" data-browse-label="Choose File"
-                                                                                                               data-theme="fas" data-show-upload="false" data-show-remove="false"
-                                                                                                               data-show-caption="false" data-drop-zone-enabled="false" class="file" multiple />
-                                                                                                        <h7>Attach Document</h7>
-                                                                                                    </btn>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <hr />
-                                                                                        <div class="form-group text-right">
-                                                                                            <button class="btn btn-danger" id="btnAddWithdrawal" type="submit" value="Save Record">
-                                                                                                <i class="now-ui-icons ui-1_simple-add"></i>
-                                                                                                Save Record
-                                                                                            </button>
-                                                                                        </div>
-
-                                                                                    </div>
+                                                                    <div class="ExcelUpload-container hideElement2" id="HideByExcelUpload" style="display:none">
+                                                                        <p style="color:red">Cheque Upload from Excel</p>
+                                                                        <hr />
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 pl-1">
+                                                                                <div class="form-group">
+                                                                                    <label>Batch Upload Format</label>
+                                                                                    <p style="color:green"> TODO ExcelUpload Format</p>
                                                                                 </div>
                                                                             </div>
-
-
-
                                                                         </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-md-6 pl-1">
+                                                                                <div class="form-group">
+                                                                                    <label>Cheque Upload</label>
+                                                                                    <select id="chequeexcelupload" name="chequeexcelupload" class="form-control">
+                                                                                        <option value="Others" selected="selected">Others</option>
+                                                                                        <option value="Local">Local</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6 pl-1">
+                                                                                <div class="form-group">
+                                                                                    <label>Comment</label>
+                                                                                    <textarea id="chequetranscommentupload" name="chequetranscommentupload" class="form-control"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-md-6 pl-1">
+                                                                                <div class="form-group">
+                                                                                    <!-- Photo uploads -->
+                                                                                    <btn class="btn-danger btn btn-file btn-simple text-capitalize">
+                                                                                        <input type="file" id="chequetransUpload" data-browse-label="Choose File"
+                                                                                               data-theme="fas" data-show-upload="false" data-show-remove="false"
+                                                                                               data-show-caption="false" data-drop-zone-enabled="false" class="file" multiple />
+                                                                                        <h7> Upload Cheque</h7>
+                                                                                    </btn>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <hr />
+                                                                        <div class="form-group text-right">
+                                                                            <button class="btn btn-danger" id="btnAddExcelUpload" type="submit" value="Save Record">
+                                                                                <i class="now-ui-icons ui-1_simple-add"></i>
+                                                                                Upload Cheques
+                                                                            </button>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <div class="ExcelUpload-container hideElement2" id="withdrawalHideByExcelUpload" style="display:none">
+                                                                        <p style="color:red">Cheque Upload from Excel</p>
+                                                                        <hr />
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 pl-1">
+                                                                                <div class="form-group">
+                                                                                    <label>Batch Upload Format</label>
+                                                                                    <p style="color:green"> TODO ExcelUpload Format</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-md-6 pl-1">
+                                                                                <div class="form-group">
+                                                                                    <label>Cheque Upload</label>
+                                                                                    <select id="chequeexcelupload" name="chequeexcelupload" class="form-control">
+                                                                                        <option value="Others" selected="selected">Others</option>
+                                                                                        <option value="Local">Local</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6 pl-1">
+                                                                                <div class="form-group">
+                                                                                    <label>Comment</label>
+                                                                                    <textarea id="chequetranscommentupload" name="chequetranscommentupload" class="form-control"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-md-6 pl-1">
+                                                                                <div class="form-group">
+                                                                                    <!-- Photo uploads -->
+                                                                                    <btn class="btn-danger btn btn-file btn-simple text-capitalize">
+                                                                                        <input type="file" id="chequetransUpload" data-browse-label="Choose File"
+                                                                                               data-theme="fas" data-show-upload="false" data-show-remove="false"
+                                                                                               data-show-caption="false" data-drop-zone-enabled="false" class="file" multiple />
+                                                                                        <h7> Upload Cheque</h7>
+                                                                                    </btn>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <hr />
+                                                                        <div class="form-group text-right">
+                                                                            <button class="btn btn-danger" id="btnAddExcelUpload" type="submit" value="Save Record">
+                                                                                <i class="now-ui-icons ui-1_simple-add"></i>
+                                                                                Upload Cheques
+                                                                            </button>
+                                                                        </div>
+
+                                                                    </div>
+
+
+
+                                                                    <div class="withdrawal-container" id="HideByWithdrawalTrigger" style="display:none">
+
+                                                                        <div class="card-header" role="tab" id="headingTwo">
+                                                                            <a data-toggle="collapse" data-parent="#accordion_" href="#withdrawalcheque" aria-expanded="true" aria-controls="withdrawalcheque" style="color:red">
+                                                                                <b>Withdrawal Cheque</b>
+                                                                                <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                                                            </a>
+                                                                        </div>
+
+                                                                        <div id="withdrawalcheque" class="collapse show" role="tabpanel" aria-labelledby="headingTwo" style="display:none">
+                                                                            <div class="card-body">
+
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Reference Number</label>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label id="withdrawalRefNumber">  </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Name</label>
+                                                                                            <input id="withdrawalName" name="withdrawalName" class="form-control" />
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Transaction Date</label>
+                                                                                            <input id="withdrawaltransDate" name="withdrawaltransDate" class="form-control datetimepicker" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <label>Amount (Figures)</label>
+                                                                                        <div class="input-group">
+                                                                                            <div class="input-group-prepend">
+                                                                                                <span class="input-group-text">&#8358;</span>
+                                                                                            </div>
+                                                                                            <input id="withdrawalAmount" name="withdrawalAmount" class="form-control format-money" />
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-3 pl-1">
+                                                                                        <div class="form-group mb-2">
+                                                                                            <div class="col-md-8 mb-3">
+                                                                                                <div class="form-check form-check-inline pl-0">
+                                                                                                    <label class="form-check-label">
+                                                                                                        <input id="withdrawalFoecDebit" name="withdrawalFoecDebit" class="form-check-input" type="checkbox">
+                                                                                                        <span class="form-check-sign"></span>
+                                                                                                        Force Debit
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group col-md-3 pl-1">
+                                                                                        <label>COT</label>
+                                                                                        <input id="withdrawalCOT" name="withdrawalCOT" class="form-control" />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Cheque/Slip No</label>
+                                                                                            <input id="withdrawalChequeSlipNo" name="withdrawalChequeSlipNo" class="form-control" />
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <label>Counter Cheque Charge</label>
+                                                                                        <div class="input-group">
+                                                                                            <div class="input-group-prepend">
+                                                                                                <span class="input-group-text">&#8358;</span>
+                                                                                            </div>
+                                                                                            <input id="withdrawalCountercheque" name="withdrawalCountercheque" class="form-control" placeholder="0" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Additional Narration</label>
+                                                                                            <textarea id="withdrawaladdInfo" name="withdrawaladdInfo" class="form-control"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>Remark</label>
+                                                                                            <textarea id="withdrawaRemark" name="withdrawaRemark" class="form-control"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pl-1">
+                                                                                        <div class="form-group">
+                                                                                            <!-- Photo uploads -->
+                                                                                            <btn class="btn-danger btn btn-file btn-simple text-capitalize">
+                                                                                                <input type="file" id="withrawchequeFileUpload" data-browse-label="Choose File"
+                                                                                                       data-theme="fas" data-show-upload="false" data-show-remove="false"
+                                                                                                       data-show-caption="false" data-drop-zone-enabled="false" class="file" multiple />
+                                                                                                <h7>Attach Document</h7>
+                                                                                            </btn>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <hr />
+                                                                                <div class="form-group text-right">
+                                                                                    <button class="btn btn-danger" id="btnAddWithdrawal" type="submit" value="Save Record">
+                                                                                        <i class="now-ui-icons ui-1_simple-add"></i>
+                                                                                        Save Record
+                                                                                    </button>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
                                                                     </div>
                                                         </div>
 

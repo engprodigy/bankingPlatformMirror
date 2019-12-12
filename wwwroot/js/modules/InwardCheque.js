@@ -368,13 +368,10 @@ function initEventListeners() {
         .on("change", utilities.calculateChargeAmount);
 
 
-   // $("[name=chequeleaveno]").on("input", function (e) {
+   
         $("[name=chequeleaveno]").on("mouseleave", function (e) {
         if ($(e.target).valid()) {
-           // e.target.value;
-            //$("[name=endrange]")
-            //.val(parseInt(e.target.value) + parseInt(selectedChequebook.leavesno) - 1);
-            //$.ajax(url_path + "/../ConfirmChequeLeaveNoStatus/" + e.target.value)
+           
             var form = $("#inward-cheque-form");
             var accountNo = form.find("[name=casaaccountno]").val();
             bankchequedetail = {};
@@ -388,14 +385,13 @@ function initEventListeners() {
                 })
                 .then(
                     function (response) {
-                      //  var form = $("#inward-cheque-form");
-                        //form.find("[name=chequeleaveno]").val("");
+                      
                         if (response) {
                             form.find("[name=chequeleaveno]").val("");
                             return $.notify(
                                 {
                                     icon: "now-ui-icons travel_info",
-                                    message: "Cheque Leave as been used or has been stopped or has been logged for approval"
+                                    message: "Cheque Leaf as been used or has been stopped or has been logged for approval"
                                 },
                                 {
                                     type: "danger",

@@ -11,6 +11,10 @@ $(document).ready(function ($) {
 
     //initFormValidations();
 
+    $("#frmSingleChequeLodgementTransactionInward").submit(function (e) {
+        e.preventDefault();
+    });
+
     $('#btnTransactOperations').on("click", function () {
         addBasicInfoTransaction();
     });
@@ -19,8 +23,8 @@ $(document).ready(function ($) {
         updateWithdrawalTransaction();
     });
 
-    $('#btnAddSingleChequeLodgement').on("click", function () {
-        addSingleChequeLodgement();
+    $('#btnAddSingleChequeLodgementInward').on("click", function () {
+        addSingleChequeLodgementInward();
     });
     $('#btnAddMultipleCheque').on("click", function () {
         addMultipleCheque();
@@ -37,6 +41,45 @@ $(document).ready(function ($) {
     $('#ddlAcctNumber').on("select2:selecting", function () {
         getAccountBalance();
     });
+
+    $('#ddlAcctNumberforChequeInward').on("select2:selecting", function () {
+
+        var accountNumber = $("#ddlAcctNumber").val();
+
+        $("#ddlAcctReceiverNumberforChequeInward").val(accountNumber);
+        
+    });
+
+    $('#ddlAcctNumberforChequeOutward').on("select2:selecting", function () {
+
+        var accountNumber = $("#ddlAcctNumber").val();
+
+        $("#ddlAcctReceiverNumberforChequeOutward").val(accountNumber);
+
+    });
+    
+
+     var datas = [
+
+            { id: 0, text: 'Guaranty Trust Bank' },
+            { id: 1, text: 'Zenith Bank' },
+            { id: 0, text: 'Access Bank' },
+            { id: 1, text: 'First Bank' },
+            { id: 0, text: 'Fidelity Bank' },
+            { id: 1, text: 'Wema Bank' }
+     
+            
+        ];
+
+        $("#bankname").select2({
+            theme: "bootstrap4",
+            placeholder: "Select Bank",
+            width: '100%',
+            data: datas,
+            dropdownParent: $("#AddNewTransferOperation.modal"),
+
+        });
+
 });
 
 function logoutFormatter(value, row, index) {
@@ -122,7 +165,15 @@ function getAccountBalance() {
 
     var accountNumber = $("#ddlAcctNumber").val();
 
-    $.ajax({
+    $("#ddlAcctReceiverNumberforChequeInward").val(accountNumber);
+
+    $("#ddlAcctNumberforChequeInward").val('').trigger('change');
+
+    $("#ddlAcctReceiverNumberforChequeOutward").val(accountNumber);
+
+    $("#ddlAcctNumberforChequeOutward").val('').trigger('change');
+
+   /* $.ajax({
         url: '../TellerAndTill/getCustomerCasaBalance/',
         data: { accountNumber },
         type: 'GET',
@@ -149,7 +200,7 @@ function getAccountBalance() {
             swal({ title: 'Retrieve Customer Balance', text: 'Customer Balance Retrieval encountered an error', type: 'error' }).then();
 
         }
-    });
+    });*/
 
 }
 
@@ -184,30 +235,43 @@ function LodgementChange() {
 
 
 
-                //$("#ddlAcctNumber").on("select2:select", function (e) {
-                //    debugger
-                //    var datas = e.params.data;
-                //    $('#ddlAcctNumber').val(datas.accountId);
+            $("#ddlAcctNumberforChequeInward").select2({
+            theme: "bootstrap4",
+            placeholder: "Loading..."
 
-                //    $('#ddlAcctNumber').val(null).trigger('change.select2');
-                //    availbalance = datas.availablebalance;
-                //    $("#ddlAcctNumber").select2({
-                //        theme: "bootstrap4",
-                //        placeholder: "Loading..."
-                //    });
-                //    //@TODO
-                //    $.ajax({
-                //        url: "../TellerAndTill/loadGLBalance",
-                //        data: { AccountID: datas.accountId },
-                //        type: "GET",
-                //        cache: false,
-                //    })
-                //        .then(function (response) {
-                //            $("#cashierLabel2").val(response);
-                //            balAccounts = response;
-                //        });
+        });
+        $.ajax({
+            url: "../TellerAndTill/GetCustomerAccountNumber",
+        }).then(function (response) {
+            //debugger
+            $("#ddlAcctNumberforChequeInward").select2({
+                theme: "bootstrap4",
+                placeholder: "Search/Select Isuuer's Name/Account no.",  
+                width: '100%',
+                data: response,
+                dropdownParent: $("#AddNewTransferOperation.modal"),
+            });
+            });  
 
-                //});
+
+
+            $("#ddlAcctNumberforChequeOutward").select2({
+            theme: "bootstrap4",
+            placeholder: "Loading..."
+
+        });
+        $.ajax({
+            url: "../TellerAndTill/GetCustomerAccountNumber",
+        }).then(function (response) {
+            //debugger
+            $("#ddlAcctNumberforChequeOutward").select2({
+                theme: "bootstrap4",
+                placeholder: "Search/Select Isuuer's Name/Account no.",  
+                width: '100%',
+                data: response,
+                dropdownParent: $("#AddNewTransferOperation.modal"),
+            });
+            });  
            
        
 
@@ -482,7 +546,10 @@ $(document).ready(function () {
 
     $("#singlecheque").change(function () {
         debugger
-        $("#HideBysinglecheque").toggle();
+       // $("#HideBysinglecheque").toggle();
+        $('input[name="chequeclearingtype"]').prop('checked', false);
+        $("#chequeclearingTypeView").show();
+        
         if ($("#chequeexcelupload:checked").val()) {
             $("#HideByExcelUpload").hide();
             $('input[name="chequeexcelupload"]').prop('checked', false);
@@ -512,7 +579,12 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#chequeexcelupload").click(function () {
-        $("#HideByExcelUpload").toggle(".row");
+
+       // $("#HideByExcelUpload").toggle(".row");
+
+        $('input[name="chequeclearingtype"]').prop('checked', false);
+        $("#chequeclearingTypeView").show();
+
         if ($("#singlecheque:checked").val()) {
             $("#HideBysinglecheque").hide();
             $('input[name="singlecheque"]').prop('checked', false);
@@ -530,6 +602,15 @@ $(document).ready(function () {
         }
     });
 });
+
+
+$(document).ready(function () {
+    $("#inwardcheque").click(function () {
+        
+        
+    });
+});
+
 
 //Hides the div class when you Check "multiplecheque"; hideElement is defined in site.css and div class of view
 $("input[name='multiplecheque']").change(function () {
@@ -601,6 +682,31 @@ function singlechechDrop() {
     });
 }
 
+function InwardChequeView() {
+    //debugger
+    var chequeInputResult = $("input[name ='chequeclearingtype']:checked").val();
+    if (chequeInputResult === "inward" && ($("#singlecheque").is(":checked")) ) {
+        
+        $("#HideBysinglecheque").show();
+        $("#chequeLodgementOtherBanks").hide();
+        $("#HideBymultiplecheque").hide();
+        $("#HideByExcelUpload").hide();
+    }
+}
+
+
+function OutwardChequeView() {
+    //debugger
+    var chequeInputResult = $("input[name ='chequeclearingtype']:checked").val();
+    if (chequeInputResult === "outward" && ($("#singlecheque").is(":checked")) ) {
+        
+        $("#chequeLodgementOtherBanks").show();
+        $("#HideBysinglecheque").hide();
+        $("#HideBymultiplecheque").hide();
+        $("#HideByExcelUpload").hide();
+    }
+}
+
 
 function sleep(milliseconds) {
     var start = new Date().getTime();
@@ -659,6 +765,63 @@ function reloadpage() {
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
+
+
+
+
+      
+
+     /* $("[name=singlechequenolodgementoutward]").on("mouseleave", function (e) {
+        if ($(e.target).valid()) {
+           
+            var form = $("#inward-cheque-form");
+            var accountNo = form.find("[name=casaaccountno]").val();
+            bankchequedetail = {};
+            bankchequedetail["accountnumber"] = accountNo; 
+            bankchequedetail["singlechequenolodgementoutward"] = e.target.value;
+            $.ajax(url_path + "/../ConfirmChequeLeaveNoStatus/",
+                {
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(bankchequedetail)
+                })
+                .then(
+                    function (response) {
+                      
+                        if (response) {
+                            form.find("[name=singlechequenolodgementoutward]").val("");
+                            return $.notify(
+                                {
+                                    icon: "now-ui-icons travel_info",
+                                    message: "Cheque Leaf has been used or has been stopped or has been logged for approval"
+                                },
+                                {
+                                    type: "danger",
+                                    placement: {
+                                        from: "top",
+                                        align: "right"
+                                    }
+                                }
+                            );
+
+                        }
+
+                        
+                    },
+                    function (error) {
+                        AccountCheques = null;
+                        AccountChequeLeaves = null;
+                        swal({
+                            title: "Validate Cheque No.",
+                            type: "error",
+                            text: "There was an error loading account cheques!"
+                        });
+                    }
+
+            );
+
+        }
+        });*/
 
 
 
@@ -1281,53 +1444,85 @@ function updateWithdrawalTransaction() {
 }
 
 
-function addSingleChequeLodgement() {
-    $('#frmSingleChequeLodgementTransaction').validate({
+function addSingleChequeLodgementInward() {
+
+   // $("[name=singlechequenolodgementinward]").on("mouseleave", function (e) {
+    //    if ($(e.target).valid()) {
+
+            debugger
+
+           
+
+    //     }
+    //  });
+
+    $('#frmSingleChequeLodgementTransactionInward').validate({
 
         rules: {
-            singlechequenamelodgement: {
+            ddlAcctNumberforChequeInward: {
                 required: true,
-                /*number: true*/
+
             },
-            singlechequenolodgement: {
+
+            ddlAcctReceiverNumberforChequeInward: {
+                required: true,
+
+            },
+
+            singlechequenamelodgementInward: {
+                required: true
+               
+            },
+            singlechequeamountlodgementInward: {
                 required: true,
                 number: true
             },
-            singlechequeamountlodgement: {
-                required: true
+            singlechequenolodgementinward: {
+                required: true,
+                number: true
             },
-            singlechequedatelodgement: {
-                required: true
-            },
-            ddlAcctNumber: {
-                required: true
-            },
-           
-            transWithdrawalDate: {
+            singlechequedatelodgementInward: {
                 required: true
             },
 
-            amountWithdrawalFigure: {
-                required: true
-            }
+            
         },
 
-
-
         messages: {
-            singlechequenamelodgement: { required: "Name on cheque is required" },
-            singlechequedatelodgement: { required: "Date is required" },
-            singlechequeamountlodgement: {
+
+            ddlAcctNumberforChequeInward: {
+
+                required: "Issuer Account Number is required"
+            },
+
+            ddlAcctReceiverNumberforChequeInward: {
+
+                required: "Please select Receiver's Account Number"
+            },
+
+            singlechequenamelodgementInward: {
+
+                required: "Please Enter Receiver's Name"
+            },
+            singlechequeamountlodgementInward: {
+
                 required: "please enter an amount"
             },
-            singlechequenolodgement: {
+
+            singlechequenolodgementinward: {
+
                 required: "Please enter cheque number",
                 number: "cheque value entered is not a valid number"
             },
-            branchcheque: { required: "Select branche is required" },
-            cheqtype: { required: "Select cheque type is required" },
+
+            singlechequedatelodgementInward: {
+
+                required: "Please select a Date"
+
+            },
             
-           
+
+
 
         },
         errorPlacement: function (error, element) {
@@ -1343,73 +1538,231 @@ function addSingleChequeLodgement() {
                 });
         },
         submitHandler: function (form) {
-            $("btnAddSingleChequeLodgement").attr("disabled", "disabled");
-            swal({
-                title: "Are you sure?",
-                text: "Single cheque details will be added!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#ff9800",
-                confirmButtonText: "Yes, continue",
-                cancelButtonText: "No, stop!",
-                showLoaderOnConfirm: true,
-                preConfirm: function () {
-                    return new Promise(function (resolve) {
-                        setTimeout(function () {
-                            resolve();
-                        }, 4000);
-                    });
-                }
-            }).then(
-                function (isConfirm) {
-                    if (isConfirm) {
-                        //$("#btnAddSingleCheque").attr("disabled", "disabled");
 
-                        //debugger
-                        var AccountId = $('#ddlAcctNumber').val();
-                        var chequeAmount = $('#singlechequeamountlodgement').val();
-                        //var Productcategoryid = $('#cheqlocation').val();
-                       // var ChequeBank = $('#bankcheque').val();
-                        //var BankLocation = $('#branchcheque').val();
-                        // var Phone = $('#cheqtype').val();
-                        var ChequeNo = $('#inglechequenolodgement').val();
-                        var Date = $('#inglechequedatelodgement').val();
-                        //var Amount = $('#chequecomment').val();
+            var form = $("#frmSingleChequeLodgementTransactionInward");
+            var accountNo = form.find("[name=ddlAcctNumberforChequeInward]").val();
+            var chequeleaveno = form.find("[name=singlechequenolodgementinward]").val();
 
-                        $.ajax({
-                            url: '../TellerAndTill/AddSingleChequeOperation',
-                            type: 'POST',
-                            data: { AccountId, AmtDeposited1: chequeAmount, ChequeBank, BankLocation, ChequeNo, ActualDate:Date },
-                            dataType: "json",
+            bankchequedetail = {};
+            bankchequedetail["accountnumber"] = accountNo;
+            bankchequedetail["chequeleaveno"] = chequeleaveno;
+            $.ajax(url_path + "/../ConfirmChequeLeaveNoStatus/",
+                {
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(bankchequedetail)
+                })
+                .then(
+                    function (response) {
 
-                            success: function (result) {
+                        if (response) {
+                            
+                            if (form.find("[name=ddlAcctReceiverNumberforChequeInward]").val() == "") {
 
-                                if ($('#chequeFileUpload').val() !== '') {
-                                    singlechequeDocument();                                                
-                                }
-                                else {
-                                    swal({ title: 'Add single cheque', text: 'Something went wrong: </br>' + result.toString(), type: 'error' })
-                                        .then(function () { clearForm(); });
-                                    $("#btnAddSingleCheque").removeAttr("disabled");
-                                }
+                                $.notify(
+                                    {
+                                        icon: "now-ui-icons travel_info",
+                                        message: "Please select Receiver's Account Number"
+                                    },
+                                    {
+                                        type: "danger",
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        }
+                                    }
+                                );
 
-
-                            },
-                            error: function (e) {
-                                swal({ title: 'Add single cheque', text: 'Single cheque add encountered an error', type: 'error' }).then(function () { clearForm(); });
-                                $("#btnAddSingleCheque").removeAttr("disabled");
+                                return;
                             }
+                            console.log(response);
+                            if (response == "Cheque No is valid") {
+                                 $.notify(
+                                    {
+                                        icon: "now-ui-icons travel_info",
+                                        message: "Cheque Number is valid"
+                                    },
+                                    {
+                                        type: "danger",
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        }
+                                    }
+                                );
+
+
+
+                                $("btnAddSingleChequeLodgementInward").attr("disabled", "disabled");
+                                swal({
+                                    title: "Are you sure?",
+                                    text: "Single cheque transaction will be lodged for approval!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#ff9800",
+                                    confirmButtonText: "Yes, continue",
+                                    cancelButtonText: "No, stop!",
+                                    showLoaderOnConfirm: true,
+                                    preConfirm: function () {
+                                        return new Promise(function (resolve) {
+                                            setTimeout(function () {
+                                                resolve();
+                                            }, 4000);
+                                        });
+                                    }
+                                }).then(
+                                    function (isConfirm) {
+                                        if (isConfirm) {
+                                            //$("#btnAddSingleCheque").attr("disabled", "disabled");
+
+                                            //debugger
+                                            var accountNumber = $('#ddlAcctNumberforChequeInward').val();
+                                           
+                                            var data = $('#ddlAcctNumberforChequeInward').select2('data')
+                                            console.log(data[0].text);
+                                            console.log(data[0].id);
+                                            var accountName = data[0].text;
+                                            //var chequeAmount = $('#singlechequenamelodgementInward').val();
+                                            //var Productcategoryid = $('#cheqlocation').val();
+                                            // var ChequeBank = $('#bankcheque').val();
+                                            var chargecot = false;
+                                            if ($("#singlechequechargestampdutylodgementInward").is(":checked")) {
+
+                                                chargecot = true;
+                                            }
+                                            var chequeDate = $('#singlechequedatelodgementInward').val();
+                                            var amountOnCheque = $('#singlechequeamountlodgementInward').val();
+                                            var chequeNo = $('#singlechequenolodgementinward').val();
+                                            var comment = $('#singlechequecommentlodgementInward').val();
+
+                                            $.ajax({
+                                                url: '../TellerAndTill/LodgeInwardCheque',
+                                                type: 'POST',
+                                                data: {
+                                                    Casaaccountno: accountNumber, Casaaccountname: accountName, Amount: amountOnCheque, Amountdifference: 0, Transactiondate: chequeDate,
+                                                    Datecreated: chequeDate, Chequeleaveno: chequeNo, Principalglid: 0, Approved: false, isreturned: false, Isreversed: false, 
+                                                    Chargecot: chargecot, Otherreturncheque: false, Reusecheque: false, Isdiscountcharge: false, Isreturncharge: false
+                                                },
+                                                dataType: "json",
+
+                                                success: function (result) {
+
+                                                    swal({
+                                                        title: "Lodge Inward Request",
+                                                        type: "success",
+                                                        text: "Inward cheque lodged successfully!"
+                                                    });
+
+                                                    $("#ddlAcctNumberforChequeInward").val('').trigger('change');
+                                                    $('#ddlAcctReceiverNumberforChequeInward').val("");
+                                                    $('#singlechequedatelodgementInward').val("");
+                                                    $('#singlechequeamountlodgementInward').val("");
+                                                    $('#singlechequenolodgementinward').val("");
+                                                    $('#singlechequecommentlodgementInward').val("");
+                                                    $('#singlechequenamelodgementInward').val("");
+                                                    
+                                                    
+
+
+                                                },
+                                                error: function (e) {
+                                                    swal({ title: 'Add single cheque', text: 'Single cheque add encountered an error', type: 'error' }).then(function () { clearForm(); });
+                                                    $("#btnAddSingleCheque").removeAttr("disabled");
+                                                }
+                                            });
+                                        }
+                                    },
+
+                                    function (dismiss) {
+                                        swal('Add single cheque', 'You cancelled single cheque add.', 'error');
+                                        $("#btnAddSingleCheque").removeAttr("disabled");
+                                    }
+                                );
+
+
+
+
+
+
+                            } else if (response == "No Cheque registered with account") {
+                                form.find("[name=singlechequenolodgementinward]").val("");
+                                return $.notify(
+                                    {
+                                        icon: "now-ui-icons travel_info",
+                                        message: "No cheque registered with account"
+                                    },
+                                    {
+                                        type: "danger",
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        }
+                                    }
+                                );
+
+
+                            }
+
+                            else if (response == "Cheque No is Invalid or Out of Range") {
+                                form.find("[name=singlechequenolodgementinward]").val("");
+                                return $.notify(
+                                    {
+                                        icon: "now-ui-icons travel_info",
+                                        message: "Cheque No is Invalid or Out of Range"
+                                    },
+                                    {
+                                        type: "danger",
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        }
+                                    }
+                                );
+
+
+                            }
+
+                        } else {
+                            form.find("[name=singlechequenolodgementinward]").val("");
+
+                            return $.notify(
+                                {
+                                    icon: "now-ui-icons travel_info",
+                                    message: "Cheque Leaf has been used or has been stopped or has been logged for approval"
+                                },
+                                {
+                                    type: "danger",
+                                    placement: {
+                                        from: "top",
+                                        align: "right"
+                                    }
+                                }
+                            );
+
+                        }
+
+
+                    },
+                    function (error) {
+                        AccountCheques = null;
+                        AccountChequeLeaves = null;
+                        swal({
+                            title: "Validate Cheque No.",
+                            type: "error",
+                            text: "No Cheque Linked to Account/There was an error loading account cheques!"
                         });
                     }
-                },
 
-                function (dismiss) {
-                    swal('Add single cheque', 'You cancelled single cheque add.', 'error');
-                    $("#btnAddSingleCheque").removeAttr("disabled");
-                }
-            );
+                );
+
+           
+           
         }
     });
+
+
+
+             
 }
 
 function addMultipleCheque() {
